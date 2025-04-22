@@ -5,7 +5,7 @@ function App() {
 
   return (
     <>
-      <Inicio></Inicio>
+      <Inicio />
     </>
   )
 }

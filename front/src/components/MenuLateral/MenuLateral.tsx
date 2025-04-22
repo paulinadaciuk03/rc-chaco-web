@@ -3,7 +3,7 @@ import { Input } from "../ui/input";
 function MenuLateral() {
   return (
     <>
-      <div className="flex flex-col items-center w-150">
+      <div className="flex flex-col items-center w-[400px]">
         <h1 className="text-2xl font-bold mb-5 mt-10 underline underline-offset-10 decoration-neutral-300">BUSCAR</h1>
         <Input className="w-60"></Input>
         <Separator className="mt-10 mb-10"></Separator>

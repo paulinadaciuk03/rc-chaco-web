@@ -1,5 +1,6 @@
 import Header from "../Header/Header";
 import MenuLateral from "../MenuLateral/MenuLateral";
+import Novedades from "../Novedades/Novedades";
 
 function Inicio() {
   return (
@@ -26,6 +27,7 @@ function Inicio() {
           </div>
           <div className="flex flex-col items-center">
             <h1 className="text-4xl underline underline-offset-20 decoration-neutral-300 font-bold">NOVEDADES</h1>
+            <Novedades></Novedades>
           </div>
         </div>
       </div>
