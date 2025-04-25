@@ -13,6 +13,7 @@ function MenuLateral() {
           <li className="mb-2">Servicios a los socios</li>
           <li className="mb-2">Cursos</li>
           <li className="mb-2">Contactos</li>
+          <li>hola</li>
         </ul>
       </div>
     </>
