@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+*{
+  overflow-anchor: none
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -119,4 +123,5 @@
     @apply bg-background text-foreground;
   }
 }
+
 
