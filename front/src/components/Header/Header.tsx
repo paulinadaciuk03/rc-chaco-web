@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 function Header() {
   return (
     <>
-      <div className="flex justify-self-center">
+      <Link to={"/"} className="flex justify-self-center">
         <img src={logo} alt="" className="w-30 mt-5" />
-      </div>
+      </Link>
       <Separator className="my-4" />
       <div className="flex justify-between ml-15 mr-15 font-sans">
         <div className="text-lg">
