@@ -60,7 +60,7 @@ function QuienesSomos() {
       img: evento,
       title: "Eventos Exclusivos",
       description:
-        "Organizamos salidas al campo, activaciones diversas, y charlas con referentes de la radioafición.",
+        "Organizamos salidas al campo, actividades diversas, y charlas con referentes de la radioafición.",
     },
     {
       img: social,

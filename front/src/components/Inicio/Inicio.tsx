@@ -1,6 +1,6 @@
 import Header from "../Header/Header";
 import Novedades from "../Novedades/Novedades";
-import logo from "../../assets/logo-rc.png";
+import chaco from "../../assets/chaco.jpg"
 import Footer from "../Footer/Footer";
 
 function Inicio() {
@@ -25,7 +25,7 @@ function Inicio() {
               </p>
             </div>
             <div className="w-150">
-              <img src={logo} alt="" />
+              <img src={chaco} alt="" />
             </div>
           </div>
           <div className="flex flex-col items-center" data-aos="fade-up">
