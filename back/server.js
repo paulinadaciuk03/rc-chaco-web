@@ -13,6 +13,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', authRoutes);
 
 const PORT = 5000;
+
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en puerto ${PORT}`);
 });
