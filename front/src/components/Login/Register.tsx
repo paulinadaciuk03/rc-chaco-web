@@ -6,6 +6,8 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
+import { useState } from "react";
+import Alerta from "../Alerta/Alerta";
 
 interface IRegisterInput {
   nombre: string;
@@ -16,16 +18,20 @@ interface IRegisterInput {
 
 function Register() {
   const { register, handleSubmit, reset } = useForm<IRegisterInput>();
-
+  const [alerta, setAlerta] = useState(false);
 
   const onSubmit: SubmitHandler<IRegisterInput> = async (data) => {
-    console.log(data)
-    axios.post('http://localhost:5000/registro', data)
-    .then((res) => {
+    console.log(data);
+    axios.post("http://localhost:5000/registro", data).then((res) => {
       console.log(res);
-    })
+      setAlerta(true)
+    });
+
+    setTimeout(() => {
+      setAlerta(false);
+    }, 3000);
+
     reset();
-    
   };
 
   return (
@@ -41,6 +47,12 @@ function Register() {
             className="w-100 justify-self-center p-5"
             onSubmit={handleSubmit(onSubmit)}
           >
+            {alerta && (
+              <Alerta
+                titulo="Enviado"
+                descripcion="Tus datos han sido enviados. Espera la respuesta del administrador"
+              ></Alerta>
+            )}
             <div className="flex">
               <div>
                 <Label htmlFor="text" className="m-2">
