@@ -22,12 +22,12 @@ function Header() {
         <div className="flex flex-row">
           <Link to={"/quienes-somos"} className="ml-8 text-lg hover:text-stone-500">Quiénes Somos</Link>
           <h1 className="ml-8 text-lg hover:text-stone-500">Novedades</h1>
-          <h1 className="ml-8 text-lg hover:text-stone-500">Cursos</h1>
+          <Link to={'/cursos'} className="ml-8 text-lg hover:text-stone-500">Cursos</Link>
           <h1 className="ml-8 text-lg hover:text-stone-500">Servicios</h1>
           <h1 className="ml-8 text-lg hover:text-stone-500">Foro</h1>
-          <h1 className="ml-8 text-lg text-red-700 hover:text-red-600">
+          <Link to={"/register"} className="ml-8 text-lg text-red-700 hover:text-red-600">
             Asociáte!
-          </h1>
+          </Link>
         </div>
       </div>
       <Separator className="my-4" />
