@@ -5,29 +5,27 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useState } from "react";
-import Alerta from "../Alerta/Alerta";
+import axios from "axios";
 
 interface IRegisterInput {
-  firstName: string;
-  lastName: string;
+  nombre: string;
+  apellido: string;
   username: string;
   email: string;
 }
 
 function Register() {
-  const [mostrarAlerta, setMostrarAlerta] = useState(false);
   const { register, handleSubmit, reset } = useForm<IRegisterInput>();
- 
 
-  const onSubmit: SubmitHandler<IRegisterInput> = (data) => {
-    console.log(data);
-    setMostrarAlerta(true);
+
+  const onSubmit: SubmitHandler<IRegisterInput> = async (data) => {
+    console.log(data)
+    axios.post('http://localhost:5000/registro', data)
+    .then((res) => {
+      console.log(res);
+    })
     reset();
-
-    setTimeout(() => {
-      setMostrarAlerta(false);
-    }, 3000);
+    
   };
 
   return (
@@ -48,13 +46,13 @@ function Register() {
                 <Label htmlFor="text" className="m-2">
                   Nombre
                 </Label>
-                <Input {...register("firstName")} required></Input>
+                <Input {...register("nombre")} required></Input>
               </div>
               <div className="ml-4">
                 <Label htmlFor="text" className="m-2">
                   Apellido
                 </Label>
-                <Input {...register("lastName")} required></Input>
+                <Input {...register("apellido")} required></Input>
               </div>
             </div>
             <Label htmlFor="text" className="m-2">
@@ -68,11 +66,13 @@ function Register() {
             <Button className="w-full mt-5 mb-2" type="submit">
               Enviar
             </Button>
-            {mostrarAlerta && (
-              <Alerta titulo="Enviado" descripcion="Tus datos fueron enviados correctamente."></Alerta>
-            )}
           </form>
-          <p className="text-center">¿Ya estás asociado? <Link className="text-sky-900 underline" to={"/login"}>Ingresá acá</Link></p>
+          <p className="text-center">
+            ¿Ya estás asociado?{" "}
+            <Link className="text-sky-900 underline" to={"/login"}>
+              Ingresá acá
+            </Link>
+          </p>
         </div>
       </div>
       <Footer></Footer>
