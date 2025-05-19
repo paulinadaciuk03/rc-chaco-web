@@ -42,17 +42,17 @@ function Login() {
 
   return (
     <>
-      <div className="w-400 justify-self-center">
-        <div className="w-400 justify-self-center m-20">
-          <h1 className="text-3xl font-bold text-sky-900 text-center">
+      <div className="max-w-6xl items-center my-20 px-4 justify-self-center">
+        <div className="w-full max-w-md justify-self-center ">
+          <h1 className="text-2xl font-bold my-5 text-sky-900 text-center md:text-3xl">
             Iniciar Sesión
           </h1>
 
           <form
-            className="w-100 justify-self-center p-5"
+            className="space-y-4"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Label className="m-2">Email</Label>
+            <Label className="block m-2">Email</Label>
             <Input {...register("email")} type="email" />
 
             <Label className="m-2">Contraseña</Label>
@@ -68,7 +68,7 @@ function Login() {
             )}
           </form>
 
-          <p className="text-center mt-2">
+          <p className="text-center my-4">
             ¿Todavía no te asociaste?{" "}
             <Link className="text-sky-900 underline" to="/register">
               Asociáte

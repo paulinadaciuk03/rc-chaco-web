@@ -22,7 +22,7 @@ function Register() {
     console.log(data);
     axios.post("http://localhost:5000/registro", data).then((res) => {
       console.log(res);
-      setAlerta(true)
+      setAlerta(true);
     });
 
     setTimeout(() => {
@@ -34,14 +34,14 @@ function Register() {
 
   return (
     <>
-      <div className="w-400 justify-self-center">
-        <div className="m-10">
-          <h1 className="text-4xl text-sky-900 font-bold text-center">
+      <div className="max-w-6xl justify-self-center">
+        <div className="my-10 mx-2">
+          <h1 className="text-2xl text-sky-900 font-bold text-center md:text-4xl">
             ¿Querés ser parte de nuestra comunidad?
           </h1>
           <p className="mt-5 text-center">Ingresá tus datos y te contactamos</p>
           <form
-            className="w-100 justify-self-center p-5"
+            className=" justify-self-center p-5"
             onSubmit={handleSubmit(onSubmit)}
           >
             {alerta && (
@@ -50,14 +50,14 @@ function Register() {
                 descripcion="Tus datos han sido enviados. Espera la respuesta del administrador"
               ></Alerta>
             )}
-            <div className="flex">
+            <div className="md:flex">
               <div>
                 <Label htmlFor="text" className="m-2">
                   Nombre
                 </Label>
                 <Input {...register("nombre")} required></Input>
               </div>
-              <div className="ml-4">
+              <div className=" md:ml-4 ">
                 <Label htmlFor="text" className="m-2">
                   Apellido
                 </Label>
