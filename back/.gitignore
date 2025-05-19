@@ -1,4 +1,1 @@
-# Ignorar archivos específicos en cualquier subcarpeta
-**/crearUsuario.js
-**/jwt.js
-**/db.js
+/node_modules/
