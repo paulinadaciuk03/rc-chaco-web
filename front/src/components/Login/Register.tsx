@@ -1,6 +1,4 @@
 import { Link } from "react-router-dom";
-import Footer from "../Footer/Footer";
-import Header from "../Header/Header";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
@@ -37,7 +35,6 @@ function Register() {
   return (
     <>
       <div className="w-400 justify-self-center">
-        <Header></Header>
         <div className="m-10">
           <h1 className="text-4xl text-sky-900 font-bold text-center">
             ¿Querés ser parte de nuestra comunidad?
@@ -87,7 +84,6 @@ function Register() {
           </p>
         </div>
       </div>
-      <Footer></Footer>
     </>
   );
 }

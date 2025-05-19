@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 server.js
+crearUsuario.js
+jwt.js
+db.js

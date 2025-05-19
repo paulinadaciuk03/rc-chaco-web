@@ -1,4 +1,3 @@
-import Header from "../Header/Header";
 import foto1 from "../../assets/foto-quienes-somos.jpg";
 import { Separator } from "../ui/separator";
 import { Card, CardDescription, CardHeader } from "../ui/card";
@@ -13,7 +12,6 @@ import pin from "../../assets/contacto/pin.svg";
 import contacto from "../../assets/contacto/contacto.svg";
 import { buttonVariants } from "../ui/button";
 import logo from "../../assets/logo-rc.png";
-import Footer from "../Footer/Footer";
 
 function QuienesSomos() {
   const cardsMision = [
@@ -71,56 +69,49 @@ function QuienesSomos() {
   ];
   return (
     <>
-      <div className="w-400 justify-self-center">
-        <Header></Header>
-
+      <div className="max-w-7xl justify-self-center">
         {/*Quiénes Somos*/}
         <div data-aos="fade-up">
-          <h1 className="text-6xl font-bold text-sky-950 m-15 mb-0">
-            ¿Quiénes Somos?
-          </h1>
-          <div className="flex m-10 justify-center items-center">
-            <div className="flex flex-col">
-              <p className="text-stone-600 text-xl m-4 text-justify">
-                Somos una institución pionera en radiocomunicaciones del
-                Nordeste argentino, fundada el 14 de mayo de 1950 en
-                Resistencia, Chaco. Con más de siete décadas de trayectoria,
-                agrupamos a radioaficionados, técnicos y entusiastas
-                comprometidos con la innovación, el aprendizaje continuo y el
-                servicio a la comunidad.
-              </p>
-              <p className="text-stone-600 text-xl m-4 text-justify">
-                En el Chaco Radio Club, transformamos las ondas en conexiones
-                que trascienden distancias: fomentamos la formación técnica,
-                participamos en eventos nacionales e internacionales y
-                colaboramos en emergencias, manteniendo viva la esencia de la
-                radioafición con un enfoque moderno y social.
-              </p>
-            </div>
-            <div>
-              <img src={foto1} alt="" className="w-450 ml-5" />
-            </div>
-          </div>
-          <Separator></Separator>
-        </div>
+  <h1 className="text-3xl font-bold text-center text-sky-950 my-10 md:text-5xl">
+    ¿Quiénes Somos?
+  </h1>
+
+  <div className="flex flex-col-reverse md:flex-row items-center justify-center gap-8 px-4 md:px-10">
+    <div className="flex-1 text-center mb-5 md:text-left">
+      <p className="text-stone-600 mb-4 md:text-xl">
+        Somos una institución pionera en radiocomunicaciones del Nordeste argentino, fundada el 14 de mayo de 1950 en Resistencia, Chaco. Con más de siete décadas de trayectoria, agrupamos a radioaficionados, técnicos y entusiastas comprometidos con la innovación, el aprendizaje continuo y el servicio a la comunidad.
+      </p>
+      <p className="text-stone-600 md:text-xl">
+        En el Chaco Radio Club, transformamos las ondas en conexiones que trascienden distancias: fomentamos la formación técnica, participamos en eventos nacionales e internacionales y colaboramos en emergencias, manteniendo viva la esencia de la radioafición con un enfoque moderno y social.
+      </p>
+    </div>
+
+    {/* Imagen */}
+    <div className="flex-1 flex justify-center">
+      <img src={foto1} alt="Foto de Quienes Somos" className="w-full max-w-md rounded-xl shadow-md" />
+    </div>
+  </div>
+
+  <Separator />
+</div>
 
         {/*Nuestra Mision*/}
 
         <h1
-          className="text-6xl font-bold text-sky-950 m-15 justify-self-center"
+          className=" text-3xl font-bold text-sky-950 my-10 justify-self-center md:text-5xl"
           data-aos="fade-up"
         >
           Nuestra Misión
         </h1>
 
-        <div className="grid grid-cols-4 m-10">
+        <div className="grid md:grid-cols-4 mx-auto">
           {cardsMision.map((card, index) => (
             <Card key={index} className="m-5" data-aos="zoom-in">
               <img src={card.img} alt="" className="w-20 self-center" />
-              <CardHeader className="text-4xl font-bold text-stone-800 text-center">
+              <CardHeader className=" text-2xl font-bold text-stone-800 text-center md:text-3xl">
                 {card.title}
               </CardHeader>
-              <CardDescription className="text-xl text-stone-600 px-5 text-center">
+              <CardDescription className="text-1xl text-stone-600 px-5 text-center ">
                 {card.description}
               </CardDescription>
             </Card>
@@ -130,24 +121,25 @@ function QuienesSomos() {
         {/*Por qué elegirnos*/}
 
         <div data-aos="fade-up">
-          <h1 className="text-6xl font-bold text-sky-950 m-15 text-center">
+          <h1 className="text-3xl font-bold text-sky-950 m-15 text-center md:text-5xl ">
             ¿Te interesa sumarte?
           </h1>
-          <p className="text-2xl text-center text-stone-600">
+          <p className="mx-10 text-center text-stone-600 md:text-2xl">
             Unite a nuestra comunidad apasionada por las radiocomunicaciones,
             donde vas a encontrar:
           </p>
 
-          <div className="grid grid-cols-2 m-10 gap-5">
+          <div className="grid md:grid-cols-2 mx-auto">
             {cardsChoose.map((card, index) => (
-              <Card key={index} data-aos="zoom-in">
-                <div className="flex ml-6 text-nowrap">
-                  <img src={card.img} alt="" className="w-10" />
-                  <CardHeader className="font-bold text-3xl text-stone-800">
+              <Card key={index} className="m-5" data-aos="zoom-in">
+                <div className="flex text-wrap md:text-nowrap items-center mx-10 text-nowrap">
+                  <img src={card.img} alt="" className="w-15 self-center" />
+                  <CardHeader className="text-2xl font-bold text-stone-800 md:text-3xl">
                     {card.title}
                   </CardHeader>
                 </div>
-                <CardDescription className="text-xl text-stone-600 ml-6 mr-6">
+
+                <CardDescription className="text-1xl text-stone-600 px-10">
                   {card.description}
                 </CardDescription>
               </Card>
@@ -157,23 +149,23 @@ function QuienesSomos() {
         <Separator />
         {/*conecta*/}
         <div data-aos="fade-up">
-          <h1 className="text-6xl font-bold text-sky-950 m-15 text-center">
+          <h1 className="text-3xl font-bold text-sky-950 mx-15 my-5 text-center md:text-xl ">
             Conectá con nosotros
           </h1>
-          <p className="text-2xl text-center text-stone-600">
+          <p className="mx-10 text-center text-stone-600 md:text-2xl">
             Si buscás un espacio donde la comunicación y la tecnología se
             combina con la amistad y el compromiso, ¡este es tu lugar!
           </p>
-          <div className="grid grid-cols-2 m-5 mt-10 gap-4">
-            <Card className="p-10" data-aos="zoom-in">
-              <div className="flex ml-6">
+          <div className="grid my-10 gap-4 md:grid-cols-2">
+            <Card className="m-5 p-5" data-aos="zoom-in">
+              <div className="flex mx-10 items-center">
                 <img src={pin} alt="" className="w-10" />
-                <CardHeader className="font-bold text-3xl text-stone-800">
+                <CardHeader className="text-2xl font-bold text-stone-800 md:text-3xl">
                   Visitános
                 </CardHeader>
               </div>
 
-              <CardDescription className="text-xl text-stone-600 ml-6 mr-6">
+              <CardDescription className="text-1xl mx-2 text-stone-600 md:text-xl">
                 Calle Saavedra 468; Resistencia, Chaco - Argentina
               </CardDescription>
               <a
@@ -185,15 +177,15 @@ function QuienesSomos() {
                 Abrir en Google Maps
               </a>
             </Card>
-            <Card className="p-10" data-aos="zoom-in">
-              <div className="flex ml-6">
+            <Card className="m-5 p-5" data-aos="zoom-in">
+              <div className="flex mx-10 items-center">
                 <img src={contacto} alt="" className="w-10" />
-                <CardHeader className="font-bold text-3xl text-stone-800">
+                <CardHeader className="text-2xl font-bold text-stone-800 md:text-3xl">
                   Contacto
                 </CardHeader>
               </div>
 
-              <CardDescription className="text-xl text-stone-600 ml-6 mr-6">
+              <CardDescription className="text-1xl mx-2 text-stone-600 md:text-xl">
                 secretaria.lu4gf@gmail.com | lu4gf@yahoo.com.ar
               </CardDescription>
 
@@ -210,13 +202,12 @@ function QuienesSomos() {
           <Separator></Separator>
           <div className="flex flex-col items-center m-15" data-aos="fade-up">
             <img src={logo} alt="" className="w-50 mb-10" />
-            <h1 className="text-4xl font-bold text-sky-950">
+            <h1 className="text-2xl text-center font-bold text-sky-950 md:text-4xl">
               "Más que un hobby, una pasión que nos une."
             </h1>
           </div>
         </div>
       </div>
-      <Footer></Footer>
     </>
   );
 }

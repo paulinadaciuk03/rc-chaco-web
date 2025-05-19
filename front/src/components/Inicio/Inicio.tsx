@@ -1,43 +1,37 @@
-import Header from "../Header/Header";
 import Novedades from "../Novedades/Novedades";
-import chaco from "../../assets/chaco.jpg"
-import Footer from "../Footer/Footer";
+import logo from "../../assets/logo-rc.png"
 
 function Inicio() {
   return (
-    <>
-      <div className="w-400 justify-self-center">
-        <Header></Header>
+    <div className="w-full max-w-7xl mx-auto px-10 py-10">
+      {/* Sección de bienvenida */}
+      <div className="flex flex-col md:flex-row items-center gap-10 mb-16 max-w-7xl mx-auto" data-aos="fade-up">
+        {/* Texto */}
+        <div className="flex-1">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-sky-950 leading-tight">
+            Bienvenidos al Chaco Radio Club
+            <span className="text-red-700 font-bold"> LU4GF</span>
+          </h1>
+          <p className="text-base sm:text-lg lg:text-xl mt-6 text-neutral-600">
+            Este es un espacio para compartir conocimientos, experiencias y fortalecer la comunidad de radioaficionados del Chaco y más allá.
+            Ya seas un operador con experiencia o estés dando tus primeros pasos en el mundo de la radio, ¡tenés un lugar entre nosotros!
+          </p>
+        </div>
 
-        <div className="m-15 flex flex-col" data-aos="fade-up">
-          <div className="flex mb-25 ">
-            <div className="flex flex-col justify-center">
-              <h1 className="text-7xl font-bold text-sky-950">
-                Bienvenidos al Chaco Radio Club
-                <span className="text-red-700 font-bold"> LU4GF</span>
-              </h1>
-              <p className="text-xl mt-10 text-neutral-500">
-                Este es un espacio para compartir conocimientos, experiencias y
-                fortalecer la comunidad de radioaficionados del Chaco y más
-                allá. Ya seas un operador con experiencia o estés dando tus
-                primeros pasos en el mundo de la radio, ¡tenés un lugar entre
-                nosotros!
-              </p>
-            </div>
-            <div className="w-150">
-              <img src={chaco} alt="" />
-            </div>
-          </div>
-          <div className="flex flex-col items-center" data-aos="fade-up">
-            <h1 className="text-4xl underline underline-offset-15 decoration-neutral-300 decoration-1 font-bold mb-10">
-              NOVEDADES
-            </h1>
-            <Novedades></Novedades>
-          </div>
+        {/* Imagen */}
+        <div>
+          <img src={logo} alt="Chaco" className="max-w-50 md:max-w-70" />
         </div>
       </div>
-      <Footer></Footer>
-    </>
+
+      {/* Sección de novedades */}
+      <div className="flex flex-col items-center" data-aos="fade-up">
+        <h2 className="text-3xl sm:text-4xl font-bold underline underline-offset-10 decoration-1 decoration-stone-300 mb-8">
+          NOVEDADES
+        </h2>
+        <Novedades />
+      </div>
+    </div>
   );
 }
 

@@ -1,56 +1,82 @@
-import { SubmitHandler, useForm } from "react-hook-form";
-import Footer from "../Footer/Footer";
-import Header from "../Header/Header";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Alerta from "../Alerta/Alerta";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import Alerta from "../Alerta/Alerta";
+import { login } from "../../services/AuthService";
 
-interface ILoginInput{
-    username : string,
-    password : string
+interface ILoginInput {
+  email: string;
+  password: string;
 }
+
 function Login() {
-    const [mostrarAlerta, setMostrarAlerta] = useState(false);
-    const {register, handleSubmit, reset} = useForm<ILoginInput>();
+  const [mostrarAlerta, setMostrarAlerta] = useState(false);
+  const { register, handleSubmit, reset } = useForm<ILoginInput>();
+  const navigate = useNavigate();
 
-    const onSubmit: SubmitHandler<ILoginInput> = (data) =>{
-        console.log(data);
-        setMostrarAlerta(true);
-        reset();
+  const onSubmit: SubmitHandler<ILoginInput> = async (data) => {
+    try {
+      const decoded = await login(data); //
 
+      if (decoded.rol === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/perfil");
+      }
 
-        setTimeout(() => {
-            setMostrarAlerta(false);
-        }, 3000);
-    }   
+      setMostrarAlerta(true);
+      reset();
+
+      setTimeout(() => {
+        setMostrarAlerta(false);
+      }, 3000);
+    } catch (err) {
+      console.error(err);
+      alert("Mail o contraseña incorrecta");
+    }
+  };
 
   return (
     <>
       <div className="w-400 justify-self-center">
-        <Header></Header>
-        <div className="m-20">
+        <div className="w-400 justify-self-center m-20">
           <h1 className="text-3xl font-bold text-sky-900 text-center">
-           Iniciar Sesión
+            Iniciar Sesión
           </h1>
-         
-          <form className="w-100 justify-self-center p-5" onSubmit={handleSubmit(onSubmit)}>
-            <Label className="m-2">Nombre de Usuario</Label>
-            <Input {...register("username")} type="text"></Input>
+
+          <form
+            className="w-100 justify-self-center p-5"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <Label className="m-2">Email</Label>
+            <Input {...register("email")} type="email" />
+
             <Label className="m-2">Contraseña</Label>
-            <Input {...register("password")} type="password"></Input>
+            <Input {...register("password")} type="password" />
+
             <Button className="w-full mt-5 mb-2">Ingresar</Button>
+
             {mostrarAlerta && (
-            <Alerta titulo="Enviado" descripcion="El formulario ha sido enviado correctamente"></Alerta>
-          )}
+              <Alerta
+                titulo="Enviado"
+                descripcion="El formulario ha sido enviado correctamente"
+              />
+            )}
           </form>
-          <p className="text-center mt-2">¿Todavía no te asociaste? <Link className="text-sky-900 underline" to={"/register"}>Asociáte</Link></p>
+
+          <p className="text-center mt-2">
+            ¿Todavía no te asociaste?{" "}
+            <Link className="text-sky-900 underline" to="/register">
+              Asociáte
+            </Link>
+          </p>
         </div>
       </div>
 
-      <Footer></Footer>
     </>
   );
 }
