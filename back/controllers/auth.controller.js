@@ -11,13 +11,11 @@ const registrarUsuario = (req, res) => {
         req.body.username,
         req.body.email,
     ];
-
     db.query(sql, values, (err, result) => {
         if (err) return res.json({ message: 'Error en el query: ' + err });
         return res.json({ success: 'Datos enviados' });
     });
 };
-
 
 const loginUsuario = async (req, res) => {
     const { email, password } = req.body;
