@@ -1,10 +1,11 @@
 const router = require("express").Router();
 const { faker, tr } = require("@faker-js/faker");
-const Users = require("../model/user.model");
+const { Usuarios } = require('../model'); 
+const bcrypt = require("bcrypt");
 
 
 router.get("/users", async (req,res) =>{
-    const users = await Users.findAll()
+    const users = await Usuarios.findAll()
     res.status(200).json({
         ok:true,
         status: 200,
@@ -14,7 +15,7 @@ router.get("/users", async (req,res) =>{
 
 router.get("/users/:user_id", async (req,res) =>{
     id = req.params.user_id
-    const user = await Users.findOne({
+    const user = await Usuarios.findOne({
         where: {
             id: id
         }
@@ -26,35 +27,100 @@ router.get("/users/:user_id", async (req,res) =>{
     })
 });
 
-router.post("/users", async (req,res) =>{
-    console.log("BODY:", req.body);
-    const dataUsers = req.body
-    await Users.sync()
-    /*
-    const createUser = await Users.create({
+router.post('/users', async (req, res) => {
+    try {
+      const dataUsers = req.body;
+      const hashedPass = await bcrypt.hash(dataUsers.password, 10);
+  
+      const newUser = await Usuarios.create({
         nombre: dataUsers.nombre,
-        apellido: dataUsers.apellido,
         username: dataUsers.username,
         email: dataUsers.email,
         rol_id: 1,
-        password_hash: dataUsers.password_hash,
-        fecha_registro: new Date()
-                
-    })
-    */
-    res.status(201).json({
+        password_hash: hashedPass,
+      });
+  
+      res.status(201).json({
         ok: true,
         status: 201,
-        message: "Usuario Creado"
+        message: 'Usuario creado',
+        user: newUser,
+      });
+    } catch (error) {
+      res.status(500).json({
+        ok: false,
+        status: 500,
+        message: error.message,
+      });
+    }
+  });
+
+router.put("/users/:id", async (req,res) =>{
+   const {id} = req.params;
+   const data = req.body;
+
+   try {
+    const user = await Usuarios.findOne({
+        where: {
+            id : id
+        }
+    })
+
+    if(!user) {
+        return res.status(404).json({
+            ok: false,
+            message: "Usuario no encontrado",
+        });
+    }
+
+    await user.update(data);
+
+    res.status(200).json({
+        ok:true,
+        message: "Usuario actualizado",
+        user,
+    })
+   }catch (error) {
+    res.status(500).json({
+      ok: false,
+      message: error.message,
     });
+  }
 });
 
-router.put("/users", (req,res) =>{
-    res.send("soy un ruter muejejeje");
+router.delete("/users/:id", async (req,res) =>{
+    const {id} = req.params
+
+    try {
+        const user  = await Usuarios.findOne({
+            where: {
+                id :id
+            }
+        })
+
+        if(!user) {
+            return res.status(404).json({
+                ok: false,
+                message: "Usuario no encontrado"
+            })
+        }
+
+        await user.destroy();
+
+        res.status(200).json({
+            ok: true,
+            message: "Usuario eliminado",
+        })
+    }catch (error) {
+        res.status(500).json({
+          ok: false,
+          message: error.message,
+        });
+      }
 });
 
-router.delete("/users", (req,res) =>{
-    res.send("soy un ruter muejejeje");
-});
+
+
+
 
 module.exports = router;
