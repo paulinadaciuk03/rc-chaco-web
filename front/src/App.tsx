@@ -8,9 +8,9 @@ import AOS from "aos";
 import Register from "./components/Login/Register";
 import Login from "./components/Login/Login";
 import Cursos from "./components/Cursos/Cursos";
-import ProfileAdmin from "./components/Profile/ProfileAdmin";
-import ProfileUser from "./components/Profile/ProfileUser";
 import MainLayout from "./components/Layout/MainLayout";
+import { Toaster } from "sonner";
+import Configuracion from "./components/Configuracion/Configuracion";
 
 function App() {
   useEffect(() => {
@@ -32,13 +32,10 @@ function App() {
             <Route path="/register" element={<Register></Register>}></Route>
             <Route path="/login" element={<Login></Login>}></Route>
             <Route path="/cursos" element={<Cursos></Cursos>}></Route>
-            <Route
-              path="/admin"
-              element={<ProfileAdmin></ProfileAdmin>}
-            ></Route>
-            <Route path="/perfil" element={<ProfileUser></ProfileUser>}></Route>
+            <Route path="/configuracion" element={<Configuracion></Configuracion>}></Route>
           </Route>
         </Routes>
+        <Toaster />
       </BrowserRouter>
     </>
   );

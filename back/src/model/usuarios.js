@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     password_hash: {
       type: DataTypes.STRING(255),
-      allowNull: false
+      allowNull: true
     },
     rol_id: {
       type: DataTypes.INTEGER,

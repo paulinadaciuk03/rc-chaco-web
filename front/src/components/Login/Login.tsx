@@ -1,12 +1,11 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Alerta from "../Alerta/Alerta";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { Link } from "react-router-dom";
-import { login } from "../../services/AuthService";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "@/api/auth";
 
 interface ILoginInput {
   email: string;
@@ -20,23 +19,22 @@ function Login() {
 
   const onSubmit: SubmitHandler<ILoginInput> = async (data) => {
     try {
-      const decoded = await login(data); //
+      const result = await login({
+        email: data.email,
+        password: data.password,
+      });
 
-      if (decoded.rol === "admin") {
-        navigate("/admin");
+      if (result.success) {
+        navigate("/");
+        setMostrarAlerta(true);
+        reset();
+        setTimeout(() => setMostrarAlerta(false), 3000);
       } else {
-        navigate("/perfil");
+        alert(result.error.message || "Error al iniciar sesión");
       }
-
-      setMostrarAlerta(true);
-      reset();
-
-      setTimeout(() => {
-        setMostrarAlerta(false);
-      }, 3000);
     } catch (err) {
       console.error(err);
-      alert("Mail o contraseña incorrecta");
+      alert("Error al iniciar sesión");
     }
   };
 
@@ -48,10 +46,7 @@ function Login() {
             Iniciar Sesión
           </h1>
 
-          <form
-            className="space-y-4"
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <Label className="block m-2">Email</Label>
             <Input {...register("email")} type="email" />
 
@@ -76,7 +71,6 @@ function Login() {
           </p>
         </div>
       </div>
-
     </>
   );
 }
