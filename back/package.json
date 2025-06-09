@@ -4,9 +4,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-       "dev": "nodemon src/index.js",
-  "build": "npm install",
-  "prod": "node src/index.js"
+    "dev": "nodemon src/index.js",
+    "build": "npm install",
+    "prod": "node src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -22,15 +22,16 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "multer": "^2.0.0",
-    "mysql2": "^3.14.1",
     "nodemailer": "^7.0.3",
+    "pg": "^8.16.0",
+    "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.7",
+    "sequelize-cli": "^6.6.3",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.10",
-    "sequelize-auto": "^0.8.8",
-    "sequelize-cli": "^6.6.3"
+    "sequelize-auto": "^0.8.8"
   }
 }
