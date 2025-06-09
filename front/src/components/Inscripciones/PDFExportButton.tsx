@@ -24,7 +24,7 @@ export const PDFExportButton = ({
         <InscripcionesPDF inscripciones={inscripciones} titulo={titulo} />
       }
     >
-      {({ blob, loading, error }) => (
+      {({ blob, loading }) => (
         <Button
           variant="secondary"
           size="sm"

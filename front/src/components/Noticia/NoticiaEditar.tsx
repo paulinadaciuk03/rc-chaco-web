@@ -38,7 +38,7 @@ export default function NoticiaEditar() {
   const [uploading, setUploading] = useState(false);
   const [imagenes, setImagenes] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
+  const success = false;
   const navigate = useNavigate();
 
   
