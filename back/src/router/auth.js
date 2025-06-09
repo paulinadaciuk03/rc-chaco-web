@@ -11,7 +11,8 @@ router.post("/login", async (req, res) => {
   
     try {
       const user = await Usuarios.findOne({
-        where: { email },
+        where: { email : email.toLowerCase()
+         },
         include: {
           model: Roles,
           as: 'rol',
@@ -51,7 +52,7 @@ router.post("/login", async (req, res) => {
     }
   
     try {
-      const existingUser = await Usuarios.findOne({ where: { email } });
+      const existingUser = await Usuarios.findOne({ where: { email : email.toLowerCase()} });
       if (existingUser) {
         return res.status(409).json({ message: "El email ya está registrado" });
       }
