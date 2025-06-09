@@ -98,7 +98,7 @@ function QuienesSomos() {
         {/*Nuestra Mision*/}
 
         <h1
-          className=" text-3xl font-bold text-sky-950 my-10 justify-self-center md:text-5xl"
+          className=" text-3xl font-bold text-sky-950 my-10 justify-self-center text-center md:text-5xl"
           data-aos="fade-up"
         >
           Nuestra Misión
