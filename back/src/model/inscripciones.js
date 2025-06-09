@@ -11,10 +11,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(30),
       allowNull: false
     },
-    apellido: {
-      type: DataTypes.STRING(30),
-      allowNull: false
-    },
     email: {
       type: DataTypes.STRING(50),
       allowNull: false
@@ -22,7 +18,17 @@ module.exports = function(sequelize, DataTypes) {
     telefono: {
       type: DataTypes.STRING(50),
       allowNull: false
-    }
+    },
+    fecha_inscripcion: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: Sequelize.Sequelize.fn('current_timestamp')
+    },
+    estado: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "Pendiente",
+    },
   }, {
     sequelize,
     tableName: 'inscripciones',
