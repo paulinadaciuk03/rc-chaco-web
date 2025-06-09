@@ -4,6 +4,7 @@ var _noticia_imagenes = require("./noticia_imagenes");
 var _noticias = require("./noticias");
 var _roles = require("./roles");
 var _usuarios = require("./usuarios");
+var _comentarios_noticias = require("./comentarios_noticias");
 
 function initModels(sequelize) {
   var inscripciones = _inscripciones(sequelize, DataTypes);
@@ -11,6 +12,8 @@ function initModels(sequelize) {
   var noticias = _noticias(sequelize, DataTypes);
   var roles = _roles(sequelize, DataTypes);
   var usuarios = _usuarios(sequelize, DataTypes);
+  var comentarios_noticias = _comentarios_noticias(sequelize, DataTypes);
+
 
   noticia_imagenes.belongsTo(noticias, { as: "noticium", foreignKey: "noticia_id"});
   noticias.hasMany(noticia_imagenes, { as: "noticia_imagenes", foreignKey: "noticia_id"});
@@ -18,14 +21,20 @@ function initModels(sequelize) {
   roles.hasMany(usuarios, { as: "usuarios", foreignKey: "rol_id"});
   noticias.belongsTo(usuarios, { as: "admin", foreignKey: "admin_id"});
   usuarios.hasMany(noticias, { as: "noticia", foreignKey: "admin_id"});
+  noticias.hasMany(comentarios_noticias, { foreignKey: 'noticia_id', as: 'comentarios_noticias' });
+comentarios_noticias.belongsTo(noticias, { foreignKey: 'noticia_id' });
 
-  return {
-    inscripciones,
-    noticia_imagenes,
-    noticias,
-    roles,
-    usuarios,
-  };
+usuarios.hasMany(comentarios_noticias, { foreignKey: 'usuario_id' });
+comentarios_noticias.belongsTo(usuarios, { foreignKey: 'usuario_id', as: 'usuario' });
+
+return {
+  inscripciones,
+  noticia_imagenes,
+  noticias,
+  roles,
+  usuarios,
+  comentarios_noticias,
+};
 }
 module.exports = initModels;
 module.exports.initModels = initModels;

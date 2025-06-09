@@ -22,7 +22,7 @@ module.exports = function(sequelize, DataTypes) {
     fecha_inscripcion: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: Sequelize.Sequelize.fn('current_timestamp')
+      defaultValue: sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
     },
     estado: {
       type: DataTypes.STRING,

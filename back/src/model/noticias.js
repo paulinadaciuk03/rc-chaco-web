@@ -18,7 +18,7 @@ module.exports = function(sequelize, DataTypes) {
     fecha_publicacion: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: Sequelize.Sequelize.fn('current_timestamp')
+      defaultValue: sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
     },
     admin_id: {
       type: DataTypes.INTEGER,
