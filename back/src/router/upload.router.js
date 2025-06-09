@@ -30,7 +30,7 @@ router.post("/upload", upload.array("imagenes", 10), (req, res) => {
   }
 
   const fileUrls = req.files.map((file) => {
-    return `${req.protocol}://${req.get("host")}/uploads/${file.filename}`;
+    return `https://${req.get("host")}/uploads/${file.filename}`;
   });
 
   res.json({ urls: fileUrls });
