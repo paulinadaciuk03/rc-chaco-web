@@ -1,33 +1,25 @@
 import { Separator } from "@/components/ui/separator";
-import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link} from "react-router-dom";
+import {  useState } from "react";
 import { Book, Menu, Newspaper, Settings, UserRoundCog } from "lucide-react";
-import { getUser, getUserRole, isLoggedIn } from "@/api/authUtils";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
+import { useUserStore } from "@/store/userStore";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(isLoggedIn());
-  const [role, setRole] = useState(getUserRole());
-  const [user, setUser] = useState(getUser());
-  const location = useLocation();
+  const user = useUserStore((state) => state.user);
+  const logout = useUserStore((state) => state.logout);
 
-  useEffect(() => {
-    setLoggedIn(isLoggedIn());
-    setRole(getUserRole());
-    setUser(getUser());
-  }, [location]); 
+  const rol = user?.rol ?? null;
+  const loggedIn = !!user;
 
   const handleLogout = () => {
-    localStorage.removeItem("jwtToken");
-    localStorage.removeItem("user");
-    setLoggedIn(false);
-    setUser(null);
-    setRole(null);
+    logout();
     window.location.href = "/";
   };
+
 
   const obtenerIniciales = (nombreCompleto: string): string => {
     if (!nombreCompleto) return "";
@@ -74,24 +66,33 @@ function Header() {
                 </div>
                 <div className="flex items-center">
                   <Settings />
-                  <Link to="/configuracion" className="m-3 cursor-pointer">Configuración</Link>
+                  <Link to="/configuracion" className="m-3 cursor-pointer">
+                    Configuración
+                  </Link>
                 </div>
-                {role === "admin" && (
+                {rol === "admin" && (
                   <>
                     <Separator />
                     <div className="flex items-center">
                       <UserRoundCog />
-                      <h1 className="m-3">Gestionar usuarios</h1>
+                      <Link to="gestionar-usuarios" className="m-3">Gestionar usuarios</Link>
                     </div>
                     <Separator />
                     <div className="flex items-center">
                       <Book />
-                      <h1 className="m-3">Inscripciones</h1>
+                      <Link to="/inscripciones" className="m-3">
+                        Inscripciones
+                      </Link>
                     </div>
                     <Separator />
                     <div className="flex items-center">
                       <Newspaper />
-                      <h1 className="m-3">Publicar noticia</h1>
+                      <Link
+                        to="/publicar-noticia"
+                        className="m-3 cursor-pointer"
+                      >
+                        Publicar noticia
+                      </Link>
                     </div>
                   </>
                 )}
@@ -119,9 +120,11 @@ function Header() {
           <Link to="/cursos" className="hover:text-stone-500">
             Cursos
           </Link>
-          <span className="hover:text-stone-500 cursor-pointer">Novedades</span>
-          <span className="hover:text-stone-500 cursor-pointer">Servicios</span>
-          <span className="hover:text-stone-500 cursor-pointer">Foro</span>
+          <Link to="/novedades" className="hover:text-stone-500 cursor-pointer">
+            Novedades
+          </Link>
+          <Link to="/servicios" className="hover:text-stone-500 cursor-pointer">Servicios</Link>
+
 
           {loggedIn ? (
             <Popover>
@@ -143,24 +146,33 @@ function Header() {
                 </div>
                 <div className="flex items-center">
                   <Settings />
-                  <Link to="/configuracion" className="m-3 cursor-pointer">Configuración</Link>
+                  <Link to="/configuracion" className="m-3 cursor-pointer">
+                    Configuración
+                  </Link>
                 </div>
-                {role === "admin" && (
+                {rol === "admin" && (
                   <>
                     <Separator />
                     <div className="flex items-center">
                       <UserRoundCog />
-                      <h1 className="m-3">Gestionar usuarios</h1>
+                      <Link to="/gestionar-usuarios" className="m-3">Gestionar usuarios</Link>
                     </div>
                     <Separator />
                     <div className="flex items-center">
                       <Book />
-                      <h1 className="m-3">Inscripciones</h1>
+                      <Link to="/inscripciones" className="m-3">
+                        Inscripciones
+                      </Link>
                     </div>
                     <Separator />
                     <div className="flex items-center">
                       <Newspaper />
-                      <h1 className="m-3">Publicar noticia</h1>
+                      <Link
+                        to="/publicar-noticia"
+                        className="m-3 cursor-pointer"
+                      >
+                        Publicar noticia
+                      </Link>
                     </div>
                   </>
                 )}
@@ -187,15 +199,12 @@ function Header() {
           <Link to="/cursos" className="block hover:text-stone-500">
             Cursos
           </Link>
-          <span className="block hover:text-stone-500 cursor-pointer">
+          <Link to="/novedades" className="block hover:text-stone-500 cursor-pointer">
             Novedades
-          </span>
-          <span className="block hover:text-stone-500 cursor-pointer">
+          </Link>
+          <Link to="/servicios" className="block hover:text-stone-500 cursor-pointer">
             Servicios
-          </span>
-          <span className="block hover:text-stone-500 cursor-pointer">
-            Foro
-          </span>
+          </Link>
           {!loggedIn && (
             <Link to="/register" className="text-red-700 hover:text-red-500">
               ¡Asociate!

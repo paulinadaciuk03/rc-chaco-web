@@ -1,33 +1,47 @@
-import { KeyRound, Mail, RectangleEllipsis } from "lucide-react";
+import { KeyRound, RectangleEllipsis } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
+import { Link } from "react-router-dom";
 
 export default function Configuracion() {
   return (
-    <div className="max-w-6xl mx-auto">
-      <div className="flex justify-center items-center my-5 flex-col items-center">
-        <h1 className="font-bold md:text-3xl text-sky-950 text-2xl my-5">
-          Mi cuenta
-        </h1>
-        <div className="grid grid-cols-1 gap-5">
-          <Card>
-            <CardContent className="flex">
-                <Mail className="mr-2"/>
-              <h1>Cambiar email</h1>
+    <div className="max-w-4xl mx-auto px-4 py-10">
+      <div className="text-center mb-8">
+        <h1 className="font-bold text-3xl text-sky-950">Mi cuenta</h1>
+        <p className="text-gray-500 mt-2">Gestioná tu información personal</p>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <Link to="/cambiar-pass">
+          <Card className="hover:bg-sky-50 transition-colors duration-200 shadow-sm">
+            <CardContent className="flex items-center p-6">
+              <div className="bg-sky-100 text-sky-700 p-2 rounded-full mr-4">
+                <KeyRound className="w-5 h-5" />
+              </div>
+              <div>
+                <h2 className="text-lg font-medium">Cambiar contraseña</h2>
+                <p className="text-sm text-gray-500">
+                  Actualizá tu contraseña de acceso
+                </p>
+              </div>
             </CardContent>
           </Card>
-          <Card>
-            <CardContent  className="flex">
-            <KeyRound className="mr-2"/>
-              <h1>Cambiar contraseña</h1>
+        </Link>
+
+        <Link to="/editar-datos">
+          <Card className="hover:bg-sky-50 transition-colors duration-200 shadow-sm">
+            <CardContent className="flex items-center p-6">
+              <div className="bg-sky-100 text-sky-700 p-2 rounded-full mr-4">
+                <RectangleEllipsis className="w-5 h-5" />
+              </div>
+              <div>
+                <h2 className="text-lg font-medium">Editar mis datos</h2>
+                <p className="text-sm text-gray-500">
+                  Cambiá tu nombre, correo o usuario
+                </p>
+              </div>
             </CardContent>
           </Card>
-          <Card>
-            <CardContent  className="flex">
-            <RectangleEllipsis className="mr-2"/>
-              <h1>Editar mis datos</h1>
-            </CardContent>
-          </Card>
-        </div>
+        </Link>
       </div>
     </div>
   );

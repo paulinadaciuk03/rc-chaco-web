@@ -1,20 +1,18 @@
 import { AxiosError } from "axios";
 import apiClient from "./axiosConfig";
+import { Usuario } from "@/store/userStore";
 
+export interface UpdateUserData {
+  username?: string;
+  nombre?: string;
+  email?: string;
+}
 
 export interface Credentials {
     email: string;
     password: string;
-
 }
 
-export interface User {
-    id: number;
-    username: string;
-    rol: {
-        rol: string
-    };
-  }
 
   export interface Registro {
     nombre: string,
@@ -33,20 +31,20 @@ interface LoginResponseSuccess {
     error: LoginErrorData;
   }
 
-  // Define la estructura del data de una respuesta exitosa
+
 export interface LoginSuccessData {
     token: string;
-    user: User;
+    user: Usuario;
   }
   
-  // Define la estructura del error que devuelve el backend
+
   export interface LoginErrorData {
     message: string;
     status?: number;
   }
   
   
-  export type LoginResponse = LoginResponseSuccess | LoginResponseFailure;
+export type LoginResponse = LoginResponseSuccess | LoginResponseFailure;
 
 export const login = async (credentials: Credentials): Promise<LoginResponse> => {
     try {
@@ -92,6 +90,65 @@ export const login = async (credentials: Credentials): Promise<LoginResponse> =>
     } catch ( error) {
         console.error("No se pudo registrar el usuario", error);
     }
-
   }
 
+ 
+export const cambiarContraseña = async (
+  currentPass: string,
+  newPass: string,
+  userId: number
+): Promise<{ success: boolean; message: string }> => {
+  try {
+    const response = await apiClient.put("/change-password", {
+      currentPassword: currentPass,
+      newPassword: newPass,
+      userId,
+    });
+
+    return {
+      success: true,
+      message: response.data.message,
+    };
+  } catch (error: unknown) {
+    console.error("Error al cambiar contraseña:", error);
+    const message =
+      error instanceof AxiosError
+        ? error.response?.data?.message
+        : "Error al cambiar la contraseña";
+
+    return {
+      success: false,
+      message,
+    };
+  }
+};
+
+export const actualizarUsuario = async (id: number, data: UpdateUserData) => {
+  try{
+    const response = await apiClient.put(`/users/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar usuario:", error);
+    throw error;
+  }
+}
+
+export const getUserById = async (id: number) => {
+  try {
+    const response = await apiClient.get(`/users/${id}`);
+    return response.data;
+  } catch( error) {
+    console.error("Error al obtener el usuario", error);
+    throw error;
+  }
+}
+
+export const asignarPassword = async(id: number) => {
+  try {
+    const response = await apiClient.post('/asignar-password', {userId : id});
+    return response;
+  } catch ( error) {
+    console.error("Error al asignar la contraseña");
+    throw error;
+  }
+}

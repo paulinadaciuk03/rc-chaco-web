@@ -6,6 +6,8 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "@/api/auth";
+import { useUserStore } from "@/store/userStore";
+import { toast } from "sonner";
 
 interface ILoginInput {
   email: string;
@@ -16,6 +18,8 @@ function Login() {
   const [mostrarAlerta, setMostrarAlerta] = useState(false);
   const { register, handleSubmit, reset } = useForm<ILoginInput>();
   const navigate = useNavigate();
+  const setUser = useUserStore(state => state.setUser);
+
 
   const onSubmit: SubmitHandler<ILoginInput> = async (data) => {
     try {
@@ -25,16 +29,17 @@ function Login() {
       });
 
       if (result.success) {
+        setUser(result.data.user);
         navigate("/");
         setMostrarAlerta(true);
         reset();
         setTimeout(() => setMostrarAlerta(false), 3000);
       } else {
-        alert(result.error.message || "Error al iniciar sesión");
+        toast.error("Error al iniciar sesión");
       }
     } catch (err) {
       console.error(err);
-      alert("Error al iniciar sesión");
+      toast.error("Error al iniciar sesión");
     }
   };
 
