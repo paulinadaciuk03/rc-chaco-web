@@ -63,7 +63,15 @@ function Register() {
             <Label htmlFor="text" className="m-2">
               Nombre de Usuario
             </Label>
-            <Input {...register("username")} required></Input>
+            <Input
+              {...register("username", {
+                required: true,
+                pattern: {
+                  value: /^\S+$/, 
+                  message: "El nombre de usuario no puede contener espacios",
+                },
+              })}
+            />
             <Label htmlFor="email" className="m-2">
               Mail
             </Label>
