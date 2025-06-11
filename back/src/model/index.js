@@ -22,7 +22,7 @@ const Inscripciones = require('./inscripciones')(sequelize, DataTypes);
 const ComentariosNoticias = require('./comentarios_noticias')(sequelize, DataTypes);
 
 // Nuevos modelos de publicaciones
-const Publicaciones = require('./publicacion')(sequelize, DataTypes);
+const Publicaciones = require('./Publicacion')(sequelize, DataTypes);
 const PublicacionImagenes = require('./PublicacionImagen')(sequelize, DataTypes);
 const ComentariosPublicaciones = require('./ComentarioPublicacion')(sequelize, DataTypes);
 

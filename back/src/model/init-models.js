@@ -5,7 +5,7 @@ var _noticias = require("./noticias");
 var _roles = require("./roles");
 var _usuarios = require("./usuarios");
 var _comentarios_noticias = require("./comentarios_noticias");
-var _Publicacion = require("./publicacion");
+var _Publicacion = require("./Publicacion");
 var _PublicacionImagen = require("./PublicacionImagen");
 var _ComentarioPublicacion = require("./ComentarioPublicacion");
 
