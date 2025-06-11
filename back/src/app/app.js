@@ -7,6 +7,8 @@ const UploadRouter = require("../router/upload.router");
 const path = require("path");
 const InscripcionesRouter = require("../router/inscripciones.router");
 const ComentariosNoticiasRouter= require("../router/comentarios.noticias.router");
+const PublicacionesRouter = require("../router/publicacion.router");
+const ComentariosPublicacioneRouter = require("../router/comentarios.publicaciones.router");
 const uploadDir = path.join(__dirname, '..', 'uploads');
 require('dotenv').config();
 
@@ -28,6 +30,8 @@ app.use('/api/v1/noticias', NoticiasRouter);
 app.use('/api/v1/uploads', UploadRouter);
 app.use('/api/v1/inscripciones',  InscripcionesRouter);
 app.use('/api/v1/comentarios-noticias', ComentariosNoticiasRouter);
+app.use('/api/v1/publicaciones', PublicacionesRouter);
+app.use('/api/v1/comentarios-publicaciones', ComentariosPublicacioneRouter);
 
 
 module.exports = app;
