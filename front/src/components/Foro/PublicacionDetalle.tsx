@@ -1,4 +1,4 @@
-import { eliminarComentarioPublicacion, getPublicacionById, PublicacionResponse } from '@/api/PublicacionesService';
+import { eliminarComentarioPublicacion, eliminarPublicacion, getPublicacionById, PublicacionResponse } from '@/api/PublicacionesService';
 import { useUserStore } from '@/store/userStore';
 import  { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
@@ -39,7 +39,7 @@ export default function PublicacionDetalle() {
     if (!confirmacion) return;
 
     try {
-      await eliminarComentarioPublicacion(parseInt(id));
+      await eliminarPublicacion(parseInt(id));
       toast.success("Publicación eliminada correctamente.");
       navigate("/novedades");
     } catch (error) {
@@ -57,7 +57,7 @@ export default function PublicacionDetalle() {
     <div className="max-w-6xl mx-5 md:mx-auto my-10 p-6 border rounded-xl flex flex-col">
     <h1 className="text-4xl font-bold mb-4">{publicacion.titulo}</h1>
     <p className="text-gray-600 mb-6">
-      {new Date(publicacion.fecha_publicacion).toLocaleDateString()}
+      {publicacion.fecha_publicacion}
     </p>
     <p className="text-gray-600 mb-2">
       Publicado por: {publicacion.usuario?.nombre}
