@@ -1,5 +1,5 @@
 
-const { ComentariosPublicaciones } = require('../model');
+const { ComentariosPublicaciones, Usuarios } = require('../model');
 
 const router = require('express').Router();
 
