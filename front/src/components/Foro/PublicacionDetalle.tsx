@@ -41,7 +41,7 @@ export default function PublicacionDetalle() {
     try {
       await eliminarPublicacion(parseInt(id));
       toast.success("Publicación eliminada correctamente.");
-      navigate("/novedades");
+      navigate("/publicaciones");
     } catch (error) {
       toast.error("Error al eliminar la publicación.");
       console.error(error);
