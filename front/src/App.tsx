@@ -22,6 +22,10 @@ import { useUserStore } from "./store/userStore";
 import EditarDatos from "./components/Configuracion/EditarDatos";
 import Servicios from "./components/Servicios/Servicios";
 import GestionarUsuarios from "./components/Configuracion/GestionarUsuarios";
+import Publicacion from "./components/Foro/Publicacion";
+import Publicaciones from "./components/Foro/Publicaciones";
+import PublicacionDetalle from "./components/Foro/PublicacionDetalle";
+import PublicacionEditar from "./components/Foro/PublicacionEditar";
 
 function InitUserStore() {
   const setUser = useUserStore((state) => state.setUser);
@@ -87,7 +91,28 @@ function App() {
                 </ProtectedRoute>
               }
             ></Route>
+             <Route
+              path="/publicar"
+              element={
+                <ProtectedRoute>
+                  <Publicacion></Publicacion>
+                </ProtectedRoute>
+              }
+            ></Route>
             <Route path="/novedades" element={<Novedades></Novedades>}></Route>
+            <Route path="/publicaciones" element={<Publicaciones></Publicaciones>}></Route>
+            <Route
+              path="/publicaciones/:id"
+              element={<PublicacionDetalle></PublicacionDetalle>}
+            ></Route>
+             <Route
+              path="/editar-publicacion/:id"
+              element={
+                <ProtectedRoute>
+                  <PublicacionEditar></PublicacionEditar>
+                </ProtectedRoute>
+              }
+            ></Route>
             <Route
               path="/noticias/:id"
               element={<NoticiaDetalle></NoticiaDetalle>}

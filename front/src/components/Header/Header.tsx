@@ -1,6 +1,6 @@
 import { Separator } from "@/components/ui/separator";
-import { Link} from "react-router-dom";
-import {  useState } from "react";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 import { Book, Menu, Newspaper, Settings, UserRoundCog } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Avatar, AvatarFallback } from "../ui/avatar";
@@ -19,7 +19,6 @@ function Header() {
     logout();
     window.location.href = "/";
   };
-
 
   const obtenerIniciales = (nombreCompleto: string): string => {
     if (!nombreCompleto) return "";
@@ -70,12 +69,21 @@ function Header() {
                     Configuración
                   </Link>
                 </div>
+                <Separator />
+                <div className="flex items-center">
+                  <Newspaper />
+                  <Link to="/publicar" className="m-3 cursor-pointer">
+                    Hacer una publicación
+                  </Link>
+                </div>
                 {rol === "admin" && (
                   <>
                     <Separator />
                     <div className="flex items-center">
                       <UserRoundCog />
-                      <Link to="gestionar-usuarios" className="m-3">Gestionar usuarios</Link>
+                      <Link to="gestionar-usuarios" className="m-3">
+                        Gestionar usuarios
+                      </Link>
                     </div>
                     <Separator />
                     <div className="flex items-center">
@@ -92,6 +100,13 @@ function Header() {
                         className="m-3 cursor-pointer"
                       >
                         Publicar noticia
+                      </Link>
+                    </div>
+                    <Separator />
+                    <div className="flex items-center">
+                      <Newspaper />
+                      <Link to="/publicar" className="m-3 cursor-pointer">
+                        Hacer una publicación
                       </Link>
                     </div>
                   </>
@@ -123,8 +138,15 @@ function Header() {
           <Link to="/novedades" className="hover:text-stone-500 cursor-pointer">
             Novedades
           </Link>
-          <Link to="/servicios" className="hover:text-stone-500 cursor-pointer">Servicios</Link>
-
+          <Link to="/servicios" className="hover:text-stone-500 cursor-pointer">
+            Servicios
+          </Link>
+          <Link
+            to="/publicaciones"
+            className="hover:text-stone-500 cursor-pointer"
+          >
+            Foro
+          </Link>
 
           {loggedIn ? (
             <Popover>
@@ -150,12 +172,21 @@ function Header() {
                     Configuración
                   </Link>
                 </div>
+                <Separator />
+                <div className="flex items-center">
+                  <Newspaper />
+                  <Link to="/publicar" className="m-3 cursor-pointer">
+                    Hacer una publicación
+                  </Link>
+                </div>
                 {rol === "admin" && (
                   <>
                     <Separator />
                     <div className="flex items-center">
                       <UserRoundCog />
-                      <Link to="/gestionar-usuarios" className="m-3">Gestionar usuarios</Link>
+                      <Link to="/gestionar-usuarios" className="m-3">
+                        Gestionar usuarios
+                      </Link>
                     </div>
                     <Separator />
                     <div className="flex items-center">
@@ -172,6 +203,13 @@ function Header() {
                         className="m-3 cursor-pointer"
                       >
                         Publicar noticia
+                      </Link>
+                    </div>
+                    <Separator />
+                    <div className="flex items-center">
+                      <Newspaper />
+                      <Link to="/publicar" className="m-3 cursor-pointer">
+                        Hacer una publicación
                       </Link>
                     </div>
                   </>
@@ -199,11 +237,23 @@ function Header() {
           <Link to="/cursos" className="block hover:text-stone-500">
             Cursos
           </Link>
-          <Link to="/novedades" className="block hover:text-stone-500 cursor-pointer">
+          <Link
+            to="/novedades"
+            className="block hover:text-stone-500 cursor-pointer"
+          >
             Novedades
           </Link>
-          <Link to="/servicios" className="block hover:text-stone-500 cursor-pointer">
+          <Link
+            to="/servicios"
+            className="block hover:text-stone-500 cursor-pointer"
+          >
             Servicios
+          </Link>
+          <Link
+            to="/publicaciones"
+            className="block hover:text-stone-500 cursor-pointer"
+          >
+            Foro
           </Link>
           {!loggedIn && (
             <Link to="/register" className="text-red-700 hover:text-red-500">
