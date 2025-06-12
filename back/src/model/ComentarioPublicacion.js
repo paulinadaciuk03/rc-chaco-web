@@ -28,7 +28,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       fecha_creacion: {
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
+        allowNull: false,
+        defaultValue: sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
       }
     }, {
       tableName: 'comentarios_publicacion',

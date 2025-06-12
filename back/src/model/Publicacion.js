@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       fecha_publicacion: {
-        type: DataTypes.DATE
+        type: sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
       },
       usuario_id: {
         type: DataTypes.INTEGER,
