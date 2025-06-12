@@ -141,7 +141,7 @@ export const crearPublicacion = async (
   ): Promise<ComentarioResponse> => {
     try {
       const { data } = await apiClient.get(
-        `/comentarios-publicacion/publicacion/${publicacionId}?page=${page}`
+        `/comentarios-publicaciones/publicacion/${publicacionId}?page=${page}`
       );
       return data;
     } catch (error) {
