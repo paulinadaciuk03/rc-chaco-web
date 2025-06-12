@@ -33,5 +33,4 @@ app.use('/api/v1/comentarios-noticias', ComentariosNoticiasRouter);
 app.use('/api/v1/publicaciones', PublicacionesRouter);
 app.use('/api/v1/comentarios-publicaciones', ComentariosPublicacioneRouter);
 
-
 module.exports = app;

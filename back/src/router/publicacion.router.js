@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Publicaciones, PublicacionImagenes} = require("../model") 
+const { Publicaciones, PublicacionImagenes, Usuarios} = require("../model") 
 
 router.post("/", async (req, res) => {
   console.log("Body recibido en POST /publicaciones:", req.body);
@@ -73,7 +73,7 @@ router.get("/", async (req, res) => {
         total: count,
         currentPage,
         totalPages,
-        noticias: noticiasPreview,
+        publicaciones: publicacionPreview,
       });
     } catch (error) {
       console.error("Error al obtener publicaciones paginadas:", error);
