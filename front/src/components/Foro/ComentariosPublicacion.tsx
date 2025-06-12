@@ -3,8 +3,9 @@ import { crearComentarioPublicacion, eliminarComentarioPublicacion, getComentari
 import { useUserStore } from "@/store/userStore";
 import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import { Badge } from "lucide-react";
+
 import { Textarea } from "../ui/textarea";
+import { Badge } from "../ui/badge";
 
 export default function ComentariosPublicacion({ publicacionId }: { publicacionId: number }) {
   const [comentariosData, setComentariosData] =
