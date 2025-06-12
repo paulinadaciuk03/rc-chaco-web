@@ -224,7 +224,7 @@ export default function Publicacion() {
                 Publicando...
               </>
             ) : (
-              "Publicado"
+              "Publicar"
             )}
           </Button>
         </div>

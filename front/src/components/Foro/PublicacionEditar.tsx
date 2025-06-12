@@ -98,7 +98,7 @@ export default function PublicacionEditar() {
       if (!id) throw new Error("ID no encontrado");
       await updatePublicacion(parseInt(id), payload);
       toast.success("Publicación editada con éxito");
-      navigate("/publicacion");
+      navigate("/publicaciones");
     } catch (error) {
       console.error("Error al editar la publicación:", error);
       toast.error("Ocurrió un error al editar la publicación");
