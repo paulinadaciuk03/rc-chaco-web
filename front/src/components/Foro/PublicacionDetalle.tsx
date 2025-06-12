@@ -87,7 +87,7 @@ export default function PublicacionDetalle() {
       </div>
     )}
 
-    {userId === publicacion.usuario_id || rol === "admin" && (
+    {(userId === publicacion.usuario_id || rol === "admin") && (
       <div className="mt-8 self-end">
         <Button variant="destructive" onClick={handleEliminar}>
           Eliminar Publicación

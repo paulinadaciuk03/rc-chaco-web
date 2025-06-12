@@ -98,7 +98,7 @@ export default function NoticiaDetalle() {
         </div>
       )}
 
-      {rol === "admin" && (
+      {(rol === "admin") && (
         <div className="mt-8 self-end">
           <Button variant="destructive" onClick={handleEliminar}>
             Eliminar Noticia
