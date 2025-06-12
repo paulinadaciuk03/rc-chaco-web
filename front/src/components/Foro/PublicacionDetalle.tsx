@@ -1,4 +1,4 @@
-import { eliminarComentarioPublicacion, eliminarPublicacion, getPublicacionById, PublicacionResponse } from '@/api/PublicacionesService';
+import { eliminarPublicacion, getPublicacionById, PublicacionResponse } from '@/api/PublicacionesService';
 import { useUserStore } from '@/store/userStore';
 import  { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
