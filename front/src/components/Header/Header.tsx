@@ -199,12 +199,6 @@ function Header() {
                       </Link>
                     </div>
                     <Separator />
-                    <div className="flex items-center">
-                      <Newspaper />
-                      <Link to="/publicar" className="m-3 cursor-pointer">
-                        Hacer una publicación
-                      </Link>
-                    </div>
                   </>
                 )}
                 <Separator />
