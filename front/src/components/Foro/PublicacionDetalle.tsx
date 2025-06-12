@@ -56,7 +56,7 @@ export default function PublicacionDetalle() {
 
   return (
     <div className="max-w-6xl mx-5 md:mx-auto my-10 p-6 border rounded-xl flex flex-col">
-    <h1 className="text-4xl font-bold mb-4">{publicacion.titulo}</h1>
+    <h1 className="text-2xl font-bold mb-4">{publicacion.titulo}</h1>
     <p className="text-gray-600 mb-6">
       {publicacion.fecha_publicacion}
     </p>
