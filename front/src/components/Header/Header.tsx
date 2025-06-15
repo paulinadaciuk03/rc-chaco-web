@@ -43,7 +43,8 @@ function Header() {
         <Link to="/" className="flex items-center">
           <div className="ml-2">
             <h1 className="md:text-lg font-semibold">
-              Chaco Radio Club <span className="text-red-700 font-mono">LU4GF</span>
+              Chaco Radio Club{" "}
+              <span className="text-red-700 font-mono">LU4GF</span>
             </h1>
           </div>
         </Link>
@@ -52,28 +53,40 @@ function Header() {
         <div className="md:hidden flex items-center">
           {loggedIn && (
             <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-              <PopoverTrigger>
-                <Avatar>
-                  <AvatarFallback>{obtenerIniciales(user?.nombre ?? "")}</AvatarFallback>
+              <PopoverTrigger asChild>
+                <Avatar onClick={() => setPopoverOpen(!popoverOpen)}>
+                  <AvatarFallback>
+                    {obtenerIniciales(user?.nombre ?? "")}
+                  </AvatarFallback>
                 </Avatar>
               </PopoverTrigger>
               <PopoverContent>
                 <div className="flex items-center my-3">
                   <Avatar>
-                    <AvatarFallback>{obtenerIniciales(user?.nombre ?? "")}</AvatarFallback>
+                    <AvatarFallback>
+                      {obtenerIniciales(user?.nombre ?? "")}
+                    </AvatarFallback>
                   </Avatar>
                   <h1 className="mx-4">{user?.nombre}</h1>
                 </div>
                 <div className="flex items-center">
                   <Settings />
-                  <Link to="/configuracion" onClick={handleLinkClick} className="m-3 cursor-pointer">
+                  <Link
+                    to="/configuracion"
+                    onClick={handleLinkClick}
+                    className="m-3 cursor-pointer"
+                  >
                     Configuración
                   </Link>
                 </div>
                 <Separator />
                 <div className="flex items-center">
                   <Newspaper />
-                  <Link to="/publicar" onClick={handleLinkClick} className="m-3 cursor-pointer">
+                  <Link
+                    to="/publicar"
+                    onClick={handleLinkClick}
+                    className="m-3 cursor-pointer"
+                  >
                     Hacer una publicación
                   </Link>
                 </div>
@@ -82,21 +95,33 @@ function Header() {
                     <Separator />
                     <div className="flex items-center">
                       <UserRoundCog />
-                      <Link to="/gestionar-usuarios" onClick={handleLinkClick} className="m-3">
+                      <Link
+                        to="/gestionar-usuarios"
+                        onClick={handleLinkClick}
+                        className="m-3"
+                      >
                         Gestionar usuarios
                       </Link>
                     </div>
                     <Separator />
                     <div className="flex items-center">
                       <Book />
-                      <Link to="/inscripciones" onClick={handleLinkClick} className="m-3">
+                      <Link
+                        to="/inscripciones"
+                        onClick={handleLinkClick}
+                        className="m-3"
+                      >
                         Inscripciones
                       </Link>
                     </div>
                     <Separator />
                     <div className="flex items-center">
                       <Newspaper />
-                      <Link to="/publicar-noticia" onClick={handleLinkClick} className="m-3 cursor-pointer">
+                      <Link
+                        to="/publicar-noticia"
+                        onClick={handleLinkClick}
+                        className="m-3 cursor-pointer"
+                      >
                         Publicar noticia
                       </Link>
                     </div>
@@ -132,34 +157,49 @@ function Header() {
           <Link to="/servicios" className="hover:text-stone-500 cursor-pointer">
             Servicios
           </Link>
-          <Link to="/publicaciones" className="hover:text-stone-500 cursor-pointer">
+          <Link
+            to="/publicaciones"
+            className="hover:text-stone-500 cursor-pointer"
+          >
             Foro
           </Link>
 
           {loggedIn ? (
             <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-              <PopoverTrigger>
-                <Avatar>
-                  <AvatarFallback>{obtenerIniciales(user?.nombre ?? "")}</AvatarFallback>
+              <PopoverTrigger asChild>
+                <Avatar onClick={() => setPopoverOpen(!popoverOpen)}>
+                  <AvatarFallback>
+                    {obtenerIniciales(user?.nombre ?? "")}
+                  </AvatarFallback>
                 </Avatar>
               </PopoverTrigger>
               <PopoverContent>
                 <div className="flex items-center my-3">
                   <Avatar>
-                    <AvatarFallback>{obtenerIniciales(user?.nombre ?? "")}</AvatarFallback>
+                    <AvatarFallback>
+                      {obtenerIniciales(user?.nombre ?? "")}
+                    </AvatarFallback>
                   </Avatar>
                   <h1 className="mx-4">{user?.nombre}</h1>
                 </div>
                 <div className="flex items-center">
                   <Settings />
-                  <Link to="/configuracion" onClick={handleLinkClick} className="m-3 cursor-pointer">
+                  <Link
+                    to="/configuracion"
+                    onClick={handleLinkClick}
+                    className="m-3 cursor-pointer"
+                  >
                     Configuración
                   </Link>
                 </div>
                 <Separator />
                 <div className="flex items-center">
                   <Newspaper />
-                  <Link to="/publicar" onClick={handleLinkClick} className="m-3 cursor-pointer">
+                  <Link
+                    to="/publicar"
+                    onClick={handleLinkClick}
+                    className="m-3 cursor-pointer"
+                  >
                     Hacer una publicación
                   </Link>
                 </div>
@@ -168,21 +208,33 @@ function Header() {
                     <Separator />
                     <div className="flex items-center">
                       <UserRoundCog />
-                      <Link to="/gestionar-usuarios" onClick={handleLinkClick} className="m-3">
+                      <Link
+                        to="/gestionar-usuarios"
+                        onClick={handleLinkClick}
+                        className="m-3"
+                      >
                         Gestionar usuarios
                       </Link>
                     </div>
                     <Separator />
                     <div className="flex items-center">
                       <Book />
-                      <Link to="/inscripciones" onClick={handleLinkClick} className="m-3">
+                      <Link
+                        to="/inscripciones"
+                        onClick={handleLinkClick}
+                        className="m-3"
+                      >
                         Inscripciones
                       </Link>
                     </div>
                     <Separator />
                     <div className="flex items-center">
                       <Newspaper />
-                      <Link to="/publicar-noticia" onClick={handleLinkClick} className="m-3 cursor-pointer">
+                      <Link
+                        to="/publicar-noticia"
+                        onClick={handleLinkClick}
+                        className="m-3 cursor-pointer"
+                      >
                         Publicar noticia
                       </Link>
                     </div>
@@ -205,23 +257,47 @@ function Header() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="md:hidden px-4 pb-4 space-y-2 text-base">
-          <Link to="/quienes-somos" onClick={handleLinkClick} className="block hover:text-stone-500">
+          <Link
+            to="/quienes-somos"
+            onClick={handleLinkClick}
+            className="block hover:text-stone-500"
+          >
             Quiénes Somos
           </Link>
-          <Link to="/cursos" onClick={handleLinkClick} className="block hover:text-stone-500">
+          <Link
+            to="/cursos"
+            onClick={handleLinkClick}
+            className="block hover:text-stone-500"
+          >
             Cursos
           </Link>
-          <Link to="/novedades" onClick={handleLinkClick} className="block hover:text-stone-500 cursor-pointer">
+          <Link
+            to="/novedades"
+            onClick={handleLinkClick}
+            className="block hover:text-stone-500 cursor-pointer"
+          >
             Novedades
           </Link>
-          <Link to="/servicios" onClick={handleLinkClick} className="block hover:text-stone-500 cursor-pointer">
+          <Link
+            to="/servicios"
+            onClick={handleLinkClick}
+            className="block hover:text-stone-500 cursor-pointer"
+          >
             Servicios
           </Link>
-          <Link to="/publicaciones" onClick={handleLinkClick} className="block hover:text-stone-500 cursor-pointer">
+          <Link
+            to="/publicaciones"
+            onClick={handleLinkClick}
+            className="block hover:text-stone-500 cursor-pointer"
+          >
             Foro
           </Link>
           {!loggedIn && (
-            <Link to="/register" onClick={handleLinkClick} className="text-red-700 hover:text-red-500">
+            <Link
+              to="/register"
+              onClick={handleLinkClick}
+              className="text-red-700 hover:text-red-500"
+            >
               ¡Asociate!
             </Link>
           )}
