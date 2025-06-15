@@ -60,7 +60,7 @@ export default function ForoPublicaciones() {
       .slice(0, 2);
   };
   return (
-    <div className="px-4 sm:px-6 lg:px-8 min-h-screen">
+    <div className="px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto py-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-8">
           Foro de la Comunidad

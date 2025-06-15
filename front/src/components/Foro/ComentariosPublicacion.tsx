@@ -88,8 +88,6 @@ export default function ComentariosPublicacion({ publicacionId }: { publicacionI
 
   return (
     <div className="mt-10">
-      <h2 className="text-xl font-semibold mb-4">Comentarios</h2>
-
       {!comentariosData || comentariosData.comentarios.length === 0 ? (
         <p className="text-gray-500 mb-4">Aún no hay comentarios.</p>
       ) : (
