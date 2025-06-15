@@ -61,7 +61,7 @@ function Novedades() {
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto my-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">
+        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Últimas Novedades
         </h1>
 

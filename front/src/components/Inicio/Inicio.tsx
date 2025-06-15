@@ -25,10 +25,6 @@ function Inicio() {
       </div>
 
       {/* Sección de novedades */}
-
-        <h2 className="text-3xl sm:text-4xl font-bold underline underline-offset-10 decoration-1 decoration-stone-300 mb-8 text-center">
-          NOVEDADES
-        </h2>
         <Novedades />
 
     </div>
