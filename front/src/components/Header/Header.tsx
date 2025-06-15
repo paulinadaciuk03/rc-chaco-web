@@ -9,7 +9,7 @@ import { useUserStore } from "@/store/userStore";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [popoverOpen, setPopoverOpen] = useState(false); // Nuevo estado para controlar el Popover
+  const [popoverOpen, setPopoverOpen] = useState(false);
   const user = useUserStore((state) => state.user);
   const logout = useUserStore((state) => state.logout);
 
@@ -32,20 +32,18 @@ function Header() {
       .slice(0, 2);
   };
 
-  // Función para cerrar el menú móvil y el popover
-  const closeAllMenus = () => {
-    setMenuOpen(false);
+  const handleLinkClick = () => {
     setPopoverOpen(false);
+    setMenuOpen(false);
   };
 
   return (
     <header className="w-full mx-auto bg-white">
       <div className="container mx-auto px-4 mb-4 py-2 mt-3 flex justify-between items-center">
-        <Link to="/" className="flex items-center" onClick={closeAllMenus}>
+        <Link to="/" className="flex items-center">
           <div className="ml-2">
             <h1 className="md:text-lg font-semibold">
-              Chaco Radio Club{" "}
-              <span className="text-red-700 font-mono">LU4GF</span>
+              Chaco Radio Club <span className="text-red-700 font-mono">LU4GF</span>
             </h1>
           </div>
         </Link>
@@ -56,38 +54,26 @@ function Header() {
             <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
               <PopoverTrigger>
                 <Avatar>
-                  <AvatarFallback>
-                    {obtenerIniciales(user?.nombre ?? "")}
-                  </AvatarFallback>
+                  <AvatarFallback>{obtenerIniciales(user?.nombre ?? "")}</AvatarFallback>
                 </Avatar>
               </PopoverTrigger>
               <PopoverContent>
                 <div className="flex items-center my-3">
                   <Avatar>
-                    <AvatarFallback>
-                      {obtenerIniciales(user?.nombre ?? "")}
-                    </AvatarFallback>
+                    <AvatarFallback>{obtenerIniciales(user?.nombre ?? "")}</AvatarFallback>
                   </Avatar>
                   <h1 className="mx-4">{user?.nombre}</h1>
                 </div>
                 <div className="flex items-center">
                   <Settings />
-                  <Link 
-                    to="/configuracion" 
-                    className="m-3 cursor-pointer"
-                    onClick={closeAllMenus}
-                  >
+                  <Link to="/configuracion" onClick={handleLinkClick} className="m-3 cursor-pointer">
                     Configuración
                   </Link>
                 </div>
                 <Separator />
                 <div className="flex items-center">
                   <Newspaper />
-                  <Link 
-                    to="/publicar" 
-                    className="m-3 cursor-pointer"
-                    onClick={closeAllMenus}
-                  >
+                  <Link to="/publicar" onClick={handleLinkClick} className="m-3 cursor-pointer">
                     Hacer una publicación
                   </Link>
                 </div>
@@ -96,33 +82,21 @@ function Header() {
                     <Separator />
                     <div className="flex items-center">
                       <UserRoundCog />
-                      <Link 
-                        to="gestionar-usuarios" 
-                        className="m-3"
-                        onClick={closeAllMenus}
-                      >
+                      <Link to="/gestionar-usuarios" onClick={handleLinkClick} className="m-3">
                         Gestionar usuarios
                       </Link>
                     </div>
                     <Separator />
                     <div className="flex items-center">
                       <Book />
-                      <Link 
-                        to="/inscripciones" 
-                        className="m-3"
-                        onClick={closeAllMenus}
-                      >
+                      <Link to="/inscripciones" onClick={handleLinkClick} className="m-3">
                         Inscripciones
                       </Link>
                     </div>
                     <Separator />
                     <div className="flex items-center">
                       <Newspaper />
-                      <Link
-                        to="/publicar-noticia"
-                        className="m-3 cursor-pointer"
-                        onClick={closeAllMenus}
-                      >
+                      <Link to="/publicar-noticia" onClick={handleLinkClick} className="m-3 cursor-pointer">
                         Publicar noticia
                       </Link>
                     </div>
@@ -146,39 +120,19 @@ function Header() {
 
         {/* Desktop Menu */}
         <nav className="hidden md:flex space-x-6 text-l font-sans items-center">
-          <Link 
-            to="/quienes-somos" 
-            className="hover:text-stone-500"
-            onClick={closeAllMenus}
-          >
+          <Link to="/quienes-somos" className="hover:text-stone-500">
             Quiénes Somos
           </Link>
-          <Link 
-            to="/cursos" 
-            className="hover:text-stone-500"
-            onClick={closeAllMenus}
-          >
+          <Link to="/cursos" className="hover:text-stone-500">
             Cursos
           </Link>
-          <Link 
-            to="/novedades" 
-            className="hover:text-stone-500 cursor-pointer"
-            onClick={closeAllMenus}
-          >
+          <Link to="/novedades" className="hover:text-stone-500 cursor-pointer">
             Novedades
           </Link>
-          <Link 
-            to="/servicios" 
-            className="hover:text-stone-500 cursor-pointer"
-            onClick={closeAllMenus}
-          >
+          <Link to="/servicios" className="hover:text-stone-500 cursor-pointer">
             Servicios
           </Link>
-          <Link
-            to="/publicaciones"
-            className="hover:text-stone-500 cursor-pointer"
-            onClick={closeAllMenus}
-          >
+          <Link to="/publicaciones" className="hover:text-stone-500 cursor-pointer">
             Foro
           </Link>
 
@@ -186,38 +140,26 @@ function Header() {
             <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
               <PopoverTrigger>
                 <Avatar>
-                  <AvatarFallback>
-                    {obtenerIniciales(user?.nombre ?? "")}
-                  </AvatarFallback>
+                  <AvatarFallback>{obtenerIniciales(user?.nombre ?? "")}</AvatarFallback>
                 </Avatar>
               </PopoverTrigger>
               <PopoverContent>
                 <div className="flex items-center my-3">
                   <Avatar>
-                    <AvatarFallback>
-                      {obtenerIniciales(user?.nombre ?? "")}
-                    </AvatarFallback>
+                    <AvatarFallback>{obtenerIniciales(user?.nombre ?? "")}</AvatarFallback>
                   </Avatar>
                   <h1 className="mx-4">{user?.nombre}</h1>
                 </div>
                 <div className="flex items-center">
                   <Settings />
-                  <Link 
-                    to="/configuracion" 
-                    className="m-3 cursor-pointer"
-                    onClick={closeAllMenus}
-                  >
+                  <Link to="/configuracion" onClick={handleLinkClick} className="m-3 cursor-pointer">
                     Configuración
                   </Link>
                 </div>
                 <Separator />
                 <div className="flex items-center">
                   <Newspaper />
-                  <Link 
-                    to="/publicar" 
-                    className="m-3 cursor-pointer"
-                    onClick={closeAllMenus}
-                  >
+                  <Link to="/publicar" onClick={handleLinkClick} className="m-3 cursor-pointer">
                     Hacer una publicación
                   </Link>
                 </div>
@@ -226,37 +168,24 @@ function Header() {
                     <Separator />
                     <div className="flex items-center">
                       <UserRoundCog />
-                      <Link 
-                        to="/gestionar-usuarios" 
-                        className="m-3"
-                        onClick={closeAllMenus}
-                      >
+                      <Link to="/gestionar-usuarios" onClick={handleLinkClick} className="m-3">
                         Gestionar usuarios
                       </Link>
                     </div>
                     <Separator />
                     <div className="flex items-center">
                       <Book />
-                      <Link 
-                        to="/inscripciones" 
-                        className="m-3"
-                        onClick={closeAllMenus}
-                      >
+                      <Link to="/inscripciones" onClick={handleLinkClick} className="m-3">
                         Inscripciones
                       </Link>
                     </div>
                     <Separator />
                     <div className="flex items-center">
                       <Newspaper />
-                      <Link
-                        to="/publicar-noticia"
-                        className="m-3 cursor-pointer"
-                        onClick={closeAllMenus}
-                      >
+                      <Link to="/publicar-noticia" onClick={handleLinkClick} className="m-3 cursor-pointer">
                         Publicar noticia
                       </Link>
                     </div>
-                    <Separator />
                   </>
                 )}
                 <Separator />
@@ -266,11 +195,7 @@ function Header() {
               </PopoverContent>
             </Popover>
           ) : (
-            <Link 
-              to="/register" 
-              className="text-red-700 hover:text-red-500"
-              onClick={closeAllMenus}
-            >
+            <Link to="/register" className="text-red-700 hover:text-red-500">
               ¡Asociate!
             </Link>
           )}
@@ -280,47 +205,23 @@ function Header() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="md:hidden px-4 pb-4 space-y-2 text-base">
-          <Link 
-            to="/quienes-somos" 
-            className="block hover:text-stone-500"
-            onClick={closeAllMenus}
-          >
+          <Link to="/quienes-somos" onClick={handleLinkClick} className="block hover:text-stone-500">
             Quiénes Somos
           </Link>
-          <Link 
-            to="/cursos" 
-            className="block hover:text-stone-500"
-            onClick={closeAllMenus}
-          >
+          <Link to="/cursos" onClick={handleLinkClick} className="block hover:text-stone-500">
             Cursos
           </Link>
-          <Link
-            to="/novedades"
-            className="block hover:text-stone-500 cursor-pointer"
-            onClick={closeAllMenus}
-          >
+          <Link to="/novedades" onClick={handleLinkClick} className="block hover:text-stone-500 cursor-pointer">
             Novedades
           </Link>
-          <Link
-            to="/servicios"
-            className="block hover:text-stone-500 cursor-pointer"
-            onClick={closeAllMenus}
-          >
+          <Link to="/servicios" onClick={handleLinkClick} className="block hover:text-stone-500 cursor-pointer">
             Servicios
           </Link>
-          <Link
-            to="/publicaciones"
-            className="block hover:text-stone-500 cursor-pointer"
-            onClick={closeAllMenus}
-          >
+          <Link to="/publicaciones" onClick={handleLinkClick} className="block hover:text-stone-500 cursor-pointer">
             Foro
           </Link>
           {!loggedIn && (
-            <Link 
-              to="/register" 
-              className="text-red-700 hover:text-red-500"
-              onClick={closeAllMenus}
-            >
+            <Link to="/register" onClick={handleLinkClick} className="text-red-700 hover:text-red-500">
               ¡Asociate!
             </Link>
           )}
