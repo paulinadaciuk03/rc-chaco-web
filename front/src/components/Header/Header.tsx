@@ -38,38 +38,70 @@ function Header() {
   };
 
   const renderUserMenu = () => (
-    <div className="absolute right-4 top-16 w-64 bg-white rounded-lg shadow-lg border z-50">
+    <div
+      className="
+      absolute
+      right-0
+      mt-2
+      w-64
+      bg-white rounded-lg shadow-lg border z-50
+    "
+    >
       <div className="p-4">
         <div className="flex items-center mb-4">
           <Avatar>
-            <AvatarFallback>{obtenerIniciales(user?.nombre ?? "")}</AvatarFallback>
+            <AvatarFallback>
+              {obtenerIniciales(user?.nombre ?? "")}
+            </AvatarFallback>
           </Avatar>
           <h1 className="ml-4 font-semibold">{user?.nombre}</h1>
         </div>
         <div className="space-y-2">
-          <Button variant="ghost" onClick={() => handleNavigate("/configuracion")} className="w-full justify-start">
+          <Button
+            variant="ghost"
+            onClick={() => handleNavigate("/configuracion")}
+            className="w-full justify-start"
+          >
             <Settings className="mr-2" /> Configuración
           </Button>
-          <Button variant="ghost" onClick={() => handleNavigate("/publicar")} className="w-full justify-start">
+          <Button
+            variant="ghost"
+            onClick={() => handleNavigate("/publicar")}
+            className="w-full justify-start"
+          >
             <Newspaper className="mr-2" /> Hacer una publicación
           </Button>
 
           {rol === "admin" && (
             <>
               <Separator />
-              <Button variant="ghost" onClick={() => handleNavigate("/gestionar-usuarios")} className="w-full justify-start">
+              <Button
+                variant="ghost"
+                onClick={() => handleNavigate("/gestionar-usuarios")}
+                className="w-full justify-start"
+              >
                 <UserRoundCog className="mr-2" /> Gestionar usuarios
               </Button>
-              <Button variant="ghost" onClick={() => handleNavigate("/inscripciones")} className="w-full justify-start">
+              <Button
+                variant="ghost"
+                onClick={() => handleNavigate("/inscripciones")}
+                className="w-full justify-start"
+              >
                 <Book className="mr-2" /> Inscripciones
               </Button>
-              <Button variant="ghost" onClick={() => handleNavigate("/publicar-noticia")} className="w-full justify-start">
+              <Button
+                variant="ghost"
+                onClick={() => handleNavigate("/publicar-noticia")}
+                className="w-full justify-start"
+              >
                 <Newspaper className="mr-2" /> Publicar noticia
               </Button>
             </>
           )}
           <Separator />
-          <Button onClick={handleLogout} className="w-full">Cerrar sesión</Button>
+          <Button onClick={handleLogout} className="w-full">
+            Cerrar sesión
+          </Button>
         </div>
       </div>
     </div>
@@ -80,7 +112,8 @@ function Header() {
       <div className="container mx-auto px-4 mb-4 py-2 mt-3 flex justify-between items-center">
         <Link to="/" className="flex items-center">
           <h1 className="ml-2 md:text-lg font-semibold">
-            Chaco Radio Club <span className="text-red-700 font-mono">LU4GF</span>
+            Chaco Radio Club{" "}
+            <span className="text-red-700 font-mono">LU4GF</span>
           </h1>
         </Link>
 
@@ -89,7 +122,9 @@ function Header() {
           {loggedIn && (
             <button onClick={() => setUserMenuOpen(!userMenuOpen)}>
               <Avatar>
-                <AvatarFallback>{obtenerIniciales(user?.nombre ?? "")}</AvatarFallback>
+                <AvatarFallback>
+                  {obtenerIniciales(user?.nombre ?? "")}
+                </AvatarFallback>
               </Avatar>
             </button>
           )}
@@ -103,23 +138,37 @@ function Header() {
 
         {/* Desktop */}
         <nav className="hidden md:flex space-x-6 text-l font-sans items-center">
-          <Link to="/quienes-somos" className="hover:text-stone-500">Quiénes Somos</Link>
-          <Link to="/cursos" className="hover:text-stone-500">Cursos</Link>
-          <Link to="/novedades" className="hover:text-stone-500">Novedades</Link>
-          <Link to="/servicios" className="hover:text-stone-500">Servicios</Link>
-          <Link to="/publicaciones" className="hover:text-stone-500">Foro</Link>
+          <Link to="/quienes-somos" className="hover:text-stone-500">
+            Quiénes Somos
+          </Link>
+          <Link to="/cursos" className="hover:text-stone-500">
+            Cursos
+          </Link>
+          <Link to="/novedades" className="hover:text-stone-500">
+            Novedades
+          </Link>
+          <Link to="/servicios" className="hover:text-stone-500">
+            Servicios
+          </Link>
+          <Link to="/publicaciones" className="hover:text-stone-500">
+            Foro
+          </Link>
 
           {loggedIn ? (
             <div className="relative">
               <button onClick={() => setUserMenuOpen(!userMenuOpen)}>
                 <Avatar>
-                  <AvatarFallback>{obtenerIniciales(user?.nombre ?? "")}</AvatarFallback>
+                  <AvatarFallback>
+                    {obtenerIniciales(user?.nombre ?? "")}
+                  </AvatarFallback>
                 </Avatar>
               </button>
               {userMenuOpen && renderUserMenu()}
             </div>
           ) : (
-            <Link to="/register" className="text-red-700 hover:text-red-500">¡Asociate!</Link>
+            <Link to="/register" className="text-red-700 hover:text-red-500">
+              ¡Asociate!
+            </Link>
           )}
         </nav>
       </div>
@@ -127,18 +176,58 @@ function Header() {
       {/* Mobile nav */}
       {menuOpen && (
         <div className="md:hidden px-4 pb-4 space-y-2 text-base">
-          <Link to="/quienes-somos" onClick={() => handleNavigate("/quienes-somos")} className="block hover:text-stone-500">Quiénes Somos</Link>
-          <Link to="/cursos" onClick={() => handleNavigate("/cursos")} className="block hover:text-stone-500">Cursos</Link>
-          <Link to="/novedades" onClick={() => handleNavigate("/novedades")} className="block hover:text-stone-500">Novedades</Link>
-          <Link to="/servicios" onClick={() => handleNavigate("/servicios")} className="block hover:text-stone-500">Servicios</Link>
-          <Link to="/publicaciones" onClick={() => handleNavigate("/publicaciones")} className="block hover:text-stone-500">Foro</Link>
+          <Link
+            to="/quienes-somos"
+            onClick={() => handleNavigate("/quienes-somos")}
+            className="block hover:text-stone-500"
+          >
+            Quiénes Somos
+          </Link>
+          <Link
+            to="/cursos"
+            onClick={() => handleNavigate("/cursos")}
+            className="block hover:text-stone-500"
+          >
+            Cursos
+          </Link>
+          <Link
+            to="/novedades"
+            onClick={() => handleNavigate("/novedades")}
+            className="block hover:text-stone-500"
+          >
+            Novedades
+          </Link>
+          <Link
+            to="/servicios"
+            onClick={() => handleNavigate("/servicios")}
+            className="block hover:text-stone-500"
+          >
+            Servicios
+          </Link>
+          <Link
+            to="/publicaciones"
+            onClick={() => handleNavigate("/publicaciones")}
+            className="block hover:text-stone-500"
+          >
+            Foro
+          </Link>
           {!loggedIn && (
-            <Link to="/register" onClick={() => handleNavigate("/register")} className="text-red-700 hover:text-red-500">¡Asociate!</Link>
+            <Link
+              to="/register"
+              onClick={() => handleNavigate("/register")}
+              className="text-red-700 hover:text-red-500"
+            >
+              ¡Asociate!
+            </Link>
           )}
         </div>
       )}
 
-      {userMenuOpen && <div className="md:hidden absolute top-20 right-4 z-50">{renderUserMenu()}</div>}
+      {userMenuOpen && (
+        <div className="md:hidden absolute top-20 right-4 z-50">
+          {renderUserMenu()}
+        </div>
+      )}
 
       <Separator className="my-2" />
     </header>
