@@ -53,7 +53,7 @@ function Header() {
         <div className="md:hidden flex items-center">
           {loggedIn && (
             <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-              <PopoverTrigger asChild>
+              <PopoverTrigger>
                 <Avatar>
                   <AvatarFallback>
                     {obtenerIniciales(user?.nombre ?? "")}
@@ -166,7 +166,7 @@ function Header() {
 
           {loggedIn ? (
             <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-              <PopoverTrigger asChild>
+              <PopoverTrigger>
                 <Avatar>
                   <AvatarFallback>
                     {obtenerIniciales(user?.nombre ?? "")}
