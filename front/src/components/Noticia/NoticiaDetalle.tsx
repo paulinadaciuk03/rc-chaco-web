@@ -16,6 +16,7 @@ import { Button } from "../ui/button";
 import { useUserStore } from "@/store/userStore";
 import ComentariosNoticia from "./ComentariosNoticia";
 import { toast } from "sonner";
+import { Calendar, User } from "lucide-react";
 
 export default function NoticiaDetalle() {
   const { id } = useParams();
@@ -23,7 +24,6 @@ export default function NoticiaDetalle() {
   const [noticia, setNoticia] = useState<NoticiaResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const user = useUserStore((state) => state.user);
-
   const rol = user?.rol;
 
   useEffect(() => {
@@ -68,18 +68,21 @@ export default function NoticiaDetalle() {
         {noticia.titulo}
       </h1>
 
-      <div className="text-sm text-gray-600 flex flex-wrap items-center gap-4 mb-6 border-b pb-4">
-        <span>
-          📅{" "}
-          {new Date(noticia.fecha_publicacion).toLocaleDateString("es-ES", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </span>
-        <span>
-          👤 Publicado por: {noticia.admin?.nombre || "Administrador"}
-        </span>
+      <div className="text-sm text-gray-600 flex flex-wrap items-center gap-6 mb-6 border-b pb-4">
+        <div className="flex items-center gap-1">
+          <Calendar className="w-4 h-4 text-gray-500" />
+          <span>
+            {new Date(noticia.fecha_publicacion).toLocaleDateString("es-ES", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </span>
+        </div>
+        <div className="flex items-center gap-1">
+          <User className="w-4 h-4 text-gray-500" />
+          <span>{noticia.admin?.nombre || "Administrador"}</span>
+        </div>
       </div>
 
       <div className="prose prose-sm sm:prose-base max-w-none text-gray-800 mb-6 whitespace-pre-line">
