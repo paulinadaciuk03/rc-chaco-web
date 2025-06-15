@@ -80,94 +80,91 @@ export default function PublicacionDetalle() {
     return <p className="text-center my-10">Publicación no encontrada</p>;
 
   return (
-    <div className="max-w-4xl mx-auto my-8 p-6 bg-white rounded-lg shadow-md">
-      {/* Encabezado de la publicación */}
-      <div className="flex items-start gap-4 mb-6">
-        <Avatar className="h-12 w-12 border">
-          <AvatarFallback>
-            {obtenerIniciales(publicacion.usuario?.nombre ?? "")}
-          </AvatarFallback>
-        </Avatar>
+    <div className="max-w-5xl mx-auto my-8 px-4 sm:px-6 lg:px-8">
+      <div className="bg-white rounded-xl shadow-sm p-6 sm:p-8">
+        {/* Encabezado de la publicación */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
+          <Avatar className="h-12 w-12 border shrink-0">
+            <AvatarFallback>
+              {obtenerIniciales(publicacion.usuario?.nombre ?? "")}
+            </AvatarFallback>
+          </Avatar>
 
-        <div className="flex-1">
-          <h1 className="text-2xl font-bold text-gray-800">
-            {publicacion.titulo}
-          </h1>
+          <div className="flex-1">
+            <h1 className="text-2xl font-bold text-gray-900 mb-1">
+              {publicacion.titulo}
+            </h1>
 
-          <div className="flex items-center gap-4 mt-2 text-sm text-gray-600">
-            <span className="flex items-center gap-1">
-              <User className="h-4 w-4" />
-              {publicacion.usuario?.nombre || "Usuario desconocido"}
-            </span>
-            <span className="flex items-center gap-1">
-              <CalendarDays className="h-4 w-4" />
-              {new Date(publicacion.fecha_publicacion).toLocaleDateString(
-                "es-ES",
-                {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                }
-              )}
-            </span>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-sm text-gray-600">
+              <span className="flex items-center gap-1">
+                <User className="h-4 w-4" />
+                {publicacion.usuario?.nombre || "Usuario desconocido"}
+              </span>
+              <span className="flex items-center gap-1">
+                <CalendarDays className="h-4 w-4" />
+                {new Date(publicacion.fecha_publicacion).toLocaleDateString(
+                  "es-ES",
+                  { year: "numeric", month: "long", day: "numeric" }
+                )}
+              </span>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Contenido de la publicación */}
-      <div className="prose max-w-none mb-8">
-        <p className="whitespace-pre-line text-gray-700">
+        {/* Contenido de la publicación */}
+        <div className="prose max-w-none text-gray-800 mb-8 whitespace-pre-line">
           {publicacion.descripcion}
-        </p>
-      </div>
-
-      {/* Galería de imágenes */}
-      {publicacion.imagenes.length > 0 && (
-        <div className="mb-8">
-          <Carousel className="rounded-lg overflow-hidden border">
-            <CarouselContent>
-              {publicacion.imagenes.map((img, index) => (
-                <CarouselItem key={index}>
-                  <div className="flex justify-center bg-gray-50 p-2">
-                    <img
-                      src={img.url_imagen}
-                      alt={`Imagen ${index + 1}`}
-                      className="rounded-md object-contain max-h-96 mx-auto"
-                    />
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white" />
-            <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white" />
-          </Carousel>
         </div>
-      )}
 
-      {/* Acciones (editar/eliminar) */}
-      {(userId === publicacion.usuario_id || rol === "admin") && (
-        <div className="flex justify-end gap-2 mb-8 border-t pt-4">
-          {userId === publicacion.usuario_id && (
-            <Button
-              variant="outline"
-              onClick={() => navigate(`/editar-publicacion/${publicacion.id}`)}
-            >
-              Editar Publicación
-            </Button>
-          )}
-
-          <Button variant="destructive" onClick={handleEliminar}>
-            Eliminar Publicación
-          </Button>
-        </div>
-      )}
-
-      {/* Sección de comentarios */}
-      <div className="border-t pt-6">
-        <h2 className="text-xl font-semibold mb-4">Discusión</h2>
-        {publicacion.id && (
-          <ComentariosPublicacion publicacionId={publicacion.id} />
+        {/* Galería de imágenes */}
+        {publicacion.imagenes.length > 0 && (
+          <div className="mb-10">
+            <Carousel className="rounded-lg overflow-hidden border">
+              <CarouselContent>
+                {publicacion.imagenes.map((img, index) => (
+                  <CarouselItem key={index}>
+                    <div className="flex justify-center bg-gray-50 p-4">
+                      <img
+                        src={img.url_imagen}
+                        alt={`Imagen ${index + 1}`}
+                        className="rounded-md object-contain max-h-[28rem] w-full"
+                      />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white" />
+              <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white" />
+            </Carousel>
+          </div>
         )}
+
+        {/* Acciones de usuario */}
+        {(userId === publicacion.usuario_id || rol === "admin") && (
+          <div className="flex flex-wrap gap-2 justify-end mb-10 border-t pt-6">
+            {userId === publicacion.usuario_id && (
+              <Button
+                variant="outline"
+                onClick={() =>
+                  navigate(`/editar-publicacion/${publicacion.id}`)
+                }
+              >
+                Editar Publicación
+              </Button>
+            )}
+            <Button variant="destructive" onClick={handleEliminar}>
+              Eliminar Publicación
+            </Button>
+          </div>
+        )}
+
+        {/* Comentarios */}
+        <div className="border-t pt-6">
+          <h2 className="text-xl font-semibold mb-4">💬 Discusión</h2>
+          {publicacion.id && (
+            <ComentariosPublicacion publicacionId={publicacion.id} />
+          )}
+        </div>
       </div>
     </div>
   );
