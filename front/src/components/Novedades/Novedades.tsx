@@ -12,7 +12,7 @@ import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { Skeleton } from "../ui/skeleton";
 import { CalendarDays, User } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 
 function Novedades() {
   const [paginaActual, setPaginaActual] = useState(1);
