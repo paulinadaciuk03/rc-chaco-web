@@ -54,7 +54,7 @@ function Header() {
           {loggedIn && (
             <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
               <PopoverTrigger asChild>
-                <Avatar onClick={() => setPopoverOpen(!popoverOpen)}>
+                <Avatar>
                   <AvatarFallback>
                     {obtenerIniciales(user?.nombre ?? "")}
                   </AvatarFallback>
@@ -167,7 +167,7 @@ function Header() {
           {loggedIn ? (
             <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
               <PopoverTrigger asChild>
-                <Avatar onClick={() => setPopoverOpen(!popoverOpen)}>
+                <Avatar>
                   <AvatarFallback>
                     {obtenerIniciales(user?.nombre ?? "")}
                   </AvatarFallback>
