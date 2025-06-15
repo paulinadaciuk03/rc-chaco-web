@@ -95,25 +95,33 @@ function Novedades() {
                 key={noticia.id}
                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200"
               >
-                <div className="p-6">
-                  <div className="flex items-start space-x-4">
-                    <Avatar className="h-12 w-12 border">
-                      <AvatarFallback>{obtenerIniciales(noticia.admin?.nombre ?? "")}</AvatarFallback>
-                    </Avatar>
+                <div className="flex flex-col sm:flex-row p-4 sm:p-6 gap-4 sm:gap-6">
+                  {/* Imagen a la izquierda en desktop */}
+                  {noticia.imagen_portada && (
+                    <div className="flex-shrink-0 w-full sm:w-1/3">
+                      <img
+                        src={noticia.imagen_portada}
+                        alt="Imagen portada"
+                        className="rounded-lg w-full h-48 sm:h-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
 
-                    <div className="flex-1 min-w-0">
-                      <h2 className="text-2xl font-bold text-gray-800 mb-2 hover:text-blue-600 transition-colors">
-                        <Link to={`/noticias/${noticia.id}`}>
-                          {noticia.titulo}
-                        </Link>
-                      </h2>
-
-                      <div className="flex items-center text-sm text-gray-500 space-x-4 mb-4">
-                        <span className="flex items-center">
+                  {/* Contenido */}
+                  <div className="flex flex-col flex-1">
+                    <div className="flex items-center gap-3 mb-3">
+                      <Avatar className="h-10 w-10 border">
+                        <AvatarFallback>
+                          {obtenerIniciales(noticia.admin?.nombre ?? "")}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="text-sm text-gray-600">
+                        <div className="flex items-center">
                           <User className="h-4 w-4 mr-1" />
                           {noticia.admin?.nombre || "Administrador"}
-                        </span>
-                        <span className="flex items-center">
+                        </div>
+                        <div className="flex items-center">
                           <CalendarDays className="h-4 w-4 mr-1" />
                           {new Date(
                             noticia.fecha_publicacion
@@ -122,37 +130,30 @@ function Novedades() {
                             month: "long",
                             day: "numeric",
                           })}
-                        </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="mt-4">
-                    <p className="text-gray-700 line-clamp-3">
+                    <h2 className="text-xl sm:text-2xl font-bold text-gray-800 hover:text-blue-600 transition-colors mb-2">
+                      <Link to={`/noticias/${noticia.id}`}>
+                        {noticia.titulo}
+                      </Link>
+                    </h2>
+
+                    <p className="text-gray-700 text-sm sm:text-base line-clamp-3 sm:line-clamp-4 mb-4">
                       {noticia.descripcion}
                     </p>
-                  </div>
 
-                  {noticia.imagen_portada && (
-                    <div className="mt-6">
-                      <img
-                        src={noticia.imagen_portada}
-                        alt="Imagen portada"
-                        className="rounded-lg w-full h-64 object-cover"
-                        loading="lazy"
-                      />
+                    <div>
+                      <Link to={`/noticias/${noticia.id}`}>
+                        <Button
+                          variant="outline"
+                          className="text-sm sm:text-base"
+                        >
+                          Leer noticia completa
+                        </Button>
+                      </Link>
                     </div>
-                  )}
-
-                  <div className="mt-6">
-                    <Link to={`/noticias/${noticia.id}`}>
-                      <Button
-                        variant="outline"
-                        className="text-sm sm:text-base"
-                      >
-                        Leer noticia completa
-                      </Button>
-                    </Link>
                   </div>
                 </div>
               </article>
