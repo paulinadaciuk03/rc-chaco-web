@@ -62,57 +62,70 @@ export default function NoticiaDetalle() {
   if (!noticia)
     return <p className="text-center my-10">Noticia no encontrada</p>;
 
-
-  
-
   return (
-    <div className="max-w-6xl mx-5 md:mx-auto my-10 p-6 border rounded-xl flex flex-col">
-      <h1 className="text-4xl font-bold mb-4">{noticia.titulo}</h1>
-      <p className="text-gray-600 mb-6">
-        {new Date(noticia.fecha_publicacion).toLocaleDateString()}
-      </p>
-      <p className="text-gray-600 mb-2">
-        Publicado por: {noticia.admin?.nombre}
-      </p>
-      <p className="mb-6 whitespace-pre-line break-words">
+    <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 py-10">
+      <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
+        {noticia.titulo}
+      </h1>
+
+      <div className="text-sm text-gray-600 flex flex-wrap items-center gap-4 mb-6 border-b pb-4">
+        <span>
+          📅{" "}
+          {new Date(noticia.fecha_publicacion).toLocaleDateString("es-ES", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </span>
+        <span>
+          👤 Publicado por: {noticia.admin?.nombre || "Administrador"}
+        </span>
+      </div>
+
+      <div className="prose prose-sm sm:prose-base max-w-none text-gray-800 mb-6 whitespace-pre-line">
         {noticia.descripcion}
-      </p>
+      </div>
 
       {noticia.imagenes.length > 0 && (
-        <div>
+        <div className="my-6">
           <Carousel>
             <CarouselContent>
               {noticia.imagenes.map((img, index) => (
-                <CarouselItem key={index}>
+                <CarouselItem key={index} className="flex justify-center">
                   <img
                     src={img.url_imagen}
                     alt={`Imagen ${index + 1}`}
-                    className="rounded-md object-cover w-[500px] mx-auto"
+                    className="rounded-md w-full max-w-[600px] h-auto object-cover"
+                    loading="lazy"
                   />
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2" />
-            <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2" />
+            <CarouselPrevious className="left-2" />
+            <CarouselNext className="right-2" />
           </Carousel>
         </div>
       )}
 
-      {(rol === "admin") && (
-        <div className="mt-8 self-end">
+      {rol === "admin" && (
+        <div className="mt-8 flex justify-end gap-4">
           <Button variant="destructive" onClick={handleEliminar}>
             Eliminar Noticia
           </Button>
           <Button
             variant="outline"
-            className="ml-2"
             onClick={() => navigate(`/editar-noticia/${noticia.id}`)}
           >
             Editar
           </Button>
         </div>
       )}
-       {noticia.id && <ComentariosNoticia noticiaId={noticia.id}/>}
+
+      {noticia.id && (
+        <div className="mt-10">
+          <ComentariosNoticia noticiaId={noticia.id} />
+        </div>
+      )}
     </div>
   );
 }
