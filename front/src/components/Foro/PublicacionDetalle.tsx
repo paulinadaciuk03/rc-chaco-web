@@ -16,7 +16,7 @@ import {
 } from "../ui/carousel";
 import { Button } from "../ui/button";
 import ComentariosPublicacion from "./ComentariosPublicacion";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 import { CalendarDays, User } from "lucide-react";
 
 export default function PublicacionDetalle() {
