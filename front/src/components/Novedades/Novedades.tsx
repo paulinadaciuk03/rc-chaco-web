@@ -134,7 +134,7 @@ function Novedades() {
                       </div>
                     </div>
 
-                    <h2 className="text-xl sm:text-2xl font-bold text-gray-800 hover:text-blue-600 transition-colors mb-2">
+                    <h2 className="text-xl sm:text-2xl font-bold text-gray-800 hover:text-blue-600 transition-colors mb-2 break-words">
                       <Link to={`/noticias/${noticia.id}`}>
                         {noticia.titulo}
                       </Link>

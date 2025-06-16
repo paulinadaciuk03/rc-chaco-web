@@ -97,7 +97,7 @@ export default function ForoPublicaciones() {
 
                   <div className="flex-1">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
-                      <h2 className="text-lg font-semibold text-gray-800 hover:text-blue-600 transition-colors">
+                      <h2 className="text-lg font-semibold text-gray-800 hover:text-blue-600 transition-colors break-words">
                         <Link to={`/publicaciones/${publicacion.id}`}>
                           {publicacion.titulo}
                         </Link>
