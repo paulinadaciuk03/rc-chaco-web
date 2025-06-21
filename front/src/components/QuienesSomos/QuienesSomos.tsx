@@ -78,10 +78,10 @@ function QuienesSomos() {
 
   <div className="flex flex-col-reverse md:flex-row items-center justify-center gap-8 px-4 md:px-10">
     <div className="flex-1 text-center mb-5 md:text-left">
-      <p className="text-stone-600 mb-4 md:text-xl">
+      <p className="text-stone-600 mb-4 md:text-xl text-justify">
         Somos una institución pionera en radiocomunicaciones del Nordeste argentino, fundada el 14 de mayo de 1950 en Resistencia, Chaco. Con más de siete décadas de trayectoria, agrupamos a radioaficionados, técnicos y entusiastas comprometidos con la innovación, el aprendizaje continuo y el servicio a la comunidad.
       </p>
-      <p className="text-stone-600 md:text-xl">
+      <p className="text-stone-600 md:text-xl text-justify">
         En el Chaco Radio Club, transformamos las ondas en conexiones que trascienden distancias: fomentamos la formación técnica, participamos en eventos nacionales e internacionales y colaboramos en emergencias, manteniendo viva la esencia de la radioafición con un enfoque moderno y social.
       </p>
     </div>
@@ -149,7 +149,7 @@ function QuienesSomos() {
         <Separator />
         {/*conecta*/}
         <div data-aos="fade-up">
-          <h1 className="text-3xl font-bold text-sky-950 mx-15 my-5 text-center md:text-xl ">
+          <h1 className="text-3xl font-bold text-sky-950 mx-15 my-5 text-center md:text-5xl ">
             Conectá con nosotros
           </h1>
           <p className="mx-10 text-center text-stone-600 md:text-2xl">
