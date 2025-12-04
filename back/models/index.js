@@ -13,7 +13,6 @@ const databaseUrl = process.env.DATABASE_URL;
 let sequelize;
 
 if (databaseUrl) {
-  console.log("DATABASE_URL =", process.env.DATABASE_URL);
   sequelize = new Sequelize(databaseUrl, {
     dialect: "postgres",
     logging: false,
