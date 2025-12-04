@@ -16,7 +16,7 @@ const cors = require('cors');
 const app = express();
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(cors({ origin: 'https://rc-chaco-web-front.onrender.com' }));
+app.use(cors({ origin: 'http://localhost:5173' }));
 
 app.get('/', (req,res) =>{
     res.send('hola')
