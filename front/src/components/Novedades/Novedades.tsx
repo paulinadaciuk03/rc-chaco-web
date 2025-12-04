@@ -64,101 +64,108 @@ function Novedades() {
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Últimas Novedades
         </h1>
-
-        {loading ? (
-          <div className="space-y-8">
-            {[...Array(3)].map((_, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-lg shadow-md overflow-hidden"
-              >
-                <div className="p-6">
-                  <Skeleton className="h-8 w-3/4 mb-4" />
-                  <div className="flex items-center space-x-4 mb-4">
-                    <Skeleton className="h-10 w-10 rounded-full" />
-                    <Skeleton className="h-4 w-1/3" />
-                  </div>
-                  <div className="space-y-3">
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-5/6" />
-                    <Skeleton className="h-4 w-2/3" />
-                  </div>
-                  <Skeleton className="h-10 w-32 mt-6" />
-                </div>
-              </div>
-            ))}
-          </div>
+        {noticiasData && noticiasData.noticias.length === 0 && !loading ? (
+          <>
+          <p className="text-gray-500 text-center">No hay novedades...</p>
+          </>
         ) : (
-          <div className="space-y-8">
-            {noticiasData?.noticias.map((noticia) => (
-              <article
-                key={noticia.id}
-                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200"
-              >
-                <div className="flex flex-col sm:flex-row p-4 sm:p-6 gap-4 sm:gap-6">
-                  {/* Imagen a la izquierda en desktop */}
-                  {noticia.imagen_portada && (
-                    <div className="flex-shrink-0 w-full sm:w-1/3">
-                      <img
-                        src={noticia.imagen_portada}
-                        alt="Imagen portada"
-                        className="rounded-lg w-full h-48 sm:h-full object-cover"
-                        loading="lazy"
-                      />
+          <>
+            {loading ? (
+              <div className="space-y-8">
+                {[...Array(3)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="bg-white rounded-lg shadow-md overflow-hidden"
+                  >
+                    <div className="p-6">
+                      <Skeleton className="h-8 w-3/4 mb-4" />
+                      <div className="flex items-center space-x-4 mb-4">
+                        <Skeleton className="h-10 w-10 rounded-full" />
+                        <Skeleton className="h-4 w-1/3" />
+                      </div>
+                      <div className="space-y-3">
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-4 w-5/6" />
+                        <Skeleton className="h-4 w-2/3" />
+                      </div>
+                      <Skeleton className="h-10 w-32 mt-6" />
                     </div>
-                  )}
-
-                  {/* Contenido */}
-                  <div className="flex flex-col flex-1">
-                    <div className="flex items-center gap-3 mb-3">
-                      <Avatar className="h-10 w-10 border">
-                        <AvatarFallback>
-                          {obtenerIniciales(noticia.admin?.nombre ?? "")}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="text-sm text-gray-600">
-                        <div className="flex items-center">
-                          <User className="h-4 w-4 mr-1" />
-                          {noticia.admin?.nombre || "Administrador"}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-8">
+                {noticiasData?.noticias.map((noticia) => (
+                  <article
+                    key={noticia.id}
+                    className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200"
+                  >
+                    <div className="flex flex-col sm:flex-row p-4 sm:p-6 gap-4 sm:gap-6">
+                      {/* Imagen a la izquierda en desktop */}
+                      {noticia.imagen_portada && (
+                        <div className="flex-shrink-0 w-full sm:w-1/3">
+                          <img
+                            src={noticia.imagen_portada}
+                            alt="Imagen portada"
+                            className="rounded-lg w-full h-48 sm:h-full object-cover"
+                            loading="lazy"
+                          />
                         </div>
-                        <div className="flex items-center">
-                          <CalendarDays className="h-4 w-4 mr-1" />
-                          {new Date(
-                            noticia.fecha_publicacion
-                          ).toLocaleDateString("es-ES", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })}
+                      )}
+
+                      {/* Contenido */}
+                      <div className="flex flex-col flex-1">
+                        <div className="flex items-center gap-3 mb-3">
+                          <Avatar className="h-10 w-10 border">
+                            <AvatarFallback>
+                              {obtenerIniciales(noticia.admin?.nombre ?? "")}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="text-sm text-gray-600">
+                            <div className="flex items-center">
+                              <User className="h-4 w-4 mr-1" />
+                              {noticia.admin?.nombre || "Administrador"}
+                            </div>
+                            <div className="flex items-center">
+                              <CalendarDays className="h-4 w-4 mr-1" />
+                              {new Date(
+                                noticia.fecha_publicacion
+                              ).toLocaleDateString("es-ES", {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              })}
+                            </div>
+                          </div>
+                        </div>
+
+                        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 hover:text-blue-600 transition-colors mb-2 break-words">
+                          <Link to={`/noticias/${noticia.id}`}>
+                            {noticia.titulo}
+                          </Link>
+                        </h2>
+
+                        <p className="text-gray-700 text-sm sm:text-base line-clamp-3 sm:line-clamp-4 mb-4">
+                          {noticia.descripcion}
+                        </p>
+
+                        <div>
+                          <Link to={`/noticias/${noticia.id}`}>
+                            <Button
+                              variant="outline"
+                              className="text-sm sm:text-base"
+                            >
+                              Leer noticia completa
+                            </Button>
+                          </Link>
                         </div>
                       </div>
                     </div>
-
-                    <h2 className="text-xl sm:text-2xl font-bold text-gray-800 hover:text-blue-600 transition-colors mb-2 break-words">
-                      <Link to={`/noticias/${noticia.id}`}>
-                        {noticia.titulo}
-                      </Link>
-                    </h2>
-
-                    <p className="text-gray-700 text-sm sm:text-base line-clamp-3 sm:line-clamp-4 mb-4">
-                      {noticia.descripcion}
-                    </p>
-
-                    <div>
-                      <Link to={`/noticias/${noticia.id}`}>
-                        <Button
-                          variant="outline"
-                          className="text-sm sm:text-base"
-                        >
-                          Leer noticia completa
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
+                  </article>
+                ))}
+              </div>
+            )}
+          </>
         )}
 
         {noticiasData && noticiasData.totalPages > 1 && (

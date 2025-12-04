@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: 'https://rc-chaco-web.onrender.com/api/v1', 
+  baseURL: 'http://localhost:10000/api/v1', 
   headers: {
     "Content-Type": "application/json",
   },
