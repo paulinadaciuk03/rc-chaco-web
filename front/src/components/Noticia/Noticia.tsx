@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { crearNoticia, NoticiaData } from "../../api/NoticiasService";
-import apiClient from "@/api/axiosConfig";
 import { useUserStore } from "@/store/userStore";
-import { Loader2, Image, AlertCircle } from "lucide-react";
+import { Loader2, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "../ui/alert";
 
 type FormInputs = {
@@ -23,12 +22,13 @@ export default function Noticia() {
     reset,
   } = useForm<FormInputs>();
 
-  const [uploading, setUploading] = useState(false);
-  const [imagenes, setImagenes] = useState<string[]>([]);
+  // const [uploading, setUploading] = useState(false);
+  // const [imagenes, setImagenes] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
-  const user = useUserStore(state => state.user);
+  const user = useUserStore((state) => state.user);
 
+  /* Comentado: handler de subida y utilidades de imagenes
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
@@ -58,6 +58,7 @@ export default function Noticia() {
   const removeImage = (index: number) => {
     setImagenes(prev => prev.filter((_, i) => i !== index));
   };
+  */
 
   const onSubmit = async (data: FormInputs) => {
     if (!user) {
@@ -69,13 +70,13 @@ export default function Noticia() {
       const payload: NoticiaData = {
         ...data,
         admin_id: user.id,
-        imagenes: imagenes.map(url => ({ url_imagen: url })),
+        imagenes: [], // deshabilitado: no enviar imágenes
       };
 
       await crearNoticia(payload);
       setSuccess(true);
       reset();
-      setImagenes([]);
+      // setImagenes([]);
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
       setError("Error al crear la noticia. Por favor intente más tarde.");
@@ -86,8 +87,12 @@ export default function Noticia() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
       <div className="space-y-2 mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-sky-900">Publicar una noticia</h1>
-        <p className="text-gray-600">Comparta información relevante con la comunidad</p>
+        <h1 className="text-2xl sm:text-3xl font-bold text-sky-900">
+          Publicar una noticia
+        </h1>
+        <p className="text-gray-600">
+          Comparta información relevante con la comunidad
+        </p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -98,7 +103,7 @@ export default function Noticia() {
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
-        
+
         {success && (
           <Alert>
             <AlertDescription className="text-green-600">
@@ -112,12 +117,12 @@ export default function Noticia() {
           <Label htmlFor="titulo">Título *</Label>
           <Input
             id="titulo"
-            {...register("titulo", { 
+            {...register("titulo", {
               required: "El título es obligatorio",
               minLength: {
                 value: 5,
-                message: "El título debe tener al menos 5 caracteres"
-              }
+                message: "El título debe tener al menos 5 caracteres",
+              },
             })}
             placeholder="Escriba el título de la noticia"
             className={errors.titulo ? "border-red-500" : ""}
@@ -136,10 +141,12 @@ export default function Noticia() {
               required: "El contenido es obligatorio",
               minLength: {
                 value: 20,
-                message: "El contenido debe tener al menos 20 caracteres"
-              }
+                message: "El contenido debe tener al menos 20 caracteres",
+              },
             })}
-            className={`min-h-[150px] ${errors.descripcion ? "border-red-500" : ""}`}
+            className={`min-h-[150px] ${
+              errors.descripcion ? "border-red-500" : ""
+            }`}
             placeholder="Desarrolle el contenido de la noticia..."
           />
           {errors.descripcion && (
@@ -148,6 +155,7 @@ export default function Noticia() {
         </div>
 
         {/* Campo Imágenes */}
+        {/* 
         <div className="space-y-2">
           <Label htmlFor="imagenes">Imágenes (opcional)</Label>
           <div className="flex items-center gap-4">
@@ -171,7 +179,6 @@ export default function Noticia() {
           </div>
           <p className="text-sm text-gray-500">Máx. 5 imágenes (JPEG, PNG)</p>
           
-          {/* Vista previa de imágenes */}
           {imagenes.length > 0 && (
             <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
               {imagenes.map((imgUrl, idx) => (
@@ -181,26 +188,18 @@ export default function Noticia() {
                     alt={`Imagen ${idx + 1}`}
                     className="w-full h-32 object-cover rounded-lg border"
                   />
-                  <button
-                    type="button"
-                    onClick={() => removeImage(idx)}
-                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                  </button>
                 </div>
               ))}
             </div>
           )}
         </div>
-
+        */}
+        {/* ...existing code... */}
         {/* Botón de envío */}
         <div className="pt-4">
-          <Button 
-            type="submit" 
-            disabled={isSubmitting || uploading}
+          <Button
+            type="submit"
+            disabled={isSubmitting}
             className="w-full sm:w-auto"
           >
             {isSubmitting ? (

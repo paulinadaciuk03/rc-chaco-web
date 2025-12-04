@@ -1,10 +1,9 @@
-import apiClient from "@/api/axiosConfig";
 import { crearPublicacion, PublicacionData } from "@/api/PublicacionesService";
 import { useUserStore } from "@/store/userStore";
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Alert, AlertDescription } from "../ui/alert";
-import { AlertCircle, Image, Loader2 } from "lucide-react";
+import { AlertCircle, Loader2 } from "lucide-react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
@@ -23,12 +22,13 @@ export default function Publicacion() {
     reset,
   } = useForm<FormInputs>();
 
-  const [uploading, setUploading] = useState(false);
-  const [imagenes, setImagenes] = useState<string[]>([]);
+  // const [uploading, setUploading] = useState(false);
+  // const [imagenes, setImagenes] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const user = useUserStore((state) => state.user);
 
+  /* Comentado: subida y manejo de imágenes
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
@@ -58,6 +58,7 @@ export default function Publicacion() {
   const removeImage = (index: number) => {
     setImagenes((prev) => prev.filter((_, i) => i !== index));
   };
+  */
 
   const onSubmit = async (data: FormInputs) => {
     if (!user) {
@@ -69,13 +70,13 @@ export default function Publicacion() {
       const payload: PublicacionData = {
         ...data,
         usuario_id: user.id,
-        imagenes: imagenes.map((url) => ({ url_imagen: url })),
+        imagenes: [], // deshabilitado: no enviar imágenes
       };
 
       await crearPublicacion(payload);
       setSuccess(true);
       reset();
-      setImagenes([]);
+      // setImagenes([]);
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
       setError("Error al crear la publicación. Por favor intente más tarde.");
@@ -154,6 +155,7 @@ export default function Publicacion() {
         </div>
 
         {/* Campo Imágenes */}
+        {/*
         <div className="space-y-2">
           <Label htmlFor="imagenes">Imágenes (opcional)</Label>
           <div className="flex items-center gap-4">
@@ -177,7 +179,6 @@ export default function Publicacion() {
           </div>
           <p className="text-sm text-gray-500">Máx. 5 imágenes (JPEG, PNG)</p>
 
-          {/* Vista previa de imágenes */}
           {imagenes.length > 0 && (
             <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
               {imagenes.map((imgUrl, idx) => (
@@ -210,12 +211,13 @@ export default function Publicacion() {
             </div>
           )}
         </div>
+        */}
 
         {/* Botón de envío */}
         <div className="pt-4">
           <Button
             type="submit"
-            disabled={isSubmitting || uploading}
+            disabled={isSubmitting /*|| uploading */}
             className="w-full sm:w-auto"
           >
             {isSubmitting ? (

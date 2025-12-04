@@ -1,89 +1,57 @@
-import apiClient from '@/api/axiosConfig';
-import { getPublicacionById, PublicacionData, updatePublicacion } from '@/api/PublicacionesService';
-import { useUserStore } from '@/store/userStore';
-import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
-import { toast } from 'sonner';
-import { Alert, AlertDescription } from '../ui/alert';
-import { AlertCircle, Image, Loader2 } from 'lucide-react';
-import { Label } from '../ui/label';
-import { Input } from '../ui/input';
-import { Textarea } from '../ui/textarea';
-import { Button } from '../ui/button';
+import {
+  getPublicacionById,
+  PublicacionData,
+  updatePublicacion,
+} from "@/api/PublicacionesService";
+import { useUserStore } from "@/store/userStore";
+import  { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
+import { Alert, AlertDescription } from "../ui/alert";
+import { Loader2 } from "lucide-react";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
+import { Button } from "../ui/button";
 
 type FormInputs = {
-    titulo: string;
-    descripcion: string;
-  };
+  titulo: string;
+  descripcion: string;
+};
 
 export default function PublicacionEditar() {
-    const { id } = useParams();
-    const {
-      register,
-      handleSubmit,
-      formState: { errors, isSubmitting },
-      reset,
-    } = useForm<FormInputs>({
-      defaultValues: {
-        titulo: "",
-        descripcion: "",
-      },
-    });
-    const user = useUserStore((state) => state.user);
-    const [uploading, setUploading] = useState(false);
-    const [imagenes, setImagenes] = useState<string[]>([]);
-    const [error, setError] = useState<string | null>(null);
-    const success = false;
-    const navigate = useNavigate();
+  const { id } = useParams();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<FormInputs>({
+    defaultValues: {
+      titulo: "",
+      descripcion: "",
+    },
+  });
+  const user = useUserStore((state) => state.user);
+  const success = false;
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        if (id) {
-          getPublicacionById(parseInt(id))
-            .then((data) => {
-              reset({
-                titulo: data.titulo,
-                descripcion: data.descripcion,
-              });
-              setImagenes(data.imagenes.map((img) => img.url_imagen));
-            })
-            .catch((error) => {
-              console.error("Error al cargar la publicación:", error);
-              toast.error("Error al cargar la publicación para editar.");
-            });
-        }
-      }, [id, reset]);
-
-
-   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-
-    setUploading(true);
-    setError(null);
-
-    try {
-      const formData = new FormData();
-      Array.from(files).forEach((file) => {
-        formData.append("imagenes", file);
-      });
-
-      const response = await apiClient.post("/uploads/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      setImagenes(prev => [...prev, ...response.data.urls]);
-    } catch (err) {
-      setError("Error al subir las imágenes. Intente nuevamente.");
-      console.error("Error al subir imágenes:", err);
-    } finally {
-      setUploading(false);
+  useEffect(() => {
+    if (id) {
+      getPublicacionById(parseInt(id))
+        .then((data) => {
+          reset({
+            titulo: data.titulo,
+            descripcion: data.descripcion,
+          });
+        })
+        .catch((error) => {
+          console.error("Error al cargar la publicación:", error);
+          toast.error("Error al cargar la publicación para editar.");
+        });
     }
-  };
-
-  const removeImage = (index: number) => {
-    setImagenes(prev => prev.filter((_, i) => i !== index));
-  };
+  }, [id, reset]);
 
   const onSubmit = async (data: FormInputs) => {
     try {
@@ -92,7 +60,7 @@ export default function PublicacionEditar() {
       const payload: PublicacionData = {
         ...data,
         usuario_id: user.id,
-        imagenes: imagenes.map((url) => ({ url_imagen: url })),
+        imagenes: [], // deshabilitado: no enviar imágenes
       };
 
       if (!id) throw new Error("ID no encontrado");
@@ -107,69 +75,68 @@ export default function PublicacionEditar() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-    <div className="space-y-2 mb-8">
-      <h1 className="text-2xl sm:text-3xl font-bold text-sky-900">Editar publicación</h1>
-      <p className="text-gray-600">Comparta información relevante con la comunidad</p>
-    </div>
-
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {/* Mensajes de estado */}
-      {error && (
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
-      
-      {success && (
-        <Alert>
-          <AlertDescription className="text-green-600">
-            Publicada con éxito!
-          </AlertDescription>
-        </Alert>
-      )}
-
-      {/* Campo Título */}
-      <div className="space-y-2">
-        <Label htmlFor="titulo">Título *</Label>
-        <Input
-          id="titulo"
-          {...register("titulo", { 
-            required: "El título es obligatorio",
-            minLength: {
-              value: 5,
-              message: "El título debe tener al menos 5 caracteres"
-            }
-          })}
-          placeholder="Escriba el título de la publicación"
-          className={errors.titulo ? "border-red-500" : ""}
-        />
-        {errors.titulo && (
-          <p className="text-sm text-red-600">{errors.titulo.message}</p>
-        )}
+      <div className="space-y-2 mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-sky-900">
+          Editar publicación
+        </h1>
+        <p className="text-gray-600">
+          Comparta información relevante con la comunidad
+        </p>
       </div>
 
-      {/* Campo Contenido */}
-      <div className="space-y-2">
-        <Label htmlFor="descripcion">Contenido *</Label>
-        <Textarea
-          id="descripcion"
-          {...register("descripcion", {
-            required: "El contenido es obligatorio",
-            minLength: {
-              value: 20,
-              message: "El contenido debe tener al menos 20 caracteres"
-            }
-          })}
-          className={`min-h-[150px] ${errors.descripcion ? "border-red-500" : ""}`}
-          placeholder="Desarrolle el contenido de la publicación..."
-        />
-        {errors.descripcion && (
-          <p className="text-sm text-red-600">{errors.descripcion.message}</p>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        {success && (
+          <Alert>
+            <AlertDescription className="text-green-600">
+              Publicada con éxito!
+            </AlertDescription>
+          </Alert>
         )}
-      </div>
 
-      {/* Campo Imágenes */}
+        {/* Campo Título */}
+        <div className="space-y-2">
+          <Label htmlFor="titulo">Título *</Label>
+          <Input
+            id="titulo"
+            {...register("titulo", {
+              required: "El título es obligatorio",
+              minLength: {
+                value: 5,
+                message: "El título debe tener al menos 5 caracteres",
+              },
+            })}
+            placeholder="Escriba el título de la publicación"
+            className={errors.titulo ? "border-red-500" : ""}
+          />
+          {errors.titulo && (
+            <p className="text-sm text-red-600">{errors.titulo.message}</p>
+          )}
+        </div>
+
+        {/* Campo Contenido */}
+        <div className="space-y-2">
+          <Label htmlFor="descripcion">Contenido *</Label>
+          <Textarea
+            id="descripcion"
+            {...register("descripcion", {
+              required: "El contenido es obligatorio",
+              minLength: {
+                value: 20,
+                message: "El contenido debe tener al menos 20 caracteres",
+              },
+            })}
+            className={`min-h-[150px] ${
+              errors.descripcion ? "border-red-500" : ""
+            }`}
+            placeholder="Desarrolle el contenido de la publicación..."
+          />
+          {errors.descripcion && (
+            <p className="text-sm text-red-600">{errors.descripcion.message}</p>
+          )}
+        </div>
+
+        {/* Campo Imágenes (comentado) */}
+        {/*
       <div className="space-y-2">
         <Label htmlFor="imagenes">Imágenes (opcional)</Label>
         <div className="flex items-center gap-4">
@@ -193,7 +160,6 @@ export default function PublicacionEditar() {
         </div>
         <p className="text-sm text-gray-500">Máx. 5 imágenes (JPEG, PNG)</p>
         
-        {/* Vista previa de imágenes */}
         {imagenes.length > 0 && (
           <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
             {imagenes.map((imgUrl, idx) => (
@@ -217,25 +183,26 @@ export default function PublicacionEditar() {
           </div>
         )}
       </div>
+      */}
 
-      {/* Botón de envío */}
-      <div className="pt-4">
-        <Button 
-          type="submit" 
-          disabled={isSubmitting || uploading}
-          className="w-full sm:w-auto"
-        >
-          {isSubmitting ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Publicando...
-            </>
-          ) : (
-            "Editar publicación"
-          )}
-        </Button>
-      </div>
+        {/* Botón de envío */}
+        <div className="pt-4">
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full sm:w-auto"
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Publicando...
+              </>
+            ) : (
+              "Editar publicación"
+            )}
+          </Button>
+        </div>
       </form>
-  </div>
-  )
+    </div>
+  );
 }
