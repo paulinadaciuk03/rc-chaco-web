@@ -62,7 +62,7 @@ router.post("/login", async (req, res) => {
         email,
         username,
         password_hash: null,
-        rol_id: 1 
+        rol_id: 2 
       });
   
       const { password_hash: _, ...userSinPassword } = nuevoUsuario.toJSON();
