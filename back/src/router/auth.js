@@ -6,6 +6,11 @@ const { Resend } = require("resend");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
+router.get("/debug-roles", async (req, res) => {
+  const roles = await Roles.findAll();
+  res.json(roles);
+});
+
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
