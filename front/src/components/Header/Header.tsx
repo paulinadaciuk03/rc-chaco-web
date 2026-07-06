@@ -18,7 +18,9 @@ function Header() {
 
   const handleLogout = () => {
     logout();
-    window.location.href = "/";
+    setUserMenuOpen(false);
+    setMenuOpen(false);
+    navigate("/");
   };
 
   const handleNavigate = (path: string) => {

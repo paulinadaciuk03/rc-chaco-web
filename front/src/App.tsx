@@ -26,6 +26,7 @@ import Publicacion from "./components/Foro/Publicacion";
 import Publicaciones from "./components/Foro/Publicaciones";
 import PublicacionDetalle from "./components/Foro/PublicacionDetalle";
 import PublicacionEditar from "./components/Foro/PublicacionEditar";
+import ScrollToTop from "./components/ScrollToTop";
 
 function InitUserStore() {
   const setUser = useUserStore((state) => state.setUser);
@@ -55,6 +56,7 @@ function App() {
     <>
       <InitUserStore />
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route element={<MainLayout />}>
             <Route path="/" element={<Inicio></Inicio>}></Route>
