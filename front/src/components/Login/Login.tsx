@@ -3,6 +3,7 @@ import { useState } from "react";
 import Alerta from "../Alerta/Alerta";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { PasswordInput } from "../ui/password-input";
 import { Label } from "../ui/label";
 import {
   Dialog,
@@ -85,7 +86,7 @@ function Login() {
             <Input {...register("email")} type="email" />
 
             <Label className="m-2">Contraseña</Label>
-            <Input {...register("password")} type="password" />
+            <PasswordInput {...register("password")} />
 
             <Button className="w-full mt-5 mb-2">Ingresar</Button>
 

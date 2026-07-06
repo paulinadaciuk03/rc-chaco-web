@@ -1,4 +1,4 @@
-import { Input } from "../ui/input";
+import { PasswordInput } from "../ui/password-input";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
@@ -34,7 +34,7 @@ export default function CambiarPass() {
     );
 
     if (result.success) {
-      toast.success("Contraseña actualizada");
+      toast.success("¡Contraseña cambiada con éxito!");
       reset();
     } else {
       toast.error(result.message || "Error al cambiar la contraseña");
@@ -51,8 +51,7 @@ export default function CambiarPass() {
       <h1 className="text-2xl text-sky-950 font-bold">Cambiar contraseña</h1>
 
       <div className="flex flex-col gap-1 max-w-[250px] w-full">
-        <Input
-          type="password"
+        <PasswordInput
           placeholder="Contraseña actual"
           {...register("currentPassword", { required: "Campo obligatorio" })}
         />
@@ -64,8 +63,7 @@ export default function CambiarPass() {
       </div>
 
       <div className="flex flex-col gap-1 max-w-[250px] w-full">
-        <Input
-          type="password"
+        <PasswordInput
           placeholder="Contraseña nueva"
           {...register("newPassword", {
             required: "Campo obligatorio",
@@ -80,8 +78,7 @@ export default function CambiarPass() {
       </div>
 
       <div className="flex flex-col gap-1 max-w-[250px] w-full">
-        <Input
-          type="password"
+        <PasswordInput
           placeholder="Repita la nueva contraseña"
           {...register("confirmPassword", {
             required: "Campo obligatorio",
