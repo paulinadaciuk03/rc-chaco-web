@@ -1,53 +1,10 @@
 const router = require("express").Router();
-const { Usuarios, Roles, sequelize } = require("../model");
+const { Usuarios, Roles } = require("../model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { Resend } = require("resend");
 
 const JWT_SECRET = process.env.JWT_SECRET;
-
-router.get("/debug-fks", async (req, res) => {
-  const [rows] = await sequelize.query(`
-    SELECT
-      tc.constraint_name, tc.table_name, kcu.column_name, rc.delete_rule, ccu.table_name AS references_table
-    FROM information_schema.table_constraints tc
-    JOIN information_schema.key_column_usage kcu ON tc.constraint_name = kcu.constraint_name
-    JOIN information_schema.referential_constraints rc ON tc.constraint_name = rc.constraint_name
-    JOIN information_schema.constraint_column_usage ccu ON rc.unique_constraint_name = ccu.constraint_name
-    WHERE tc.constraint_type = 'FOREIGN KEY'
-    ORDER BY tc.table_name
-  `);
-  res.json(rows);
-});
-
-router.post("/debug-fix-fks-2", async (req, res) => {
-  try {
-    await sequelize.query(`
-      ALTER TABLE comentarios_publicacion
-        DROP CONSTRAINT comentarios_publicacion_publicacion_id_fkey,
-        ADD CONSTRAINT comentarios_publicacion_publicacion_id_fkey
-          FOREIGN KEY (publicacion_id) REFERENCES publicaciones(id)
-          ON UPDATE CASCADE ON DELETE CASCADE;
-    `);
-    await sequelize.query(`
-      ALTER TABLE noticia_imagenes
-        DROP CONSTRAINT noticia_imagenes_noticia_id_fkey,
-        ADD CONSTRAINT noticia_imagenes_noticia_id_fkey
-          FOREIGN KEY (noticia_id) REFERENCES noticias(id)
-          ON UPDATE CASCADE ON DELETE CASCADE;
-    `);
-    await sequelize.query(`
-      ALTER TABLE publicacion_imagenes
-        DROP CONSTRAINT publicacion_imagenes_publicacion_id_fkey,
-        ADD CONSTRAINT publicacion_imagenes_publicacion_id_fkey
-          FOREIGN KEY (publicacion_id) REFERENCES publicaciones(id)
-          ON UPDATE CASCADE ON DELETE CASCADE;
-    `);
-    res.json({ ok: true, message: "Constraints actualizadas a CASCADE" });
-  } catch (error) {
-    res.status(500).json({ ok: false, message: error.message });
-  }
-});
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
