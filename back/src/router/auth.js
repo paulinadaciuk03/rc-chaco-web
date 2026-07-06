@@ -2,7 +2,7 @@ const router = require("express").Router();
 const { Usuarios, Roles } = require("../model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -141,15 +141,7 @@ router.post("/asignar-password", async (req, res) => {
 });
 
 async function sendPasswordEmail(email, passwordTemporal) {
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true, // obligatorio en 465
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS, // App Password
-    },
-  });
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
   const htmlContent = `
       <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; color: #333;">
@@ -167,8 +159,8 @@ async function sendPasswordEmail(email, passwordTemporal) {
       </div>
     `;
 
-  await transporter.sendMail({
-    from: `"Soporte Chaco Radio Club" <${process.env.EMAIL_USER}>`,
+  await resend.emails.send({
+    from: `Soporte Chaco Radio Club <${process.env.RESEND_FROM_EMAIL}>`,
     to: email,
     subject: "Tu contraseña temporal",
     html: htmlContent,
