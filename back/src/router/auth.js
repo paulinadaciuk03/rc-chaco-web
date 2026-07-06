@@ -6,11 +6,6 @@ const { Resend } = require("resend");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-router.get("/debug-roles", async (req, res) => {
-  const roles = await Roles.findAll();
-  res.json(roles);
-});
-
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -24,16 +19,16 @@ router.post("/login", async (req, res) => {
       },
     });
 
-    if (user.rol_id === 1) {
+    if (!user) {
+      return res.status(401).json({ message: "usuario no encontrado" });
+    }
+
+    if (user.rol?.rol === "pendiente") {
       return res
         .status(401)
         .json({
           message: "No se le ha asignado una contraseña a este usuario",
         });
-    }
-
-    if (!user) {
-      return res.status(401).json({ message: "usuario no encontrado" });
     }
 
     const match = await bcrypt.compare(password, user.password_hash);
@@ -66,12 +61,14 @@ router.post("/register", async (req, res) => {
       return res.status(409).json({ message: "El email ya está registrado" });
     }
 
+    const rolPendiente = await Roles.findOne({ where: { rol: "pendiente" } });
+
     const nuevoUsuario = await Usuarios.create({
       nombre,
       email,
       username,
       password_hash: null,
-      rol_id: 2,
+      rol_id: rolPendiente.id,
     });
 
     const { password_hash: _, ...userSinPassword } = nuevoUsuario.toJSON();
@@ -131,14 +128,10 @@ router.post("/asignar-password", async (req, res) => {
     }
 
     await asignarPasswordTemporal(user);
-    await user.reload();
-    res.json({
-      message: "Contraseña asignada y enviada por correo",
-      debug_rol_id: user.rol_id,
-    });
+    res.json({ message: "Contraseña asignada y enviada por correo" });
   } catch (error) {
     console.error("Error asignando contraseña", error);
-    res.status(500).json({ message: "Error interno del servidor", debug_error: error.message });
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 });
 
@@ -169,9 +162,10 @@ router.post("/forgot-password", async (req, res) => {
 async function asignarPasswordTemporal(user) {
   const tempPassword = Math.random().toString(36).slice(-8);
   const hashedPassword = await bcrypt.hash(tempPassword, 10);
+  const rolUsuario = await Roles.findOne({ where: { rol: "usuario" } });
 
   user.password_hash = hashedPassword;
-  user.rol_id = 2;
+  user.rol_id = rolUsuario.id;
   await user.save();
 
   await sendPasswordEmail(user.email, tempPassword);
