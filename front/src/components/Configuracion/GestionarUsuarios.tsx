@@ -80,6 +80,8 @@ import { toast } from "sonner";
       try {
           await asignarPassword(id);
           toast.success("Contraseña enviada");
+          fetchUsuariosPorRol("usuario", paginaUsuario, setUsuariosUsuario);
+          fetchUsuariosPorRol("pendiente", paginaPendiente, setUsuariosPendiente);
       } catch (error) {
           toast.error("Error al asignar la contraseña");
           console.log(error);
