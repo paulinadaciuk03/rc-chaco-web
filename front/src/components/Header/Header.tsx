@@ -173,9 +173,14 @@ function Header() {
               {userMenuOpen && renderUserMenu()}
             </div>
           ) : (
-            <Link to="/register" className="text-red-700 hover:text-red-500">
-              ¡Asociate!
-            </Link>
+            <>
+              <Link to="/login" className="hover:text-stone-500">
+                Iniciar sesión
+              </Link>
+              <Link to="/register" className="text-red-700 hover:text-red-500">
+                ¡Asociate!
+              </Link>
+            </>
           )}
         </nav>
       </div>
@@ -219,13 +224,22 @@ function Header() {
             Foro
           </Link>
           {!loggedIn && (
-            <Link
-              to="/register"
-              onClick={() => handleNavigate("/register")}
-              className="text-red-700 hover:text-red-500"
-            >
-              ¡Asociate!
-            </Link>
+            <>
+              <Link
+                to="/login"
+                onClick={() => handleNavigate("/login")}
+                className="block hover:text-stone-500"
+              >
+                Iniciar sesión
+              </Link>
+              <Link
+                to="/register"
+                onClick={() => handleNavigate("/register")}
+                className="text-red-700 hover:text-red-500"
+              >
+                ¡Asociate!
+              </Link>
+            </>
           )}
         </div>
       )}
