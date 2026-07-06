@@ -9,7 +9,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 router.get("/debug-fks", async (req, res) => {
   const [rows] = await sequelize.query(`
     SELECT
-      tc.table_name, kcu.column_name, rc.delete_rule, ccu.table_name AS references_table
+      tc.constraint_name, tc.table_name, kcu.column_name, rc.delete_rule, ccu.table_name AS references_table
     FROM information_schema.table_constraints tc
     JOIN information_schema.key_column_usage kcu ON tc.constraint_name = kcu.constraint_name
     JOIN information_schema.referential_constraints rc ON tc.constraint_name = rc.constraint_name
