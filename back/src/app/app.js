@@ -16,7 +16,7 @@ const cors = require('cors');
 const app = express();
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(cors({ origin: 'https://dazzling-dedication-production-c456.up.railway.app/' }));
+app.use(cors({ origin: 'https://dazzling-dedication-production-c456.up.railway.app' }));
 
 app.get('/', (req,res) =>{
     res.send('hola')
