@@ -11,8 +11,9 @@ import { getNoticias, NoticiasPaginadas } from "../../api/NoticiasService";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { Skeleton } from "../ui/skeleton";
-import { CalendarDays, User } from "lucide-react";
+import { CalendarDays, Plus, User } from "lucide-react";
 import { Avatar, AvatarFallback } from "../ui/avatar";
+import { useUserStore } from "@/store/userStore";
 
 function Novedades() {
   const [paginaActual, setPaginaActual] = useState(1);
@@ -20,6 +21,7 @@ function Novedades() {
     null
   );
   const [loading, setLoading] = useState(true);
+  const user = useUserStore((state) => state.user);
 
   useEffect(() => {
     setLoading(true);
@@ -61,9 +63,19 @@ function Novedades() {
   return (
     <div className="px-4 sm:px-4 lg:px-8">
       <div className="max-w-4xl mx-auto my-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+        <h1 className="text-3xl font-bold text-gray-800 mb-4 text-center">
           Últimas Novedades
         </h1>
+        {user?.rol === "admin" && (
+          <div className="flex justify-end mb-6">
+            <Link to="/publicar-noticia">
+              <Button className="gap-2">
+                <Plus className="h-4 w-4" />
+                Publicar noticia
+              </Button>
+            </Link>
+          </div>
+        )}
         {noticiasData && noticiasData.noticias.length === 0 && !loading ? (
           <>
           <p className="text-gray-500 text-center">No hay novedades...</p>

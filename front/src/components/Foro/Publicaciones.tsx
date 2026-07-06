@@ -15,12 +15,15 @@ import {
   PaginationPrevious,
 } from "../ui/pagination";
 import { Avatar, AvatarFallback } from "../ui/avatar";
+import { Plus } from "lucide-react";
+import { useUserStore } from "@/store/userStore";
 
 export default function ForoPublicaciones() {
   const [paginaActual, setPaginaActual] = useState(1);
   const [publicacionesData, setPublicacionesData] =
     useState<PublicacionesPaginadas | null>(null);
   const [loading, setLoading] = useState(true);
+  const user = useUserStore((state) => state.user);
 
   useEffect(() => {
     setLoading(true);
@@ -62,9 +65,19 @@ export default function ForoPublicaciones() {
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto py-8">
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-4">
           Foro de la Comunidad
         </h1>
+        {user && (
+          <div className="flex justify-end mb-6">
+            <Link to="/publicar">
+              <Button className="gap-2">
+                <Plus className="h-4 w-4" />
+                Nueva publicación
+              </Button>
+            </Link>
+          </div>
+        )}
 
         {publicacionesData &&
         publicacionesData.publicaciones.length === 0 &&
