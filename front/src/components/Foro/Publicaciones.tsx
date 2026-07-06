@@ -17,6 +17,7 @@ import {
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Plus } from "lucide-react";
 import { useUserStore } from "@/store/userStore";
+import { toast } from "sonner";
 
 export default function ForoPublicaciones() {
   const [paginaActual, setPaginaActual] = useState(1);
@@ -35,6 +36,7 @@ export default function ForoPublicaciones() {
       })
       .catch((error) => {
         console.error("Error al cargar publicaciones:", error);
+        toast.error("No se pudieron cargar las publicaciones");
         setLoading(false);
       });
   }, [paginaActual]);
@@ -66,7 +68,7 @@ export default function ForoPublicaciones() {
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto py-8">
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-4">
+        <h1 className="text-3xl font-bold text-center text-sky-900 mb-4">
           Foro de la Comunidad
         </h1>
         {user && (

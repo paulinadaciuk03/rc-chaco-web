@@ -7,8 +7,10 @@ import { Button } from "../ui/button";
 import { crearNoticia, NoticiaData } from "../../api/NoticiasService";
 import { subirImagenes } from "../../api/UploadService";
 import { useUserStore } from "@/store/userStore";
-import { Loader2, AlertCircle, Image } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Loader2, AlertCircle, Image, ArrowLeft } from "lucide-react";
 import { Alert, AlertDescription } from "../ui/alert";
+import { toast } from "sonner";
 
 type FormInputs = {
   titulo: string;
@@ -26,8 +28,8 @@ export default function Noticia() {
   const [uploading, setUploading] = useState(false);
   const [imagenes, setImagenes] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
   const user = useUserStore((state) => state.user);
+  const navigate = useNavigate();
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -64,11 +66,11 @@ export default function Noticia() {
         imagenes: imagenes.map((url_imagen) => ({ url_imagen })),
       };
 
-      await crearNoticia(payload);
-      setSuccess(true);
+      const noticia = await crearNoticia(payload);
+      toast.success("Noticia publicada con éxito");
       reset();
       setImagenes([]);
-      setTimeout(() => setSuccess(false), 3000);
+      navigate(`/noticias/${noticia.id}`);
     } catch (err) {
       setError("Error al crear la noticia. Por favor intente más tarde.");
       console.error("Error al crear la noticia:", err);
@@ -77,6 +79,15 @@ export default function Noticia() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <button
+        type="button"
+        onClick={() => navigate("/novedades")}
+        className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-sky-900 transition-colors mb-6"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Volver a Novedades
+      </button>
+
       <div className="space-y-2 mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold text-sky-900">
           Publicar una noticia
@@ -92,14 +103,6 @@ export default function Noticia() {
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
-
-        {success && (
-          <Alert>
-            <AlertDescription className="text-green-600">
-              Noticia publicada con éxito!
-            </AlertDescription>
           </Alert>
         )}
 

@@ -140,7 +140,10 @@ export default function Inscripciones() {
         setInscripciones(data);
         if (data.currentPage !== paginaActual) setPaginaActual(data.currentPage);
       })
-      .catch((error) => console.error("Error al cargar inscripciones", error));
+      .catch((error) => {
+        console.error("Error al cargar inscripciones", error);
+        toast.error("No se pudieron cargar las inscripciones");
+      });
   };
 
   const actualizarEstado = async (id: number, estado: string) => {

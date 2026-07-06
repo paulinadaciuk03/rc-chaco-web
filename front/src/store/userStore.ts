@@ -14,10 +14,21 @@ export interface UserState {
     clearUser: () => void;
     logout: () => void;
     isLoggedIn: boolean;
+  }
+
+function getStoredUser(): Usuario | null {
+  try {
+    const storedUserStr = localStorage.getItem("user");
+    return storedUserStr ? JSON.parse(storedUserStr) : null;
+  } catch {
+    return null;
+  }
 }
 
+const initialUser = getStoredUser();
+
 export const useUserStore = create<UserState>((set) => ({
-    user: null,
+    user: initialUser,
     setUser: (user) => set({ user, isLoggedIn: !!user }),
     clearUser: () => set({ user: null, isLoggedIn:false }),
     logout: () => {
@@ -25,5 +36,5 @@ export const useUserStore = create<UserState>((set) => ({
         localStorage.removeItem("user");
         set({ user: null, isLoggedIn: false });
       },
-      isLoggedIn: false,
+      isLoggedIn: !!initialUser,
   }));

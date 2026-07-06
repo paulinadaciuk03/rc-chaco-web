@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { Alert, AlertDescription } from "../ui/alert";
-import { Loader2, Image } from "lucide-react";
+import { Loader2, Image, ArrowLeft } from "lucide-react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
@@ -91,7 +91,7 @@ export default function PublicacionEditar() {
       if (!id) throw new Error("ID no encontrado");
       await updatePublicacion(parseInt(id), payload);
       toast.success("Publicación editada con éxito");
-      navigate("/publicaciones");
+      navigate(`/publicaciones/${id}`);
     } catch (error) {
       console.error("Error al editar la publicación:", error);
       toast.error("Ocurrió un error al editar la publicación");
@@ -100,6 +100,15 @@ export default function PublicacionEditar() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <button
+        type="button"
+        onClick={() => navigate(id ? `/publicaciones/${id}` : "/publicaciones")}
+        className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-sky-900 transition-colors mb-6"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Volver
+      </button>
+
       <div className="space-y-2 mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold text-sky-900">
           Editar publicación

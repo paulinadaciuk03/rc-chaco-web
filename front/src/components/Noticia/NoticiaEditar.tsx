@@ -13,7 +13,7 @@ import { subirImagenes } from "../../api/UploadService";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUserStore } from "@/store/userStore";
 
-import { Loader2, Image } from "lucide-react";
+import { Loader2, Image, ArrowLeft } from "lucide-react";
 import { Alert, AlertDescription } from "../ui/alert";
 import { toast } from "sonner";
 type FormInputs = {
@@ -91,7 +91,7 @@ export default function NoticiaEditar() {
       if (!id) throw new Error("ID no encontrado");
       await updateNoticia(parseInt(id), payload);
       toast.success("Noticia editada con éxito");
-      navigate("/novedades");
+      navigate(`/noticias/${id}`);
     } catch (error) {
       console.error("Error al editar la noticia:", error);
       toast.error("Ocurrió un error al editar la noticia");
@@ -100,6 +100,15 @@ export default function NoticiaEditar() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <button
+        type="button"
+        onClick={() => navigate(id ? `/noticias/${id}` : "/novedades")}
+        className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-sky-900 transition-colors mb-6"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Volver
+      </button>
+
       <div className="space-y-2 mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold text-sky-900">
           Editar noticia

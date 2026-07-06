@@ -5,6 +5,7 @@ import { Label } from "../ui/label";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { registro } from "@/api/auth";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 interface RegisterInput {
   nombre: string;
@@ -14,7 +15,12 @@ interface RegisterInput {
 }
 
 function Register() {
-  const { register, handleSubmit, reset } = useForm<RegisterInput>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterInput>();
 
   const onSubmit: SubmitHandler<RegisterInput> = async (data) => {
     const nuevoUser = {
@@ -47,37 +53,71 @@ function Register() {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="md:flex">
-              <div>
-                <Label htmlFor="text" className="m-2">
+              <div className="flex-1">
+                <Label htmlFor="nombre" className="m-2">
                   Nombre
                 </Label>
-                <Input {...register("nombre")} required></Input>
+                <Input
+                  id="nombre"
+                  {...register("nombre", { required: "El nombre es obligatorio" })}
+                  className={errors.nombre ? "border-red-500" : ""}
+                />
+                {errors.nombre && (
+                  <p className="text-sm text-red-600 mx-2 mt-1">{errors.nombre.message}</p>
+                )}
               </div>
-              <div className=" md:ml-4 ">
-                <Label htmlFor="text" className="m-2">
+              <div className="flex-1 md:ml-4">
+                <Label htmlFor="apellido" className="m-2">
                   Apellido
                 </Label>
-                <Input {...register("apellido")} required></Input>
+                <Input
+                  id="apellido"
+                  {...register("apellido", { required: "El apellido es obligatorio" })}
+                  className={errors.apellido ? "border-red-500" : ""}
+                />
+                {errors.apellido && (
+                  <p className="text-sm text-red-600 mx-2 mt-1">{errors.apellido.message}</p>
+                )}
               </div>
             </div>
-            <Label htmlFor="text" className="m-2">
+            <Label htmlFor="username" className="m-2">
               Nombre de Usuario
             </Label>
             <Input
+              id="username"
               {...register("username", {
-                required: true,
+                required: "El nombre de usuario es obligatorio",
                 pattern: {
-                  value: /^\S+$/, 
+                  value: /^\S+$/,
                   message: "El nombre de usuario no puede contener espacios",
                 },
               })}
+              className={errors.username ? "border-red-500" : ""}
             />
+            {errors.username && (
+              <p className="text-sm text-red-600 mx-2 mt-1">{errors.username.message}</p>
+            )}
             <Label htmlFor="email" className="m-2">
               Mail
             </Label>
-            <Input {...register("email")} required></Input>
-            <Button className="w-full mt-5 mb-2" type="submit">
-              Enviar
+            <Input
+              id="email"
+              type="email"
+              {...register("email", { required: "El email es obligatorio" })}
+              className={errors.email ? "border-red-500" : ""}
+            />
+            {errors.email && (
+              <p className="text-sm text-red-600 mx-2 mt-1">{errors.email.message}</p>
+            )}
+            <Button className="w-full mt-5 mb-2" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Enviando...
+                </>
+              ) : (
+                "Enviar"
+              )}
             </Button>
           </form>
           <p className="text-center">

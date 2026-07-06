@@ -161,7 +161,7 @@ function QuienesSomos() {
               <div className="flex mx-10 items-center">
                 <img src={pin} alt="" className="w-10" />
                 <CardHeader className="text-2xl font-bold text-stone-800 md:text-3xl">
-                  Visitános
+                  Visitanos
                 </CardHeader>
               </div>
 
@@ -201,7 +201,7 @@ function QuienesSomos() {
           </div>
           <Separator></Separator>
           <div className="flex flex-col items-center m-15" data-aos="fade-up">
-            <img src={logo} alt="" className="w-50 mb-10" />
+            <img src={logo} alt="Logo Chaco Radio Club LU4GF" className="w-50 mb-10" />
             <h1 className="text-2xl text-center font-bold text-sky-950 md:text-4xl">
               "Más que un hobby, una pasión que nos une."
             </h1>

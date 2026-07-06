@@ -28,7 +28,7 @@ import {
 } from "../ui/alert-dialog";
 import ComentariosPublicacion from "./ComentariosPublicacion";
 import { Avatar, AvatarFallback } from "../ui/avatar";
-import { CalendarDays, User } from "lucide-react";
+import { ArrowLeft, CalendarDays, User } from "lucide-react";
 
 export default function PublicacionDetalle() {
   const { id } = useParams();
@@ -63,6 +63,7 @@ export default function PublicacionDetalle() {
         })
         .catch((error) => {
           console.error("Error al obtener publicación", error);
+          toast.error("No se pudo cargar la publicación");
           setLoading(false);
         });
     }
@@ -88,6 +89,15 @@ export default function PublicacionDetalle() {
 
   return (
     <div className="max-w-5xl mx-auto my-8 px-4 sm:px-6 lg:px-8">
+      <button
+        type="button"
+        onClick={() => navigate("/publicaciones")}
+        className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-sky-900 transition-colors mb-6"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Volver al Foro
+      </button>
+
       <div className="bg-white rounded-xl shadow-sm p-6 sm:p-8">
         {/* Encabezado de la publicación */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">

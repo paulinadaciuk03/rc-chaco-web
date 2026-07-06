@@ -120,7 +120,10 @@ function Header() {
         {/* Mobile */}
         <div className="md:hidden flex items-center">
           {loggedIn && (
-            <button onClick={() => setUserMenuOpen(!userMenuOpen)}>
+            <button
+              onClick={() => setUserMenuOpen(!userMenuOpen)}
+              aria-label="Abrir menú de usuario"
+            >
               <Avatar>
                 <AvatarFallback>
                   {obtenerIniciales(user?.nombre ?? "")}
@@ -131,6 +134,7 @@ function Header() {
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="md:hidden text-gray-700 focus:outline-none ml-3"
+            aria-label="Abrir menú de navegación"
           >
             <Menu />
           </button>
@@ -156,7 +160,10 @@ function Header() {
 
           {loggedIn ? (
             <div className="relative">
-              <button onClick={() => setUserMenuOpen(!userMenuOpen)}>
+              <button
+                onClick={() => setUserMenuOpen(!userMenuOpen)}
+                aria-label="Abrir menú de usuario"
+              >
                 <Avatar>
                   <AvatarFallback>
                     {obtenerIniciales(user?.nombre ?? "")}

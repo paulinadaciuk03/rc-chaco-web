@@ -14,6 +14,7 @@ import { Skeleton } from "../ui/skeleton";
 import { CalendarDays, Plus, User } from "lucide-react";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { useUserStore } from "@/store/userStore";
+import { toast } from "sonner";
 
 function Novedades() {
   const [paginaActual, setPaginaActual] = useState(1);
@@ -33,6 +34,7 @@ function Novedades() {
       })
       .catch((error) => {
         console.error("Error al cargar noticias:", error);
+        toast.error("No se pudieron cargar las novedades");
         setLoading(false);
       });
   }, [paginaActual]);
@@ -64,7 +66,7 @@ function Novedades() {
   return (
     <div className="px-4 sm:px-4 lg:px-8">
       <div className="max-w-4xl mx-auto my-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4 text-center">
+        <h1 className="text-3xl font-bold text-sky-900 mb-4 text-center">
           Últimas Novedades
         </h1>
         {user?.rol === "admin" && (

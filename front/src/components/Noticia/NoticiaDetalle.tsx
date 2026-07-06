@@ -27,7 +27,7 @@ import {
 import { useUserStore } from "@/store/userStore";
 import ComentariosNoticia from "./ComentariosNoticia";
 import { toast } from "sonner";
-import { Calendar, User } from "lucide-react";
+import { ArrowLeft, Calendar, User } from "lucide-react";
 
 export default function NoticiaDetalle() {
   const { id } = useParams();
@@ -47,6 +47,7 @@ export default function NoticiaDetalle() {
         })
         .catch((error) => {
           console.error("Error al obtener noticia", error);
+          toast.error("No se pudo cargar la noticia");
           setLoading(false);
         });
     }
@@ -71,6 +72,15 @@ export default function NoticiaDetalle() {
 
   return (
     <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 py-10">
+      <button
+        type="button"
+        onClick={() => navigate("/novedades")}
+        className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-sky-900 transition-colors mb-6"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Volver a Novedades
+      </button>
+
       <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4 break-words">
         {noticia.titulo}
       </h1>

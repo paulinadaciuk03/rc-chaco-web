@@ -3,12 +3,14 @@ import { subirImagenes } from "@/api/UploadService";
 import { useUserStore } from "@/store/userStore";
 import  { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { Alert, AlertDescription } from "../ui/alert";
-import { AlertCircle, Loader2, Image } from "lucide-react";
+import { AlertCircle, ArrowLeft, Loader2, Image } from "lucide-react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
+import { toast } from "sonner";
 
 type FormInputs = {
   titulo: string;
@@ -26,8 +28,8 @@ export default function Publicacion() {
   const [uploading, setUploading] = useState(false);
   const [imagenes, setImagenes] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
   const user = useUserStore((state) => state.user);
+  const navigate = useNavigate();
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -64,11 +66,11 @@ export default function Publicacion() {
         imagenes: imagenes.map((url_imagen) => ({ url_imagen })),
       };
 
-      await crearPublicacion(payload);
-      setSuccess(true);
+      const publicacion = await crearPublicacion(payload);
+      toast.success("Publicación creada con éxito");
       reset();
       setImagenes([]);
-      setTimeout(() => setSuccess(false), 3000);
+      navigate(`/publicaciones/${publicacion.id}`);
     } catch (err) {
       setError("Error al crear la publicación. Por favor intente más tarde.");
       console.error("Error al crear la publicación:", err);
@@ -77,6 +79,15 @@ export default function Publicacion() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <button
+        type="button"
+        onClick={() => navigate("/publicaciones")}
+        className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-sky-900 transition-colors mb-6"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Volver al Foro
+      </button>
+
       <div className="space-y-2 mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold text-sky-900">
           Hacer una publicación
@@ -92,14 +103,6 @@ export default function Publicacion() {
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
-
-        {success && (
-          <Alert>
-            <AlertDescription className="text-green-600">
-              Publicación publicada con éxito!
-            </AlertDescription>
           </Alert>
         )}
 
