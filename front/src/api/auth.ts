@@ -152,3 +152,13 @@ export const asignarPassword = async(id: number) => {
     throw error;
   }
 }
+
+export const recuperarPassword = async (email: string): Promise<string> => {
+  try {
+    const { data } = await apiClient.post<{ message: string }>('/forgot-password', { email });
+    return data.message;
+  } catch (error) {
+    console.error("Error al recuperar la contraseña", error);
+    throw error;
+  }
+}

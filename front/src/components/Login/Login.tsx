@@ -4,8 +4,17 @@ import Alerta from "../Alerta/Alerta";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "@/api/auth";
+import { login, recuperarPassword } from "@/api/auth";
 import { useUserStore } from "@/store/userStore";
 import { toast } from "sonner";
 
@@ -19,6 +28,26 @@ function Login() {
   const { register, handleSubmit, reset } = useForm<ILoginInput>();
   const navigate = useNavigate();
   const setUser = useUserStore(state => state.setUser);
+
+  const [recuperarOpen, setRecuperarOpen] = useState(false);
+  const [emailRecuperar, setEmailRecuperar] = useState("");
+  const [enviandoRecuperar, setEnviandoRecuperar] = useState(false);
+
+  const handleRecuperar = async () => {
+    if (!emailRecuperar.trim()) return;
+    setEnviandoRecuperar(true);
+    try {
+      const mensaje = await recuperarPassword(emailRecuperar.trim());
+      toast.success(mensaje);
+      setRecuperarOpen(false);
+      setEmailRecuperar("");
+    } catch (err) {
+      toast.error("No se pudo procesar la solicitud. Intentá nuevamente.");
+      console.error(err);
+    } finally {
+      setEnviandoRecuperar(false);
+    }
+  };
 
 
   const onSubmit: SubmitHandler<ILoginInput> = async (data) => {
@@ -67,6 +96,39 @@ function Login() {
               />
             )}
           </form>
+
+          <p className="text-center mt-2">
+            <Dialog open={recuperarOpen} onOpenChange={setRecuperarOpen}>
+              <DialogTrigger asChild>
+                <button type="button" className="text-sky-900 underline text-sm">
+                  ¿Olvidaste tu contraseña?
+                </button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Recuperar contraseña</DialogTitle>
+                  <DialogDescription>
+                    Ingresá tu email y te enviamos una contraseña temporal para que puedas volver a entrar.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-2">
+                  <Label htmlFor="email-recuperar">Email</Label>
+                  <Input
+                    id="email-recuperar"
+                    type="email"
+                    value={emailRecuperar}
+                    onChange={(e) => setEmailRecuperar(e.target.value)}
+                    disabled={enviandoRecuperar}
+                  />
+                </div>
+                <DialogFooter>
+                  <Button onClick={handleRecuperar} disabled={enviandoRecuperar || !emailRecuperar.trim()}>
+                    {enviandoRecuperar ? "Enviando..." : "Enviar"}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </p>
 
           <p className="text-center my-4">
             ¿Todavía no te asociaste?{" "}

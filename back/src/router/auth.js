@@ -125,20 +125,48 @@ router.post("/asignar-password", async (req, res) => {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    const tempPassword = Math.random().toString(36).slice(-8);
-    const hashedPassword = await bcrypt.hash(tempPassword, 10);
-
-    user.password_hash = hashedPassword;
-    user.rol_id = 2;
-    await user.save();
-
-    await sendPasswordEmail(user.email, tempPassword);
+    await asignarPasswordTemporal(user);
     res.json({ message: "Contraseña asignada y enviada por correo" });
   } catch (error) {
     console.error("Error asignando contraseña", error);
     res.status(500).json({ message: "Error interno del servidor" });
   }
 });
+
+router.post("/forgot-password", async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ message: "Falta el email" });
+  }
+
+  const mensaje =
+    "Si el email está registrado, te enviamos una contraseña temporal";
+
+  try {
+    const user = await Usuarios.findOne({ where: { email: email.toLowerCase() } });
+
+    if (user) {
+      await asignarPasswordTemporal(user);
+    }
+
+    res.json({ message: mensaje });
+  } catch (error) {
+    console.error("Error en recuperación de contraseña", error);
+    res.status(500).json({ message: "Error interno del servidor" });
+  }
+});
+
+async function asignarPasswordTemporal(user) {
+  const tempPassword = Math.random().toString(36).slice(-8);
+  const hashedPassword = await bcrypt.hash(tempPassword, 10);
+
+  user.password_hash = hashedPassword;
+  user.rol_id = 2;
+  await user.save();
+
+  await sendPasswordEmail(user.email, tempPassword);
+}
 
 async function sendPasswordEmail(email, passwordTemporal) {
   const resend = new Resend(process.env.RESEND_API_KEY);
