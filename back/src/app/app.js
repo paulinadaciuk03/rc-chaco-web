@@ -16,7 +16,22 @@ const cors = require('cors');
 const app = express();
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(cors({ origin: 'https://dazzling-dedication-production-c456.up.railway.app' }));
+
+const allowedOrigins = [
+    'https://dazzling-dedication-production-c456.up.railway.app',
+    'https://lu4gf.org.ar',
+    'https://www.lu4gf.org.ar',
+];
+
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('No permitido por CORS'));
+        }
+    },
+}));
 
 app.get('/', (req,res) =>{
     res.send('hola')
