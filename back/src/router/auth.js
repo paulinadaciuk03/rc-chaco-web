@@ -19,6 +19,28 @@ router.get("/debug-fks", async (req, res) => {
   res.json(rows);
 });
 
+router.post("/debug-fix-fks", async (req, res) => {
+  try {
+    await sequelize.query(`
+      ALTER TABLE publicaciones
+        DROP CONSTRAINT publicaciones_usuario_id_fkey,
+        ADD CONSTRAINT publicaciones_usuario_id_fkey
+          FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+          ON UPDATE CASCADE ON DELETE CASCADE;
+    `);
+    await sequelize.query(`
+      ALTER TABLE comentarios_publicacion
+        DROP CONSTRAINT comentarios_publicacion_usuario_id_fkey,
+        ADD CONSTRAINT comentarios_publicacion_usuario_id_fkey
+          FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+          ON UPDATE CASCADE ON DELETE CASCADE;
+    `);
+    res.json({ ok: true, message: "Constraints actualizadas a CASCADE" });
+  } catch (error) {
+    res.status(500).json({ ok: false, message: error.message });
+  }
+});
+
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
