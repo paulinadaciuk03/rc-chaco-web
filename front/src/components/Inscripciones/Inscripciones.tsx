@@ -136,7 +136,10 @@ export default function Inscripciones() {
 
   const fetchInscripciones = async () => {
     await getInscripciones(paginaActual)
-      .then((data) => setInscripciones(data))
+      .then((data) => {
+        setInscripciones(data);
+        if (data.currentPage !== paginaActual) setPaginaActual(data.currentPage);
+      })
       .catch((error) => console.error("Error al cargar inscripciones", error));
   };
 
@@ -240,17 +243,31 @@ export default function Inscripciones() {
                 onClick={(e) => handleClick(e, paginaActual - 1)}
               />
             </PaginationItem>
-            {Array.from({ length: inscripciones.totalPages }, (_, i) => (
-              <PaginationItem key={i}>
-                <PaginationLink
-                  href="#"
-                  isActive={paginaActual === i + 1}
-                  onClick={(e) => handleClick(e, i + 1)}
-                >
-                  {i + 1}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
+            {Array.from({ length: Math.min(inscripciones.totalPages, 5) }, (_, i) => {
+              const totalPaginas = inscripciones.totalPages;
+              let pageNum;
+              if (totalPaginas <= 5) {
+                pageNum = i + 1;
+              } else if (paginaActual <= 3) {
+                pageNum = i + 1;
+              } else if (paginaActual >= totalPaginas - 2) {
+                pageNum = totalPaginas - 4 + i;
+              } else {
+                pageNum = paginaActual - 2 + i;
+              }
+
+              return (
+                <PaginationItem key={pageNum}>
+                  <PaginationLink
+                    href="#"
+                    isActive={paginaActual === pageNum}
+                    onClick={(e) => handleClick(e, pageNum)}
+                  >
+                    {pageNum}
+                  </PaginationLink>
+                </PaginationItem>
+              );
+            })}
             <PaginationItem>
               <PaginationNext
                 href="#"

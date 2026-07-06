@@ -19,25 +19,26 @@ router.get("/users", async (req, res) => {
       required: !!rolFiltro,
     };
 
-    const { count: totalUsers, rows } = await Usuarios.findAndCountAll({
+    const totalUsers = await Usuarios.count({ include: [includeRol] });
+    const totalPages = Math.max(1, Math.ceil(totalUsers / limit));
+    const currentPage = Math.min(Math.max(1, page), totalPages);
+
+    if (totalUsers === 0) {
+      return res.json({
+        usuarios: [],
+        totalPages,
+        currentPage,
+        total: 0,
+      });
+    }
+
+    const { rows } = await Usuarios.findAndCountAll({
       attributes: ['id', 'username', 'nombre', 'email'],
       include: [includeRol],
       order: [['nombre', 'ASC']],
       limit,
-      offset: (page - 1) * limit,
+      offset: (currentPage - 1) * limit,
     });
-
-    const totalPages = Math.ceil(totalUsers / limit);
-    const currentPage = page > totalPages ? totalPages : page;
-
-    if (totalUsers === 0 || currentPage < 1) {
-      return res.json({
-        usuarios: [],
-        totalPages,
-        currentPage: 1,
-        total: 0,
-      });
-    }
 
     const users = rows.map(user => ({
       id: user.id,

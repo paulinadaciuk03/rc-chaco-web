@@ -28,6 +28,7 @@ function Novedades() {
     getNoticias(paginaActual)
       .then((data) => {
         setNoticiasData(data);
+        if (data.currentPage !== paginaActual) setPaginaActual(data.currentPage);
         setLoading(false);
       })
       .catch((error) => {
@@ -192,18 +193,32 @@ function Novedades() {
                   />
                 </PaginationItem>
 
-                {Array.from({ length: noticiasData.totalPages }, (_, i) => (
-                  <PaginationItem key={i}>
-                    <PaginationLink
-                      href="#"
-                      isActive={paginaActual === i + 1}
-                      onClick={(e) => handleClick(e, i + 1)}
-                      className="hover:bg-gray-100"
-                    >
-                      {i + 1}
-                    </PaginationLink>
-                  </PaginationItem>
-                ))}
+                {Array.from({ length: Math.min(noticiasData.totalPages, 5) }, (_, i) => {
+                  const totalPaginas = noticiasData.totalPages;
+                  let pageNum;
+                  if (totalPaginas <= 5) {
+                    pageNum = i + 1;
+                  } else if (paginaActual <= 3) {
+                    pageNum = i + 1;
+                  } else if (paginaActual >= totalPaginas - 2) {
+                    pageNum = totalPaginas - 4 + i;
+                  } else {
+                    pageNum = paginaActual - 2 + i;
+                  }
+
+                  return (
+                    <PaginationItem key={pageNum}>
+                      <PaginationLink
+                        href="#"
+                        isActive={paginaActual === pageNum}
+                        onClick={(e) => handleClick(e, pageNum)}
+                        className="hover:bg-gray-100"
+                      >
+                        {pageNum}
+                      </PaginationLink>
+                    </PaginationItem>
+                  );
+                })}
 
                 <PaginationItem>
                   <PaginationNext

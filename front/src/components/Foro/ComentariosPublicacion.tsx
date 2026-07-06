@@ -30,6 +30,7 @@ export default function ComentariosPublicacion({ publicacionId }: { publicacionI
     try {
       const data = await getComentariosByPublicacion(publicacionId, pagina);
       setComentariosData(data);
+      if (data.currentPage !== pagina) setPage(data.currentPage);
       setError("");
     } catch {
       setError("Aún no hay comentarios.");

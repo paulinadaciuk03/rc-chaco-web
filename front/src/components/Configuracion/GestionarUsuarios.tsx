@@ -48,25 +48,27 @@ import { toast } from "sonner";
     const [usuariosAdmin, setUsuariosAdmin] = useState<UsuariosPaginados | null>(null);
   
     useEffect(() => {
-      fetchUsuariosPorRol("usuario", paginaUsuario, setUsuariosUsuario);
+      fetchUsuariosPorRol("usuario", paginaUsuario, setUsuariosUsuario, setPaginaUsuario);
     }, [paginaUsuario]);
-  
+
     useEffect(() => {
-      fetchUsuariosPorRol("pendiente", paginaPendiente, setUsuariosPendiente);
+      fetchUsuariosPorRol("pendiente", paginaPendiente, setUsuariosPendiente, setPaginaPendiente);
     }, [paginaPendiente]);
-  
+
     useEffect(() => {
-      fetchUsuariosPorRol("admin", paginaAdmin, setUsuariosAdmin);
+      fetchUsuariosPorRol("admin", paginaAdmin, setUsuariosAdmin, setPaginaAdmin);
     }, [paginaAdmin]);
-  
+
     const fetchUsuariosPorRol = async (
       rol: string,
       pagina: number,
-      setter: (data: UsuariosPaginados) => void
+      setter: (data: UsuariosPaginados) => void,
+      setPagina: (p: number) => void
     ) => {
       try {
         const data = await getUsuarios(pagina, rol);
         setter(data);
+        if (data.currentPage !== pagina) setPagina(data.currentPage);
       } catch (error) {
         console.error(`Error al cargar usuarios (${rol})`, error);
       }
@@ -80,8 +82,8 @@ import { toast } from "sonner";
       try {
           await asignarPassword(id);
           toast.success("Contraseña enviada");
-          fetchUsuariosPorRol("usuario", paginaUsuario, setUsuariosUsuario);
-          fetchUsuariosPorRol("pendiente", paginaPendiente, setUsuariosPendiente);
+          fetchUsuariosPorRol("usuario", paginaUsuario, setUsuariosUsuario, setPaginaUsuario);
+          fetchUsuariosPorRol("pendiente", paginaPendiente, setUsuariosPendiente, setPaginaPendiente);
       } catch (error) {
           toast.error("Error al asignar la contraseña");
           console.log(error);
@@ -92,8 +94,8 @@ import { toast } from "sonner";
       try {
         await eliminarUsuario(id);
         toast.success("Usuario eliminado");
-        fetchUsuariosPorRol("usuario", paginaUsuario, setUsuariosUsuario);
-        fetchUsuariosPorRol("pendiente", paginaPendiente, setUsuariosPendiente);
+        fetchUsuariosPorRol("usuario", paginaUsuario, setUsuariosUsuario, setPaginaUsuario);
+        fetchUsuariosPorRol("pendiente", paginaPendiente, setUsuariosPendiente, setPaginaPendiente);
       } catch (error) {
         toast.error(error instanceof Error ? error.message : "Error al eliminar el usuario");
       }

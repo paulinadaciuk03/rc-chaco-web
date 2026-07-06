@@ -17,18 +17,15 @@ router.get("/", async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const limit = 10;
         const totalInscripciones = await Inscripciones.count();
-        const totalPages = Math.ceil(totalInscripciones / limit);
-
-        const currentPage = page > totalPages ? totalPages : page;
-
+        const totalPages = Math.max(1, Math.ceil(totalInscripciones / limit));
+        const currentPage = Math.min(Math.max(1, page), totalPages);
         const offset = (currentPage - 1) * limit;
 
-
-        if(totalInscripciones === 0 || currentPage < 1){
+        if(totalInscripciones === 0){
             return res.json({
                 inscripciones : [],
                 totalPages,
-                currentPage : 1,
+                currentPage,
                 total: 0,
             });
         }
@@ -77,7 +74,7 @@ router.patch("/:id/estado", async(req, res) => {
 
 router.get("/buscar", async (req, res) => {
     const {query} = req.query;
-    const page = parseInt(req.query.page) || 1;
+    const page = Math.max(1, parseInt(req.query.page) || 1);
     const limit = 3;
 
     try {
@@ -95,8 +92,8 @@ router.get("/buscar", async (req, res) => {
             offset,
         });
 
-        const totalPages =Math.ceil(count/limit)
-        const currentPage = page > totalPages ? totalPages : page;
+        const totalPages = Math.max(1, Math.ceil(count/limit));
+        const currentPage = Math.min(page, totalPages);
         res.json({
             inscripciones: rows,
             totalPages,

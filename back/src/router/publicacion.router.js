@@ -28,19 +28,15 @@ router.get("/", async (req, res) => {
       const page = parseInt(req.query.page) || 1;
       const limit = 3;
       const totalPublicaciones = await Publicaciones.count();
-      const totalPages = Math.ceil(totalPublicaciones / limit);
-  
-
-      const currentPage = page > totalPages ? totalPages : page;
-  
+      const totalPages = Math.max(1, Math.ceil(totalPublicaciones / limit));
+      const currentPage = Math.min(Math.max(1, page), totalPages);
       const offset = (currentPage - 1) * limit;
-  
 
-      if (totalPublicaciones === 0 || currentPage < 1) {
+      if (totalPublicaciones === 0) {
         return res.json({
           publicaciones: [],
           totalPages,
-          currentPage: 1,
+          currentPage,
           total: 0,
         });
       }
