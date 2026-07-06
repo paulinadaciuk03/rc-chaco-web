@@ -1,7 +1,6 @@
 import facebook from "../../assets/contacto/facebook.svg";
 import mail from "../../assets/contacto/mail.svg";
 import pin from "../../assets/contacto/pin-white.svg";
-import heart from "../../assets/heart.svg";
 
 function Footer() {
   return (
@@ -11,11 +10,6 @@ function Footer() {
         <div className="flex flex-col">
           <h1 className="font-bold text-xl">Chaco Radio Club</h1>
           <h2 className="text-lg">1950 - {new Date().getFullYear()}</h2>
-          <div className="flex items-center mt-2">
-            <p className="text-sm">Hecho con</p>
-            <img src={heart} alt="heart" className="w-5 h-5 mx-1" />
-            <p className="text-sm">por Daciuk Paulina y Limberti Franco</p>
-          </div>
         </div>
 
         {/* Columna 2 */}
