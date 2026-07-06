@@ -15,6 +15,17 @@ import {
   CarouselPrevious,
 } from "../ui/carousel";
 import { Button } from "../ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
 import ComentariosPublicacion from "./ComentariosPublicacion";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { CalendarDays, User } from "lucide-react";
@@ -59,10 +70,6 @@ export default function PublicacionDetalle() {
 
   const handleEliminar = async () => {
     if (!id) return;
-    const confirmacion = confirm(
-      "¿Estás seguro de que deseas eliminar esta publicación?"
-    );
-    if (!confirmacion) return;
 
     try {
       await eliminarPublicacion(parseInt(id));
@@ -152,9 +159,25 @@ export default function PublicacionDetalle() {
                 Editar Publicación
               </Button>
             )}
-            <Button variant="destructive" onClick={handleEliminar}>
-              Eliminar Publicación
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="destructive">Eliminar Publicación</Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>¿Eliminar esta publicación?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Esta acción no se puede deshacer.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleEliminar}>
+                    Eliminar
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         )}
 

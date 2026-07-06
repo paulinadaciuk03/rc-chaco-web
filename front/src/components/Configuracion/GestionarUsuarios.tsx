@@ -1,4 +1,5 @@
 import {
+    eliminarUsuario,
     getUsuarios,
     UsuariosGet,
     UsuariosPaginados,
@@ -24,6 +25,17 @@ import {
   import { Card } from "../ui/card";
   import { Button } from "../ui/button";
   import { Badge } from "../ui/badge";
+  import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from "../ui/alert-dialog";
 import { toast } from "sonner";
   
   export default function GestionarUsuarios() {
@@ -73,7 +85,18 @@ import { toast } from "sonner";
           console.log(error);
       }
     }
-  
+
+    const eliminarUsuarioHandler = async (id: number) => {
+      try {
+        await eliminarUsuario(id);
+        toast.success("Usuario eliminado");
+        fetchUsuariosPorRol("usuario", paginaUsuario, setUsuariosUsuario);
+        fetchUsuariosPorRol("pendiente", paginaPendiente, setUsuariosPendiente);
+      } catch (error) {
+        toast.error(error instanceof Error ? error.message : "Error al eliminar el usuario");
+      }
+    }
+
     return (
       <div className="p-6 space-y-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 mx-3">Gestión de Usuarios</h1>
@@ -85,6 +108,7 @@ import { toast } from "sonner";
             paginaActual={paginaUsuario}
             totalPaginas={usuariosUsuario?.totalPages ?? 1}
             cambiarPagina={(p) => cambiarPagina(p, setPaginaUsuario)}
+            onEliminar={eliminarUsuarioHandler}
             badgeVariant="default"
           />
         </Card>
@@ -97,6 +121,7 @@ import { toast } from "sonner";
             totalPaginas={usuariosPendiente?.totalPages ?? 1}
             cambiarPagina={(p) => cambiarPagina(p, setPaginaPendiente)}
             onAsignarPass={asignarPass}
+            onEliminar={eliminarUsuarioHandler}
             badgeVariant="secondary"
           />
         </Card>
@@ -122,6 +147,7 @@ import { toast } from "sonner";
     totalPaginas,
     cambiarPagina,
     onAsignarPass,
+    onEliminar,
     badgeVariant = "default",
   }: {
     titulo: string;
@@ -130,8 +156,10 @@ import { toast } from "sonner";
     totalPaginas: number;
     cambiarPagina: (nuevaPagina: number) => void;
     onAsignarPass?: (id: number) => void;
+    onEliminar?: (id: number) => void;
     badgeVariant?: "default" | "secondary" | "destructive" | "outline";
   }) {
+    const tieneAcciones = Boolean(onAsignarPass || onEliminar);
     return (
       <div className="space-y-4">
         <div className="flex items-center justify-between mb-4">
@@ -142,7 +170,7 @@ import { toast } from "sonner";
             {titulo}
           </h2>
         </div>
-  
+
         <div className="rounded-md border">
           <Table>
             <TableHeader className="bg-gray-50">
@@ -150,7 +178,7 @@ import { toast } from "sonner";
                 <TableHead className="font-medium">Nombre</TableHead>
                 <TableHead className="font-medium">Usuario</TableHead>
                 <TableHead className="font-medium">Email</TableHead>
-                {onAsignarPass && <TableHead className="font-medium text-right">Acciones</TableHead>}
+                {tieneAcciones && <TableHead className="font-medium text-right">Acciones</TableHead>}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -160,22 +188,47 @@ import { toast } from "sonner";
                     <TableCell className="font-medium">{usuario.nombre}</TableCell>
                     <TableCell className="text-gray-600">{usuario.username}</TableCell>
                     <TableCell className="text-gray-600">{usuario.email}</TableCell>
-                    {onAsignarPass && (
-                      <TableCell className="text-right">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => onAsignarPass(usuario.id)}
-                        >
-                          Asignar contraseña
-                        </Button>
+                    {tieneAcciones && (
+                      <TableCell className="text-right space-x-2">
+                        {onAsignarPass && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => onAsignarPass(usuario.id)}
+                          >
+                            Asignar contraseña
+                          </Button>
+                        )}
+                        {onEliminar && (
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button variant="destructive" size="sm">
+                                Eliminar
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>¿Eliminar a {usuario.nombre}?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Esta acción no se puede deshacer. El usuario perderá el acceso al sistema.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => onEliminar(usuario.id)}>
+                                  Eliminar
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        )}
                       </TableCell>
                     )}
                   </TableRow>
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={onAsignarPass ? 4 : 3} className="text-center text-gray-500 py-4">
+                  <TableCell colSpan={tieneAcciones ? 4 : 3} className="text-center text-gray-500 py-4">
                     No hay usuarios registrados
                   </TableCell>
                 </TableRow>

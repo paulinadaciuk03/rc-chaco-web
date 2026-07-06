@@ -6,6 +6,17 @@ import { Button } from "../ui/button";
 
 import { Textarea } from "../ui/textarea";
 import { Badge } from "../ui/badge";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
 
 export default function ComentariosPublicacion({ publicacionId }: { publicacionId: number }) {
   const [comentariosData, setComentariosData] =
@@ -49,8 +60,6 @@ export default function ComentariosPublicacion({ publicacionId }: { publicacionI
   };
 
   const handleEliminarComentario = async (comentarioId: number) => {
-    if (!confirm("¿Eliminar este comentario?")) return;
-  
     try {
       await eliminarComentarioPublicacion(comentarioId);
       await cargarComentarios(page); 
@@ -104,12 +113,27 @@ export default function ComentariosPublicacion({ publicacionId }: { publicacionI
                   {new Date(c.fecha_creacion).toLocaleString()}
                 </p>
                 {(user?.rol === "admin" || user?.id === c.usuario?.id) && (
-                  <button
-                    onClick={() => handleEliminarComentario(c.id)}
-                    className="text-red-600 hover:underline text-sm"
-                  >
-                    Eliminar comentario
-                  </button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <button className="text-red-600 hover:underline text-sm">
+                        Eliminar comentario
+                      </button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>¿Eliminar este comentario?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Esta acción no se puede deshacer.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => handleEliminarComentario(c.id)}>
+                          Eliminar
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 )}
               </div>
             ))}

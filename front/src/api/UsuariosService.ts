@@ -38,4 +38,23 @@ export const getUsuarios = async ( page : number, rol? : string): Promise<Usuari
     }
 }
 
+export const eliminarUsuario = async (id: number): Promise<void> => {
+    try {
+        await apiClient.delete(`/users/${id}`);
+    } catch (error) {
+        if (error instanceof AxiosError) {
+            console.error(
+              "Error al eliminar usuario:",
+              error.response?.data || error.message
+            );
+            throw new Error(
+              error.response?.data?.message || "Error al eliminar el usuario"
+            );
+          } else {
+            console.error("Error desconocido:", error);
+            throw new Error("Ocurrió un error inesperado al eliminar el usuario");
+          }
+    }
+}
+
 

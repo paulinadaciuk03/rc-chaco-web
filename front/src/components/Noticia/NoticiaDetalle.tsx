@@ -13,6 +13,17 @@ import {
   CarouselPrevious,
 } from "../ui/carousel";
 import { Button } from "../ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
 import { useUserStore } from "@/store/userStore";
 import ComentariosNoticia from "./ComentariosNoticia";
 import { toast } from "sonner";
@@ -43,10 +54,6 @@ export default function NoticiaDetalle() {
 
   const handleEliminar = async () => {
     if (!id) return;
-    const confirmacion = confirm(
-      "¿Estás seguro de que deseas eliminar esta noticia?"
-    );
-    if (!confirmacion) return;
 
     try {
       await eliminarNoticia(parseInt(id));
@@ -112,9 +119,25 @@ export default function NoticiaDetalle() {
 
       {rol === "admin" && (
         <div className="mt-8 flex justify-end gap-4">
-          <Button variant="destructive" onClick={handleEliminar}>
-            Eliminar Noticia
-          </Button>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive">Eliminar Noticia</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>¿Eliminar esta noticia?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Esta acción no se puede deshacer.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                <AlertDialogAction onClick={handleEliminar}>
+                  Eliminar
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
           <Button
             variant="outline"
             onClick={() => navigate(`/editar-noticia/${noticia.id}`)}

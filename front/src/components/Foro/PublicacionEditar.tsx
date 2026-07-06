@@ -3,13 +3,14 @@ import {
   PublicacionData,
   updatePublicacion,
 } from "@/api/PublicacionesService";
+import { subirImagenes } from "@/api/UploadService";
 import { useUserStore } from "@/store/userStore";
-import  { useEffect } from "react";
+import  { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { Alert, AlertDescription } from "../ui/alert";
-import { Loader2 } from "lucide-react";
+import { Loader2, Image } from "lucide-react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
@@ -34,6 +35,8 @@ export default function PublicacionEditar() {
     },
   });
   const user = useUserStore((state) => state.user);
+  const [uploading, setUploading] = useState(false);
+  const [imagenes, setImagenes] = useState<string[]>([]);
   const success = false;
   const navigate = useNavigate();
 
@@ -45,6 +48,7 @@ export default function PublicacionEditar() {
             titulo: data.titulo,
             descripcion: data.descripcion,
           });
+          setImagenes(data.imagenes.map((img) => img.url_imagen));
         })
         .catch((error) => {
           console.error("Error al cargar la publicación:", error);
@@ -53,6 +57,27 @@ export default function PublicacionEditar() {
     }
   }, [id, reset]);
 
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    setUploading(true);
+
+    try {
+      const urls = await subirImagenes(Array.from(files));
+      setImagenes((prev) => [...prev, ...urls]);
+    } catch (err) {
+      toast.error("Error al subir las imágenes. Intente nuevamente.");
+      console.error("Error al subir imágenes:", err);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const removeImage = (index: number) => {
+    setImagenes((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const onSubmit = async (data: FormInputs) => {
     try {
       if (!user) throw new Error("Usuario no autenticado");
@@ -60,7 +85,7 @@ export default function PublicacionEditar() {
       const payload: PublicacionData = {
         ...data,
         usuario_id: user.id,
-        imagenes: [], // deshabilitado: no enviar imágenes
+        imagenes: imagenes.map((url_imagen) => ({ url_imagen })),
       };
 
       if (!id) throw new Error("ID no encontrado");
@@ -135,61 +160,59 @@ export default function PublicacionEditar() {
           )}
         </div>
 
-        {/* Campo Imágenes (comentado) */}
-        {/*
-      <div className="space-y-2">
-        <Label htmlFor="imagenes">Imágenes (opcional)</Label>
-        <div className="flex items-center gap-4">
-          <Label
-            htmlFor="imagenes"
-            className="flex items-center gap-2 px-4 py-2 border rounded-md cursor-pointer hover:bg-gray-50 transition-colors"
-          >
-            <Image className="w-5 h-5 text-gray-500" />
-            <span>{uploading ? "Subiendo..." : "Seleccionar imágenes"}</span>
-          </Label>
-          <Input
-            id="imagenes"
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleFileChange}
-            disabled={uploading}
-            className="hidden"
-          />
-          {uploading && <Loader2 className="animate-spin text-gray-500" />}
-        </div>
-        <p className="text-sm text-gray-500">Máx. 5 imágenes (JPEG, PNG)</p>
-        
-        {imagenes.length > 0 && (
-          <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-            {imagenes.map((imgUrl, idx) => (
-              <div key={idx} className="relative group">
-                <img
-                  src={imgUrl}
-                  alt={`Imagen ${idx + 1}`}
-                  className="w-full h-32 object-cover rounded-lg border"
-                />
-                <button
-                  type="button"
-                  onClick={() => removeImage(idx)}
-                  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </button>
-              </div>
-            ))}
+        {/* Campo Imágenes */}
+        <div className="space-y-2">
+          <Label htmlFor="imagenes">Imágenes (opcional)</Label>
+          <div className="flex items-center gap-4">
+            <Label
+              htmlFor="imagenes"
+              className="flex items-center gap-2 px-4 py-2 border rounded-md cursor-pointer hover:bg-gray-50 transition-colors"
+            >
+              <Image className="w-5 h-5 text-gray-500" />
+              <span>{uploading ? "Subiendo..." : "Seleccionar imágenes"}</span>
+            </Label>
+            <Input
+              id="imagenes"
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleFileChange}
+              disabled={uploading}
+              className="hidden"
+            />
+            {uploading && <Loader2 className="animate-spin text-gray-500" />}
           </div>
-        )}
-      </div>
-      */}
+          <p className="text-sm text-gray-500">Máx. 10 imágenes (JPEG, PNG)</p>
+
+          {imagenes.length > 0 && (
+            <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+              {imagenes.map((imgUrl, idx) => (
+                <div key={idx} className="relative group">
+                  <img
+                    src={imgUrl}
+                    alt={`Imagen ${idx + 1}`}
+                    className="w-full h-32 object-cover rounded-lg border"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeImage(idx)}
+                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* Botón de envío */}
         <div className="pt-4">
           <Button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || uploading}
             className="w-full sm:w-auto"
           >
             {isSubmitting ? (

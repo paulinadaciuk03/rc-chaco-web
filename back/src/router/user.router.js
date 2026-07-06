@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const { faker, tr } = require("@faker-js/faker");
-const { Usuarios, Roles } = require('../model'); 
+const { Usuarios, Roles } = require('../model');
 const bcrypt = require("bcrypt");
+const { requireAdmin } = require("../middleware/auth");
 
 
 router.get("/users", async (req, res) => {
@@ -152,20 +153,28 @@ router.put("/users/:id", async (req,res) =>{
   }
 });
 
-router.delete("/users/:id", async (req,res) =>{
+router.delete("/users/:id", requireAdmin, async (req,res) =>{
     const {id} = req.params
 
     try {
         const user  = await Usuarios.findOne({
             where: {
                 id :id
-            }
+            },
+            include: { model: Roles, as: 'rol', attributes: ['rol'] }
         })
 
         if(!user) {
             return res.status(404).json({
                 ok: false,
                 message: "Usuario no encontrado"
+            })
+        }
+
+        if (user.rol?.rol === "admin") {
+            return res.status(403).json({
+                ok: false,
+                message: "No se puede eliminar a un administrador"
             })
         }
 

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -9,10 +9,11 @@ import {
   updateNoticia,
   getNoticiaById,
 } from "../../api/NoticiasService";
+import { subirImagenes } from "../../api/UploadService";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUserStore } from "@/store/userStore";
 
-import { Loader2 } from "lucide-react";
+import { Loader2, Image } from "lucide-react";
 import { Alert, AlertDescription } from "../ui/alert";
 import { toast } from "sonner";
 type FormInputs = {
@@ -34,8 +35,8 @@ export default function NoticiaEditar() {
     },
   });
   const user = useUserStore((state) => state.user);
-  // const [uploading, setUploading] = useState(false);
-  // const [imagenes, setImagenes] = useState<string[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const [imagenes, setImagenes] = useState<string[]>([]);
   const success = false;
   const navigate = useNavigate();
 
@@ -47,7 +48,7 @@ export default function NoticiaEditar() {
             titulo: data.titulo,
             descripcion: data.descripcion,
           });
-          // setImagenes(data.imagenes.map((img) => img.url_imagen));
+          setImagenes(data.imagenes.map((img) => img.url_imagen));
         })
         .catch((error) => {
           console.error("Error al cargar la noticia:", error);
@@ -56,27 +57,17 @@ export default function NoticiaEditar() {
     }
   }, [id, reset]);
 
-  /* Comentado: subida y manejo de imágenes
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
     setUploading(true);
-    setError(null);
 
     try {
-      const formData = new FormData();
-      Array.from(files).forEach((file) => {
-        formData.append("imagenes", file);
-      });
-
-      const response = await apiClient.post("/uploads/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      setImagenes(prev => [...prev, ...response.data.urls]);
+      const urls = await subirImagenes(Array.from(files));
+      setImagenes((prev) => [...prev, ...urls]);
     } catch (err) {
-      setError("Error al subir las imágenes. Intente nuevamente.");
+      toast.error("Error al subir las imágenes. Intente nuevamente.");
       console.error("Error al subir imágenes:", err);
     } finally {
       setUploading(false);
@@ -84,9 +75,8 @@ export default function NoticiaEditar() {
   };
 
   const removeImage = (index: number) => {
-    setImagenes(prev => prev.filter((_, i) => i !== index));
+    setImagenes((prev) => prev.filter((_, i) => i !== index));
   };
-  */
 
   const onSubmit = async (data: FormInputs) => {
     try {
@@ -95,7 +85,7 @@ export default function NoticiaEditar() {
       const payload: NoticiaData = {
         ...data,
         admin_id: user.id,
-        imagenes: [], // deshabilitado: no enviar imágenes
+        imagenes: imagenes.map((url_imagen) => ({ url_imagen })),
       };
 
       if (!id) throw new Error("ID no encontrado");
@@ -172,7 +162,6 @@ export default function NoticiaEditar() {
         </div>
 
         {/* Campo Imágenes */}
-        {/*
         <div className="space-y-2">
           <Label htmlFor="imagenes">Imágenes (opcional)</Label>
           <div className="flex items-center gap-4">
@@ -194,8 +183,8 @@ export default function NoticiaEditar() {
             />
             {uploading && <Loader2 className="animate-spin text-gray-500" />}
           </div>
-          <p className="text-sm text-gray-500">Máx. 5 imágenes (JPEG, PNG)</p>
-          
+          <p className="text-sm text-gray-500">Máx. 10 imágenes (JPEG, PNG)</p>
+
           {imagenes.length > 0 && (
             <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
               {imagenes.map((imgUrl, idx) => (
@@ -219,13 +208,12 @@ export default function NoticiaEditar() {
             </div>
           )}
         </div>
-        */}
 
         {/* Botón de envío */}
         <div className="pt-4">
           <Button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || uploading}
             className="w-full sm:w-auto"
           >
             {isSubmitting ? (
