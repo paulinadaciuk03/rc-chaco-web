@@ -126,10 +126,14 @@ router.post("/asignar-password", async (req, res) => {
     }
 
     await asignarPasswordTemporal(user);
-    res.json({ message: "Contraseña asignada y enviada por correo" });
+    await user.reload();
+    res.json({
+      message: "Contraseña asignada y enviada por correo",
+      debug_rol_id: user.rol_id,
+    });
   } catch (error) {
     console.error("Error asignando contraseña", error);
-    res.status(500).json({ message: "Error interno del servidor" });
+    res.status(500).json({ message: "Error interno del servidor", debug_error: error.message });
   }
 });
 
