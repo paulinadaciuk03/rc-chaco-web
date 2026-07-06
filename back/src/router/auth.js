@@ -129,7 +129,7 @@ router.post("/asignar-password", async (req, res) => {
     const hashedPassword = await bcrypt.hash(tempPassword, 10);
 
     user.password_hash = hashedPassword;
-    user.rol_id = 1;
+    user.rol_id = 2;
     await user.save();
 
     await sendPasswordEmail(user.email, tempPassword);
