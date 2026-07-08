@@ -1,4 +1,4 @@
-import { FaFacebook } from "react-icons/fa";
+import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { Mail, MapPin } from "lucide-react";
 
 function Footer() {
@@ -45,6 +45,15 @@ function Footer() {
               className="bg-white/10 hover:bg-sky-400 hover:text-sky-950 transition-colors p-2.5 rounded-full"
             >
               <FaFacebook className="w-4 h-4" />
+            </a>
+            <a
+              href="https://www.instagram.com/lu4gf_chacoradioclub"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="bg-white/10 hover:bg-sky-400 hover:text-sky-950 transition-colors p-2.5 rounded-full"
+            >
+              <FaInstagram className="w-4 h-4" />
             </a>
             <a
               href="https://mail.google.com/mail/u/0/#inbox?compose=GTvVlcSHwrwxCfLrBqDSPsnFccBMfchlKmzpPnDgLccwcsqcCfWHHrZmLZwnBdzzNQZktDJXcMGrV"
