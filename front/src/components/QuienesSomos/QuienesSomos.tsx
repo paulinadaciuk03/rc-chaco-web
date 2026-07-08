@@ -1,4 +1,4 @@
-import foto1 from "../../assets/foto-quienes-somos.jpg";
+import foto1 from "../../assets/quienes-somos.jpg";
 import { Separator } from "../ui/separator";
 import { Card, CardDescription, CardHeader } from "../ui/card";
 import formacion from "../../assets/mision/formacion.svg";
