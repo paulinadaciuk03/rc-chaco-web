@@ -31,32 +31,34 @@ function Inicio() {
         </div>
       </div>
 
-      {/* Banner */}
-      <div className="bg-sky-900 text-white text-center font-semibold text-lg sm:text-xl rounded-xl py-4 px-6 mb-8">
-        Viví la experiencia de comunicar sin fronteras.
-      </div>
-
-      {/* Galería */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-16">
-        <img
-          src={equipo1}
-          alt="Radio Yaesu FT-991A del club"
-          className="w-full h-40 sm:h-56 object-cover rounded-2xl border"
-        />
-        <img
-          src={equipo2}
-          alt="Equipos de radio del Chaco Radio Club"
-          className="w-full h-40 sm:h-56 object-cover rounded-2xl border"
-        />
-        <img
-          src={equipo3}
-          alt="Radio con patente LU4GF"
-          className="w-full h-40 sm:h-56 object-cover rounded-2xl border"
-        />
+      {/* Banner + Galería */}
+      <div className="flex flex-col sm:flex-row gap-4 mb-16 sm:h-72">
+        <div className="flex flex-col gap-4 flex-1">
+          <div className="bg-sky-900 text-white text-center font-semibold text-lg sm:text-xl rounded-xl py-4 px-6 flex items-center justify-center">
+            Viví la experiencia de comunicar sin fronteras.
+          </div>
+          <div className="grid grid-cols-3 gap-4 flex-1">
+            <img
+              src={equipo1}
+              alt="Radio Yaesu FT-991A del club"
+              className="w-full h-32 sm:h-full object-cover rounded-2xl border"
+            />
+            <img
+              src={equipo2}
+              alt="Equipos de radio del Chaco Radio Club"
+              className="w-full h-32 sm:h-full object-cover rounded-2xl border"
+            />
+            <img
+              src={equipo3}
+              alt="Radio con patente LU4GF"
+              className="w-full h-32 sm:h-full object-cover rounded-2xl border"
+            />
+          </div>
+        </div>
         <img
           src={torreAntena}
           alt="Socio realizando mantenimiento en la torre de antenas"
-          className="w-full h-40 sm:h-56 object-cover rounded-2xl border"
+          className="w-full h-48 sm:h-full sm:w-64 object-cover rounded-2xl border"
         />
       </div>
 
