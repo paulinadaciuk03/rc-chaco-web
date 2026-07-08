@@ -11,8 +11,7 @@ import { getNoticias, NoticiasPaginadas } from "../../api/NoticiasService";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { Skeleton } from "../ui/skeleton";
-import { CalendarDays, Plus, User } from "lucide-react";
-import { Avatar, AvatarFallback } from "../ui/avatar";
+import { CalendarDays, Plus } from "lucide-react";
 import { useUserStore } from "@/store/userStore";
 import { toast } from "sonner";
 
@@ -52,16 +51,6 @@ function Novedades() {
   const handleClick = (e: React.MouseEvent, nuevaPagina: number) => {
     e.preventDefault();
     cambiarPagina(nuevaPagina);
-  };
-  const obtenerIniciales = (nombreCompleto: string): string => {
-    if (!nombreCompleto) return "";
-    return nombreCompleto
-      .trim()
-      .split(" ")
-      .filter((palabra) => palabra.length > 0)
-      .map((palabra) => palabra[0].toUpperCase())
-      .join("")
-      .slice(0, 2);
   };
   return (
     <div className="px-4 sm:px-4 lg:px-8">
@@ -130,28 +119,15 @@ function Novedades() {
 
                       {/* Contenido */}
                       <div className="flex flex-col flex-1">
-                        <div className="flex items-center gap-3 mb-3">
-                          <Avatar className="h-10 w-10 border">
-                            <AvatarFallback>
-                              {obtenerIniciales(noticia.admin?.nombre ?? "")}
-                            </AvatarFallback>
-                          </Avatar>
-                          <div className="text-sm text-gray-600">
-                            <div className="flex items-center">
-                              <User className="h-4 w-4 mr-1" />
-                              {noticia.admin?.nombre || "Administrador"}
-                            </div>
-                            <div className="flex items-center">
-                              <CalendarDays className="h-4 w-4 mr-1" />
-                              {new Date(
-                                noticia.fecha_publicacion
-                              ).toLocaleDateString("es-ES", {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              })}
-                            </div>
-                          </div>
+                        <div className="flex items-center gap-1 text-sm text-gray-600 mb-3">
+                          <CalendarDays className="h-4 w-4 mr-1" />
+                          {new Date(
+                            noticia.fecha_publicacion
+                          ).toLocaleDateString("es-ES", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}
                         </div>
 
                         <h2 className="text-xl sm:text-2xl font-bold text-gray-800 hover:text-blue-600 transition-colors mb-2 break-words">

@@ -27,7 +27,7 @@ import {
 import { useUserStore } from "@/store/userStore";
 import ComentariosNoticia from "./ComentariosNoticia";
 import { toast } from "sonner";
-import { ArrowLeft, Calendar, User } from "lucide-react";
+import { ArrowLeft, Calendar } from "lucide-react";
 
 export default function NoticiaDetalle() {
   const { id } = useParams();
@@ -95,10 +95,6 @@ export default function NoticiaDetalle() {
               day: "numeric",
             })}
           </span>
-        </div>
-        <div className="flex items-center gap-1">
-          <User className="w-4 h-4 text-gray-500" />
-          <span>{noticia.admin?.nombre || "Administrador"}</span>
         </div>
       </div>
 
