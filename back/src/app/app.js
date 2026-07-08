@@ -4,12 +4,11 @@ const morgan = require('morgan');
 const AuthRoute =require('../router/auth');
 const NoticiasRouter = require("../router/noticias.router");
 const UploadRouter = require("../router/upload.router");
-const path = require("path");
 const InscripcionesRouter = require("../router/inscripciones.router");
 const ComentariosNoticiasRouter= require("../router/comentarios.noticias.router");
 const PublicacionesRouter = require("../router/publicacion.router");
 const ComentariosPublicacioneRouter = require("../router/comentarios.publicaciones.router");
-const uploadDir = path.join(__dirname, '..', 'uploads');
+const uploadDir = require("../config/uploadDir");
 require('dotenv').config();
 
 const cors = require('cors');
